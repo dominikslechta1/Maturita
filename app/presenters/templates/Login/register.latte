@@ -1,7 +1,8 @@
 {* Latte template *}
 
 {block content}
+{if $user->isInRole('administrator')}
 <div>
     {control registrationForm}
-{$hash}
 </div>
+{/if}

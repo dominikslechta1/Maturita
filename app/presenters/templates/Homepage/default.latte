@@ -1,8 +1,20 @@
 {* Latte template *}
 
 {block content}
-<a n:href="Login:login">hello</a>
-{$user->isLoggedIn() ? 'ano' : 'ne'}
-{$user->isInRole('student') ? 'ano':'ne'}
-<br>
-{/block}
+{if $user->isInRole('administrator')}
+    <div>
+        jsi administrator
+    </div>
+{elseif $user->isInRole('teacher')}
+    <div>
+        jsi ucitel
+    </div>
+{elseif $user->isInRole('student')}
+    <div>
+        jsi student
+    </div>
+{else}
+    <div>
+        jsi guest
+    </div>
+{/if}

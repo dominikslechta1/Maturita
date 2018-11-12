@@ -2,114 +2,110 @@
 
 namespace App\Presenters;
 
+use Nette\Database;
 use Nette;
 use Nette\Application\UI;
 use App\Presenters;
 use Nette\Security\User;
+use Nette\Database\Context;
 
+class LoginPresenter extends Nette\Application\UI\Presenter {
 
-class LoginPresenter extends Nette\Application\UI\Presenter
-{
     private $database;
-    
 
     // pro práci s vrstvou Database Explorer si předáme Nette\Database\Context
-    public function __construct(Nette\Database\Connection $database)
-    {
-        $this->database = $database;
-        
+    public function __construct(Nette\Database\Context $connection, Nette\Database\IStructure $structure, Nette\Database\IConventions $conventions = null, Nette\Caching\IStorage $cacheStorage = null) {
+        $this->database = $connection;
     }
-    protected function startup(){
+
+    protected function startup() {
         parent::startup();
-        
+
         $user = $this->getUser();
-  
+        $this->template->hash = "dsf";
+
         //$authenticate = \App\Model\MyAuthenticator::authenticate(['john','12345']);
     }
+
 //    public function renderLogin(){
 //        
 //    }
-    public function renderRegister(){
+    public function renderRegister() {
         $this->template->hash = "";
     }
-    
+
     protected function createComponentLoginForm() {
         $form = new UI\Form;
         $form->getElementPrototype()->autocomplete = 'off';
         $form->addProtection('Vypršel časový limit, odešlete formulář znovu');
-        $form->addEmail('email', 'Email:')->setRequired("email je dulezity");
+        $form->addEmail('email', 'Email:')->setRequired("email je dulezity")->setHtmlAttribute('placeholder', 'user@example.com');
         $form->addPassword('password', 'Heslo:')->setRequired('zadejte heslo');
         $form->addSubmit('login', 'Přihlásit');
         $form->onValidate[] = [$this, 'validateSignInForm'];
-        $form->onSuccess[] = [$this,'loginFormSucceeded'];
+        $form->onSuccess[] = [$this, 'loginFormSucceeded'];
         return $form;
     }
 
-public function validateSignInForm($form)
-{
-    $values = $form->getValues();
-
-    if ($values->password != "123456") { // validační podmínka
-        $form->addError('Tato kombinace není možná.');
+    public function validateSignInForm($form) {
+        $values = $form->getValues();
+        $this->getUser()->login($values->email, $values->password);
     }
-}
 
-public function loginFormSucceeded(UI\Form $form){
-    
-    
-    $this->flashMessage('Byl jste úspěšně přihlášen.');
+    public function loginFormSucceeded(UI\Form $form) {
+
+
+        $this->flashMessage('Byl jste úspěšně přihlášen.');
         $this->redirect('Homepage:default');
-}
+    }
 
-
-
-
-
-    protected function createComponentRegistrationForm()
-    {
+//registration form
+    protected function createComponentRegistrationForm() {
         $form = new UI\Form;
         $form->addProtection('Vypršel časový limit, odešlete formulář znovu');
-        
+
         $form->addText('name', 'Jméno:')->setRequired("jmeno je volitelne ale dulezite");
-        
+
         $form->addEmail('email', 'Email:')->setRequired("email je dulezity")->setHtmlAttribute('placeholder', 'user@example.com');
-        
-        $form->addPassword('password', 'Heslo:')->setRequired('Zvolte si heslo')->addRule(UI\Form::MIN_LENGTH, 'Heslo musí mít alespoň 3 znaky',5);
-        
+
+        $form->addPassword('password', 'Heslo:')->setRequired('Zvolte si heslo')->addRule(UI\Form::MIN_LENGTH, 'Heslo musí mít alespoň 3 znaky', 5);
+
         $form->addPassword('passwordVerify', 'Heslo pro kontrolu:')
                 ->setRequired('Zadejte prosím heslo ještě jednou pro kontrolu')
                 ->addRule(UI\Form::EQUAL, 'Hesla se neshodují', $form['password']);
-        
+        $form->addSelect('privilege','privilege', $this->database->table('privileges')->fetchPairs('Privilege'));
+
         $form->addSubmit('login', 'Registrovat');
         $form->onValidate[] = [$this, 'registrationFormValidate'];
-        //$form->onSuccess[] = [$this, 'registrationFormSucceeded'];
+        $form->onSuccess[] = [$this, 'registrationFormSucceeded'];
         return $form;
     }
-    
-    public function registrationFormValidate(UI\Form $form){
-        $rows = $this->database->fetchAll('SELECT * FROM users');
-        foreach($rows as $row => $key){
-            $this->template->hash = $key;
+
+    //registration
+    public function registrationFormValidate(UI\Form $form) {
+        $values = $form->getValues();
+        $rows = 0;
+        $rows = $this->database->table('users')->where('Email = ?', $values->email)->count('*');
+        if ($rows > 0) {
+            $form['email']->addError('tento email jiz existuje!');
         }
     }
 
     // volá se po úspěšném odeslání formuláře
-    public function registrationFormSucceeded(UI\Form $form)
-    {
+    public function registrationFormSucceeded(UI\Form $form) {
         $values = $form->getValues();
-        try{
-            $this->database->query('INSERT INTO users', [
-            'UserName' => $values->name,
-            'Password' => $values->password,
-            'Email' => htmlspecialchars($values->email),
-            'UserPrivilege' => '1',
-        ]);
-        $user->login($values->name,$values->password);
-        $this->flashMessage('Byl jste úspěšně registrován.');
-        $this->redirect('Homepage:default');
-        }
-        catch(Nette\Database\ConnectionException $e){
+        try {
+            $this->database->table('users')->insert([
+                'UserName' => $values->name,
+                'Password' => password_hash($values->password, PASSWORD_DEFAULT),
+                'Email' => htmlspecialchars($values->email),
+                'UserPrivilege' => 'student',
+            ]);
+            $this->getUser()->login($values->email, $values->password);
+            $this->flashMessage('Byl jste úspěšně registrován.');
+            $this->redirect('Homepage:default');
+        } catch (Nette\Database\ConnectionException $e) {
             
         }
     }
+
 }

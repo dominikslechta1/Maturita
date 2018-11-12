@@ -1,20 +1,30 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
         <link href="{$basePath}/style.css" rel="stylesheet" type="text/css" />
-<link rel="icon" href="maturita_gif.gif" type="image/gif" >
-	<title>{ifset title}{include title|stripHtml} | {/ifset}Nette Web</title>
-</head>
+        <link rel="icon" href="maturita_gif.gif" type="image/gif" >
+        <title>{ifset title}{include title|stripHtml} | {/ifset}Nette Web</title>
+    </head>
 
-<body>
-    <div class="menu"><a n:href="Main:main"><button>home</button></a><a n:href="Login:login"><button>login</button></a></div>
+    <body>
+        <div class="menu"><a n:href="Homepage:default"><button>home</button></a>
+            <a n:href="Main:main"><button>main</button></a>
+            {if $user->isLoggedIn()}
+                <a n:href="Logout:"><button>logout</button></a>
+            {else}
+                <a n:href="Login:login"><button>login</button></a>
+            {/if}
+            {if $user->isInRole('administrator')}
+                <a n:href="Login:register"><button>register new user</button></a>
+            {/if}
+        </div>
 
-	{include content}
+        {include content}
 
-	{block scripts}
-	<script src="https://nette.github.io/resources/js/netteForms.min.js"></script>
-	{/block}
-</body>
+        {block scripts}
+        <script src="https://nette.github.io/resources/js/netteForms.min.js"></script>
+        {/block}
+    </body>
 </html>

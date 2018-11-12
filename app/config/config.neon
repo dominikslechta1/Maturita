@@ -8,7 +8,7 @@ application:
 
 
 session:
-	expiration: 14 days
+	expiration: 1 days
 
 
 services:
