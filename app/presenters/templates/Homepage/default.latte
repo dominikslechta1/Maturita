@@ -1,0 +1,8 @@
+{* Latte template *}
+
+{block content}
+<a n:href="Login:login">hello</a>
+{$user->isLoggedIn() ? 'ano' : 'ne'}
+{$user->isInRole('student') ? 'ano':'ne'}
+<br>
+{/block}

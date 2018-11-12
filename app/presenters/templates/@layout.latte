@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+        <link href="{$basePath}/style.css" rel="stylesheet" type="text/css" />
+<link rel="icon" href="maturita_gif.gif" type="image/gif" >
+	<title>{ifset title}{include title|stripHtml} | {/ifset}Nette Web</title>
+</head>
+
+<body>
+    <div class="menu"><a n:href="Main:main"><button>home</button></a><a n:href="Login:login"><button>login</button></a></div>
+
+	{include content}
+
+	{block scripts}
+	<script src="https://nette.github.io/resources/js/netteForms.min.js"></script>
+	{/block}
+</body>
+</html>
