@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width">
         <link href="{$basePath}/style.css" rel="stylesheet" type="text/css" />
         <link rel="icon" href="maturita_gif.gif" type="image/gif" >
-        <title>{ifset title}{include title|stripHtml} | {/ifset}Nette Web</title>
+        <title>{ifset title}{include title|stripHtml} | {/ifset}Maturita</title>
     </head>
 
     <body>
@@ -16,9 +16,7 @@
             {else}
                 <a n:href="Login:login"><button>login</button></a>
             {/if}
-            {if $user->isInRole('administrator')}
-                <a n:href="Login:register"><button>register new user</button></a>
-            {/if}
+                <a n:href="Login:register" n:if="$user->isInRole('administrator')"><button>register new user</button></a>
         </div>
 
         {include content}

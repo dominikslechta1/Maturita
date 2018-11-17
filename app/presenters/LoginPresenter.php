@@ -22,7 +22,6 @@ class LoginPresenter extends Nette\Application\UI\Presenter {
         parent::startup();
 
         $user = $this->getUser();
-        $this->template->hash = "dsf";
 
         //$authenticate = \App\Model\MyAuthenticator::authenticate(['john','12345']);
     }
@@ -31,7 +30,7 @@ class LoginPresenter extends Nette\Application\UI\Presenter {
 //        
 //    }
     public function renderRegister() {
-        $this->template->hash = "";
+        
     }
 
     protected function createComponentLoginForm() {
@@ -48,7 +47,18 @@ class LoginPresenter extends Nette\Application\UI\Presenter {
 
     public function validateSignInForm($form) {
         $values = $form->getValues();
-        $this->getUser()->login($values->email, $values->password);
+        try {
+            $this->getUser()->login($values->email, $values->password);
+            $this->getUser()->setExpiration('1 days');
+            $this->redirect('Homepage:');
+        } catch (Nette\Security\AuthenticationException $e) {
+            if ($e->getMessage() == 'User not found.') {
+                $form['email']->addError('uživatel neexistuje');
+            }
+            elseif ($e->getMessage() == 'Invalid Password.') {
+                 $form['password']->addError('neplatné heslo');
+            }
+        }
     }
 
     public function loginFormSucceeded(UI\Form $form) {
@@ -72,7 +82,7 @@ class LoginPresenter extends Nette\Application\UI\Presenter {
         $form->addPassword('passwordVerify', 'Heslo pro kontrolu:')
                 ->setRequired('Zadejte prosím heslo ještě jednou pro kontrolu')
                 ->addRule(UI\Form::EQUAL, 'Hesla se neshodují', $form['password']);
-        $form->addSelect('privilege','privilege', $this->database->table('privileges')->fetchPairs('Privilege'));
+        $form->addSelect('privilege', 'privilege', $this->database->table('privileges')->fetchPairs('Privilege'));
 
         $form->addSubmit('login', 'Registrovat');
         $form->onValidate[] = [$this, 'registrationFormValidate'];
@@ -101,6 +111,7 @@ class LoginPresenter extends Nette\Application\UI\Presenter {
                 'UserPrivilege' => 'student',
             ]);
             $this->getUser()->login($values->email, $values->password);
+            $this->getUser()->setExpiration('1 days');
             $this->flashMessage('Byl jste úspěšně registrován.');
             $this->redirect('Homepage:default');
         } catch (Nette\Database\ConnectionException $e) {

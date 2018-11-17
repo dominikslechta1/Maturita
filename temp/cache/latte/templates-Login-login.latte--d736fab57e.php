@@ -7,10 +7,12 @@ class Templated736fab57e extends Latte\Runtime\Template
 {
 	public $blocks = [
 		'content' => 'blockContent',
+		'title' => 'blockTitle',
 	];
 
 	public $blockTypes = [
 		'content' => 'html',
+		'title' => 'html',
 	];
 
 
@@ -34,27 +36,43 @@ class Templated736fab57e extends Latte\Runtime\Template
 	function blockContent($_args)
 	{
 		extract($_args);
+		$this->renderBlock('title', get_defined_vars());
 		if ((!$user->isLoggedIn())) {
 ?>
 <div>
 <?php
-			/* line 6 */ $_tmp = $this->global->uiControl->getComponent("loginForm");
+			/* line 7 */ $_tmp = $this->global->uiControl->getComponent("loginForm");
 			if ($_tmp instanceof Nette\Application\UI\IRenderable) $_tmp->redrawControl(null, false);
 			$_tmp->render();
 ?>
 </div>
 <?php
 		}
-		else {
+		elseif ((!$user->isInRole('guest'))) {
 ?>
     
         <p>
+<?php
+			if (isset($userse)) {
+				?>                <?php echo LR\Filters::escapeHtmlText($userse) /* line 13 */ ?>
+
+<?php
+			}
+?>
             prihlasen
         </p>
         <a href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Logout:")) ?>">chces se odhlásit?</a>
 <?php
 		}
 		
+	}
+
+
+	function blockTitle($_args)
+	{
+		extract($_args);
+?><h1>Přihlášení</h1>
+<?php
 	}
 
 }

@@ -33,7 +33,7 @@ class Template43cc225190 extends Latte\Runtime\Template
 			});
 			?> | <?php
 		}
-?>Nette Web</title>
+?>Maturita</title>
     </head>
 
     <body>
@@ -64,8 +64,7 @@ class Template43cc225190 extends Latte\Runtime\Template
 		$this->renderBlock('scripts', get_defined_vars());
 ?>
     </body>
-</html>
-<?php
+</html><?php
 		return get_defined_vars();
 	}
 

@@ -1,13 +1,17 @@
 {* Latte template *}
 
 {block content}
+<h1 n:block=title>Přihlášení</h1>
 {if (!$user->isLoggedIn())}
 <div>
     {control loginForm}
 </div>
-{else}
+{elseif (!$user->isInRole('guest'))}
     
         <p>
+            {ifset $userse}
+                {$userse}
+                {/ifset}
             prihlasen
         </p>
         <a n:href="Logout:">chces se odhlásit?</a>
