@@ -1,20 +1,31 @@
 {* Latte template *}
 
 {block content}
-{if $user->isInRole('administrator')}
-    <div>
-        jsi administrator
-    </div>
-{elseif $user->isInRole('teacher')}
-    <div>
-        jsi ucitel
-    </div>
-{elseif $user->isInRole('student')}
-    <div>
-        jsi student
-    </div>
-{else}
-    <div>
-        jsi guest
-    </div>
-{/if}
+<div class="projects-div">
+    {if $projects !== null}
+        {foreach $projects as $id => $item}
+            {if $iterator->last}
+                <div class="project {$id}" style="border: none;">
+                {else}
+                    <div class="project {$id}" >
+                {/if}
+                <div class="name">
+                    <h1 style="margin: 0px;font-size: 30pt;">název: {$item->Name}</h1>
+                </div>
+                <br>
+                <div class="developer">
+                    vývojář: {$item->ref('users','User')->UserName}
+                </div>
+                <div class="consultant">
+                    consultant: {$item->ref('users','Consultant')->UserName}
+                </div>
+                <div class="oponent">
+                    oponent: {$item->ref('users','Oponent')->UserName}
+                </div>
+                <div class="year">
+                    v roce: {$item->Year}
+                </div>
+            </div>
+        {/foreach}
+    {/if}
+</div>

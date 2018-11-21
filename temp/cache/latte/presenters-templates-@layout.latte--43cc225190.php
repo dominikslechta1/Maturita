@@ -38,8 +38,11 @@ class Template43cc225190 extends Latte\Runtime\Template
 
     <body>
         <div class="menu"><a href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Homepage:default")) ?>"><button>home</button></a>
-            <a href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Main:main")) ?>"><button>main</button></a>
 <?php
+		if ($user->isInRole('student')) {
+			?>            <a href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Addproject:Add")) ?>"><button>add project</button></a>
+<?php
+		}
 		if ($user->isLoggedIn()) {
 			?>                <a href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Logout:")) ?>"><button>logout</button></a>
 <?php

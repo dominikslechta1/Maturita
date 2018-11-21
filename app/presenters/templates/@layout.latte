@@ -10,7 +10,7 @@
 
     <body>
         <div class="menu"><a n:href="Homepage:default"><button>home</button></a>
-            <a n:href="Main:main"><button>main</button></a>
+            <a n:href="Addproject:Add"n:if="$user->isInRole('student')"><button>add project</button></a>
             {if $user->isLoggedIn()}
                 <a n:href="Logout:"><button>logout</button></a>
             {else}

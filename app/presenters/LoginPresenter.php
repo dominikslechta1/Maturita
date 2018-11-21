@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 namespace App\Presenters;
 
@@ -18,17 +18,9 @@ class LoginPresenter extends Nette\Application\UI\Presenter {
         $this->database = $connection;
     }
 
-    protected function startup() {
-        parent::startup();
-
-        $user = $this->getUser();
-
-        //$authenticate = \App\Model\MyAuthenticator::authenticate(['john','12345']);
+    public function renderLogin(){
+        
     }
-
-//    public function renderLogin(){
-//        
-//    }
     public function renderRegister() {
         
     }
@@ -45,7 +37,7 @@ class LoginPresenter extends Nette\Application\UI\Presenter {
         return $form;
     }
 
-    public function validateSignInForm($form) {
+    public function validateSignInForm(UI\Form $form) {
         $values = $form->getValues();
         try {
             $this->getUser()->login($values->email, $values->password);
@@ -82,7 +74,7 @@ class LoginPresenter extends Nette\Application\UI\Presenter {
         $form->addPassword('passwordVerify', 'Heslo pro kontrolu:')
                 ->setRequired('Zadejte prosím heslo ještě jednou pro kontrolu')
                 ->addRule(UI\Form::EQUAL, 'Hesla se neshodují', $form['password']);
-        $form->addSelect('privilege', 'privilege', $this->database->table('privileges')->fetchPairs('Privilege'));
+        $form->addSelect('privilege', 'privilege', $this->database->table('privileges')->fetchPairs('idPrivileges','Privilege'));
 
         $form->addSubmit('login', 'Registrovat');
         $form->onValidate[] = [$this, 'registrationFormValidate'];
@@ -108,7 +100,7 @@ class LoginPresenter extends Nette\Application\UI\Presenter {
                 'UserName' => $values->name,
                 'Password' => password_hash($values->password, PASSWORD_DEFAULT),
                 'Email' => htmlspecialchars($values->email),
-                'UserPrivilege' => 'student',
+                'UserPrivilege' => $values->privilege,
             ]);
             $this->getUser()->login($values->email, $values->password);
             $this->getUser()->setExpiration('1 days');

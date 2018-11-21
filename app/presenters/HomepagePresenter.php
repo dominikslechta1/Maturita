@@ -8,17 +8,13 @@ use Nette\Security\User;
 
 class HomepagePresenter extends Nette\Application\UI\Presenter
 {
-    
-   public function __construct(Nette\Database\Context $database)
+    private $database;
+   public function __construct(Nette\Database\Context $connection, Nette\Database\IStructure $structure, Nette\Database\IConventions $conventions = null, Nette\Caching\IStorage $cacheStorage = null)
     {
-       
+       $this->database = $connection;
     }
-    protected function startup(){
-        parent::startup();
-        
-        $user = $this->getUser();
-  
-        //$authenticate = \App\Model\MyAuthenticator::authenticate(['john','12345']);
+    public function renderDefault(){
+        $this->template->projects = $this->database->table('projects')->select('*')->fetchAll();
     }
-
+    
 }
