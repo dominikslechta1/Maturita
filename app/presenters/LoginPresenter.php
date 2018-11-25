@@ -102,8 +102,6 @@ class LoginPresenter extends Nette\Application\UI\Presenter {
                 'Email' => htmlspecialchars($values->email),
                 'UserPrivilege' => $values->privilege,
             ]);
-            $this->getUser()->login($values->email, $values->password);
-            $this->getUser()->setExpiration('1 days');
             $this->flashMessage('Byl jste úspěšně registrován.');
             $this->redirect('Homepage:default');
         } catch (Nette\Database\ConnectionException $e) {

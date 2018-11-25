@@ -17,7 +17,7 @@ class AuthorizatorFactory extends \Nette\Security\Permission
         $acl->addRole('guest');
         
         $acl->addRole('student', 'guest');
-        $acl->addRole('teacher','student');
+        $acl->addRole('consultant','student');
         $acl->addRole('oponent','teacher');
         $acl->addRole('administrator','teacher');
         
@@ -27,7 +27,7 @@ class AuthorizatorFactory extends \Nette\Security\Permission
         
         $acl->allow('administrator', Permission::ALL, ['view', 'edit', 'add']);
         $acl->allow('guest','projects','view');
-        $acl->deny('guest','files',['view', 'edit', 'add']);
+        $acl->deny('guest','files',['edit', 'add']);
         $acl->deny('guest','score',['edit','add']);
 
         return $acl;

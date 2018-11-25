@@ -2,6 +2,9 @@
 
 {block content}
 <div class="add-form">
+    {ifset $path}
+        {$path}
+    {/ifset}
     {control addprojectForm}
 </div> 
     {/block}

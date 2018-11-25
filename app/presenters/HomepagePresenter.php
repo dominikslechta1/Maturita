@@ -4,7 +4,8 @@ namespace App\Presenters;
 
 use Nette;
 use Nette\Security\User;
-
+use App\Model\MyDateTime;
+use Nette\Utils\DateTime;
 
 class HomepagePresenter extends Nette\Application\UI\Presenter
 {
@@ -13,8 +14,31 @@ class HomepagePresenter extends Nette\Application\UI\Presenter
     {
        $this->database = $connection;
     }
+    /**
+     * show projects
+     */
     public function renderDefault(){
-        $this->template->projects = $this->database->table('projects')->select('*')->fetchAll();
-    }
-    
+        //show project to defined user
+        $projects;
+        if($this->getUser()->isInRole('administrator')){
+            $projects = $this->database->table('projects')->select('*')->fetchAll();
+        }
+        elseif($this->getUser()->isInRole('student')){
+            $projects = $this->database->table('projects')->select('*')->where('User',$this->getUser()->getId())->fetchAll();
+        }
+        elseif($this->getUser()->isInRole('consultant')){
+            $projects = $this->database->table('projects')->select('*')
+                    ->where('Consultant = ? AND Year = ?', $this->getUser()->getId(), MyDateTime::getYear(DateTime::from('0')))
+                    ->fetchAll();
+        }
+        elseif($this->getUser()->isInRole('oponent')){
+            $projects = $this->database->table('projects')->select('*')
+                    ->where('Oponent = ? AND Year = ?', $this->getUser()->getId(),MyDateTime::getYear(DateTime::from('0')))
+                    ->fetchAll();
+        }
+        else{
+            $projects = $this->database->table('projects')->select('*')->where('Public',1)->fetchAll();
+        }
+        $this->template->projects = $projects;
+    }    
 }
