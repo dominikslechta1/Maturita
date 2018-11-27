@@ -37,7 +37,12 @@ class Templatee4cf15a6db extends Latte\Runtime\Template
 ?>
 <div class="add-form">
 <?php
-		/* line 5 */ $_tmp = $this->global->uiControl->getComponent("addprojectForm");
+		if (isset($projectId)) {
+			?>        <?php echo LR\Filters::escapeHtmlText($projectId) /* line 6 */ ?>
+
+<?php
+		}
+		/* line 8 */ $_tmp = $this->global->uiControl->getComponent("addprojectForm");
 		if ($_tmp instanceof Nette\Application\UI\IRenderable) $_tmp->redrawControl(null, false);
 		$_tmp->render();
 ?>

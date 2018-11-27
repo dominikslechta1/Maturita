@@ -7,21 +7,25 @@
     font-weight: bold !important;
 }
 .projects-div{
-    width: 60%;
+    width: 50%;
     height: available;
     margin: 0 auto;
-    /*border: 1px black dashed;*/
 }
 .projects-div > .project{
     display: block;
-    border-bottom: 1px solid black;
-    margin: 0 auto;
-    text-align: center;
+    text-align: left;
+    border: 1px black solid;
+    padding: 10px 0px 10px 10px;
+    margin-bottom: 20px;
+    background-color: rgb(50,50,50);
+    color: white;
 }
 .projects-div > .project > .developer,.consultant,.oponent,.year{
-    display: inline-block;
-    border: 1px solid red;
+    /*display: block;
 }
 .projects-div > .project > .consultant,.oponent,.year{
-    font-size: 14pt;
+    /*font-size: 14pt;*/
+}
+.projects-div > .project > .name{
+    text-decoration: underline;
 }

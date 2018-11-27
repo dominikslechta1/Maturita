@@ -41,42 +41,32 @@ class Template9f64267cb0 extends Latte\Runtime\Template
 <?php
 		if ($projects !== null) {
 			$iterations = 0;
-			foreach ($iterator = $this->global->its[] = new LR\CachingIterator($projects) as $id => $item) {
-				if ($iterator->last) {
-					?>                <div class="project <?php echo LR\Filters::escapeHtmlAttr($id) /* line 8 */ ?>" style="border: none;">
-<?php
-				}
-				else {
-					?>                    <div class="project <?php echo LR\Filters::escapeHtmlAttr($id) /* line 10 */ ?>" >
-<?php
-				}
-?>
+			foreach ($projects as $id => $item) {
+				?>            <div class="project <?php echo LR\Filters::escapeHtmlAttr($id) /* line 7 */ ?>">
                 <div class="name">
-                    <h1 style="margin: 0px;font-size: 30pt;">název: <?php echo LR\Filters::escapeHtmlText($item->Name) /* line 13 */ ?></h1>
+                    <h1 style="margin: 0px;font-size: 30pt;"><?php echo LR\Filters::escapeHtmlText($item->Name) /* line 9 */ ?></h1>
                 </div>
                 <br>
                 <div class="developer">
-                    vývojář: <?php echo LR\Filters::escapeHtmlText($item->ref('users','User')->UserName) /* line 17 */ ?>
+                    Vytvořil: <?php echo LR\Filters::escapeHtmlText($item->ref('users','User')->UserName) /* line 13 */ ?>
 
                 </div>
                 <div class="consultant">
-                    consultant: <?php echo LR\Filters::escapeHtmlText($item->ref('users','Consultant')->UserName) /* line 20 */ ?>
+                    consultant: <?php echo LR\Filters::escapeHtmlText($item->ref('users','Consultant')->UserName) /* line 16 */ ?>
 
                 </div>
                 <div class="oponent">
-                    oponent: <?php echo LR\Filters::escapeHtmlText($item->ref('users','Oponent')->UserName) /* line 23 */ ?>
+                    oponent: <?php echo LR\Filters::escapeHtmlText($item->ref('users','Oponent')->UserName) /* line 19 */ ?>
 
                 </div>
                 <div class="year">
-                    v roce: <?php echo LR\Filters::escapeHtmlText($item->Year) /* line 26 */ ?>
+                    v roce: <?php echo LR\Filters::escapeHtmlText($item->Year) /* line 22 */ ?>
 
                 </div>
             </div>
 <?php
 				$iterations++;
 			}
-			array_pop($this->global->its);
-			$iterator = end($this->global->its);
 		}
 		?></div><?php
 	}

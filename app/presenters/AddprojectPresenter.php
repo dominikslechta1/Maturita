@@ -62,7 +62,10 @@ class AddprojectPresenter extends Nette\Application\UI\Presenter {
             $file_name = uniqid(rand(0, 20), TRUE);
             // move to save dir
             $values->file->move('files/' . $file_name . $file_ext);
-            $this->database->table('projects')->insert([
+            
+            
+            //projects insert
+            $projectId = $this->database->table('projects')->insert([
                 'Name' => $values->Name,
                 'FileDir' => 'files',
                 'User' => $this->getUser()->getId(),
@@ -71,6 +74,18 @@ class AddprojectPresenter extends Nette\Application\UI\Presenter {
                 'Year' => MyDateTime::getYear(\Nette\Utils\DateTime::from('0')),
                 'Public' => ($values->publicChbx == true)? 1 : 0,
             ]); 
+            //check for type
+            $n = [
+                'FileType' => $file_ext,
+                'Description' => ''
+            ];
+            $fileTypeId = $this->database->query('INSERT INTO filetypes ? ON DUPLICATE KEY UPDATE ?', $n,$n);
+            //file insert 
+            $this->database->table('files')->insert([
+                'FileName' => $file_name,
+                'Project' => $projectId,
+                'FileType' => $this->database->table('filetypes')->select('idFileTypes')->where('FileType', $file_ext)->fetchField()
+            ]);
         }
     }
 

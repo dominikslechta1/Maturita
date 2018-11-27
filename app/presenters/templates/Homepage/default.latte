@@ -4,13 +4,9 @@
 <div class="projects-div">
     {if $projects !== null}
         {foreach $projects as $id => $item}
-            {if $iterator->last}
-                <div class="project {$id}" style="border: none;">
-                {else}
-                    <div class="project {$id}" >
-                {/if}
+            <div class="project {$id}">
                 <div class="name">
-                    <h1 style="margin: 0px;font-size: 30pt;">název: {$item->Name}</h1>
+                    <h1 style="margin: 0px;font-size: 30pt;">{$item->Name}</h1>
                 </div>
                 <br>
                 <div class="developer">

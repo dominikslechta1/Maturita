@@ -21,23 +21,27 @@ class HomepagePresenter extends Nette\Application\UI\Presenter
         //show project to defined user
         $projects;
         if($this->getUser()->isInRole('administrator')){
-            $projects = $this->database->table('projects')->select('*')->fetchAll();
+            $projects = $this->database->table('projects')->fetchAll();
         }
         elseif($this->getUser()->isInRole('student')){
-            $projects = $this->database->table('projects')->select('*')->where('User',$this->getUser()->getId())->fetchAll();
+            $projects = $this->database->table('projects')
+                    ->where('User',$this->getUser()->getId())->fetchAll();
         }
         elseif($this->getUser()->isInRole('consultant')){
-            $projects = $this->database->table('projects')->select('*')
+            $projects = $this->database->table('projects')
                     ->where('Consultant = ? AND Year = ?', $this->getUser()->getId(), MyDateTime::getYear(DateTime::from('0')))
                     ->fetchAll();
         }
         elseif($this->getUser()->isInRole('oponent')){
-            $projects = $this->database->table('projects')->select('*')
+            $projects = $this->database->table('projects')
                     ->where('Oponent = ? AND Year = ?', $this->getUser()->getId(),MyDateTime::getYear(DateTime::from('0')))
                     ->fetchAll();
         }
         else{
-            $projects = $this->database->table('projects')->select('*')->where('Public',1)->fetchAll();
+            $projects = $this->database->table('projects')
+                    ->where("Public", 1)
+                    ->where(" Year", MyDateTime::getYear(DateTime::from(0)))
+                    ->fetchAll();
         }
         $this->template->projects = $projects;
     }    
