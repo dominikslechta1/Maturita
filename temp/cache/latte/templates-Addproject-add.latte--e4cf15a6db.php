@@ -35,7 +35,7 @@ class Templatee4cf15a6db extends Latte\Runtime\Template
 	{
 		extract($_args);
 ?>
-<div class="add-form">
+<div class="card-body px-lg-5 pt-0">
 <?php
 		if (isset($projectId)) {
 			?>        <?php echo LR\Filters::escapeHtmlText($projectId) /* line 6 */ ?>
@@ -46,7 +46,8 @@ class Templatee4cf15a6db extends Latte\Runtime\Template
 		if ($_tmp instanceof Nette\Application\UI\IRenderable) $_tmp->redrawControl(null, false);
 		$_tmp->render();
 ?>
-</div> 
+</div>
+
 <?php
 	}
 

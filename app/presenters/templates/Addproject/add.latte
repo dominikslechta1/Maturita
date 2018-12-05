@@ -1,10 +1,11 @@
 {* Latte template *}
 
 {block content}
-<div class="add-form">
+<div class="card-body px-lg-5 pt-0">
     {ifset $projectId}
         {$projectId}
     {/ifset}
     {control addprojectForm}
-</div> 
-    {/block}
+</div>
+
+{/block}

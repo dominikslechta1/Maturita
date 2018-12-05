@@ -26,14 +26,12 @@ class AddprojectPresenter extends Nette\Application\UI\Presenter {
 
     protected function createComponentAddprojectForm() {
         $form = new Nette\Application\UI\Form;
-        ;
-        $form->addText('Name', 'Název projektu: ')->setRequired('Projekt musí mít název');
-        $form->addText('consultant', 'konzultant: ')->setRequired('Projekt musí mít konzultanta');
-        $form->addText('oponent', 'oponent: ')->setRequired('Projekt musí mít oponent');
-        $form->addCheckbox('publicChbx','veřejné: ');
-        $form->addUpload('file', 'Vyber projekt')
-                ->setRequired('Je potřeba přidat projekt!');
-        $form->addSubmit('login', 'Přidat');
+        $form->getElementPrototype()->addAttributes(array('class' => 'md-form add-project'));
+        $form->addText('Name')->setHtmlAttribute('placeholder', 'Název projektu')->setRequired('Projekt musí mít název')->setHtmlAttribute('class', 'form-control');;
+        $form->addText('consultant')->setHtmlAttribute('placeholder', 'konzultant')->setRequired('Projekt musí mít konzultanta')->setHtmlAttribute('class', 'form-control');
+        $form->addText('oponent')->setHtmlAttribute('placeholder', 'oponent')->setRequired('Projekt musí mít oponent')->setHtmlAttribute('class', 'form-control');
+        $form->addCheckbox('agree','Publikovat')->setHtmlAttribute('class', 'custom-control-input')->getControlPart();
+        $form->addSubmit('login', 'Přidat')->setHtmlAttribute('class', 'btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0');
         $form->onValidate[] = [$this, 'validateProject'];
         $form->onSuccess[] = [$this, 'saveProject'];
         return $form;
@@ -72,7 +70,7 @@ class AddprojectPresenter extends Nette\Application\UI\Presenter {
                 'Consultant' => $values->consultant,
                 'Oponent' => $values->oponent,
                 'Year' => MyDateTime::getYear(\Nette\Utils\DateTime::from('0')),
-                'Public' => ($values->publicChbx == true)? 1 : 0,
+                'Public' => ($values->agree == true)? 1 : 0,
             ]); 
             //check for type
             $n = [

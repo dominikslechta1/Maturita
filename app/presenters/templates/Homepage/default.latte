@@ -4,23 +4,27 @@
 <div class="projects-div">
     {if $projects !== null}
         {foreach $projects as $id => $item}
-            <div class="project {$id}">
-                <div class="name">
-                    <h1 style="margin: 0px;font-size: 30pt;">{$item->Name}</h1>
-                </div>
-                <br>
-                <div class="developer">
-                    Vytvořil: {$item->ref('users','User')->UserName}
-                </div>
-                <div class="consultant">
-                    consultant: {$item->ref('users','Consultant')->UserName}
-                </div>
-                <div class="oponent">
-                    oponent: {$item->ref('users','Oponent')->UserName}
-                </div>
-                <div class="year">
-                    v roce: {$item->Year}
-                </div>
+            <div class="project {$id} hoverable">
+                <!-- Card -->
+                <a class="project {$id} project-link ">
+                    <div class="card card-cascade wider reverse ">
+
+
+                        <!-- Card content -->
+                        <div class="card-body card-body-cascade text-center">
+
+                            <!-- Title -->
+                            <h4 class="card-title"><strong>{$item->Name}</strong></h4>
+                            <!-- Subtitle -->
+                            <h6 class="font-weight-bold indigo-text py-2">{$item->ref('users','User')->UserName}</h6>
+                            <!-- Text -->
+                            <p class="card-subtitle">{$item->Desc}</p>
+                            <p class="card-text">{$item->Year}</p>
+                        </div>
+
+                    </div>
+                </a>
+                <!-- Card -->
             </div>
         {/foreach}
     {/if}

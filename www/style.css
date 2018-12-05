@@ -1,31 +1,27 @@
-.menu{
-    border-bottom: 2px solid black;
-    text-align: right;
+body{
+    background-color: black;
 }
+
 .error{
     background-color: rgba(255,50,50,0.5) !important;
     font-weight: bold !important;
 }
-.projects-div{
-    width: 50%;
-    height: available;
+.project{
+    width: 80%;
+    margin: 10px auto;
+}
+form.add-project > table{
+    width: 70%;
     margin: 0 auto;
 }
-.projects-div > .project{
-    display: block;
-    text-align: left;
-    border: 1px black solid;
-    padding: 10px 0px 10px 10px;
-    margin-bottom: 20px;
-    background-color: rgb(50,50,50);
-    color: white;
+label{
+    position: relative !important;
+    
+
 }
-.projects-div > .project > .developer,.consultant,.oponent,.year{
-    /*display: block;
-}
-.projects-div > .project > .consultant,.oponent,.year{
-    /*font-size: 14pt;*/
-}
-.projects-div > .project > .name{
-    text-decoration: underline;
+input[type="checkbox"]{
+    opacity: 1;
+    position: relative;
+    z-index: 100;
+    margin-right: 5px;
 }
