@@ -121,6 +121,16 @@ class Template43cc225190 extends Latte\Runtime\Template
                else{
                    $('footer.page-footer').css("position","fixed")
                }
+               
+               //text area counter
+               function countChar(val) {
+        var len = val.value.length;
+        if (len >= 255) {
+          val.value = val.value.substring(0, 255);
+        } else {
+          $('#charNum').text(len + "/255");
+        }
+      };
         </script>
     </body>
 

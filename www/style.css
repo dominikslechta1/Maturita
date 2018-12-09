@@ -6,8 +6,8 @@
     width: 80%;
     margin: 10px auto;
 }
-form.add-project > table{
-    width: 70%;
+div.add-project{
+    width: 60%;
     margin: 0 auto;
 }
 label{

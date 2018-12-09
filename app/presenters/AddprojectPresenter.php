@@ -26,12 +26,13 @@ class AddprojectPresenter extends Nette\Application\UI\Presenter {
 
     protected function createComponentAddprojectForm() {
         $form = new Nette\Application\UI\Form;
-        $form->getElementPrototype()->addAttributes(array('class' => 'md-form add-project'));
-        $form->addText('Name')->setHtmlAttribute('placeholder', 'Název projektu')->setRequired('Projekt musí mít název')->setHtmlAttribute('class', 'form-control');;
-        $form->addText('consultant')->setHtmlAttribute('placeholder', 'konzultant')->setRequired('Projekt musí mít konzultanta')->setHtmlAttribute('class', 'form-control');
-        $form->addText('oponent')->setHtmlAttribute('placeholder', 'oponent')->setRequired('Projekt musí mít oponent')->setHtmlAttribute('class', 'form-control');
-        $form->addCheckbox('agree','Publikovat')->setHtmlAttribute('class', 'custom-control-input')->getControlPart();
-        $form->addSubmit('login', 'Přidat')->setHtmlAttribute('class', 'btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0');
+        $form->addText('Name')->setRequired('Projekt musí mít název');
+        $form->addTextArea('desc');
+        $form->addSelect('user')->setRequired('Projekt musí mít studenta');
+        $form->addSelect('consultant')->setRequired('Projekt musí mít konzultanta');
+        $form->addSelect('oponent')->setRequired('Projekt musí mít oponenta');
+        $form->addCheckbox('agree');
+        $form->addSubmit('login');
         $form->onValidate[] = [$this, 'validateProject'];
         $form->onSuccess[] = [$this, 'saveProject'];
         return $form;
