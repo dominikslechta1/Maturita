@@ -5,108 +5,127 @@ use Latte\Runtime as LR;
 
 class Template43cc225190 extends Latte\Runtime\Template
 {
-	public $blocks = [
-		'scripts' => 'blockScripts',
-	];
-
-	public $blockTypes = [
-		'scripts' => 'html',
-	];
-
 
 	function main()
 	{
 		extract($this->params);
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-
+        <title>Maturitní projekty</title>
         <!-- Font Awesome -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <!-- Bootstrap core CSS -->
-        <link href="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 11 */ ?>/mdb/css/bootstrap.min.css" rel="stylesheet">
+        <link href="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 12 */ ?>/mdb/css/bootstrap.min.css" rel="stylesheet">
         <!-- Material Design Bootstrap -->
-        <link href="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 13 */ ?>/mdb/css/mdb.min.css" rel="stylesheet">
+        <link href="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 14 */ ?>/mdb/css/mdb.min.css" rel="stylesheet">
         <!-- Your custom styles (optional) -->
-        <link href="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 15 */ ?>/mdb/css/style.css" rel="stylesheet">
-
+        <link href="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 16 */ ?>/mdb/css/style.css" rel="stylesheet">
         <link href="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 17 */ ?>/style.css" rel="stylesheet" type="text/css">
-        <link rel="icon" href="maturita_gif.gif" type="image/gif">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-        <title><?php
-		if (isset($this->blockQueue["title"])) {
-			$this->renderBlock('title', $this->params, function ($s, $type) {
-				$_fi = new LR\FilterInfo($type);
-				return LR\Filters::convertTo($_fi, 'html', $this->filters->filterContent('striphtml', $_fi, $s));
-			});
-			?> | <?php
-		}
-?>Maturita</title>
+
+        <link rel="icon" href="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 19 */ ?>/maturita_gif.gif" type="image/gif">
     </head>
 
     <body>
-           <nav class="navbar navbar-expand-lg navbar-dark indigo">
-  <a class="navbar-brand" href="Homepage:default">Maturitni projekty</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
-    aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarText">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-          <a class="nav-link" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Homepage:default")) ?>">Domů
-                      <span class="sr-only">(current)</span>
-        </a>
-          
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Addproject:add")) ?>">Pridat projekt</a>
-
-      </li>
-<?php
-		if ($user->isInRole('administrator')) {
-?>      <li class="nav-item">
-        <a class="nav-link" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Login:login")) ?>">Zaregistrovat uživatele</a>
-      </li>
-<?php
-		}
-?>
-    </ul>
-    <span class="navbar-text white-text">
-        <div class="collapse navbar-collapse" id="navbarText">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
+        <!-- navbar-->
+        <nav class="mb-1 navbar navbar-expand-lg navbar-dark blue-gradient sticky-top">
+            <a class="navbar-brand" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Homepage:default")) ?>">Maturitní projekty</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav active-setter">
+                    <li<?php if ($_tmp = array_filter([$presenter->isLinkCurrent('Homepage:default') ? 'active' : NULL,'nav-item'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"' ?>>
+                        <a class="nav-link " href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Homepage:default")) ?>">Domů <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li<?php if ($_tmp = array_filter([$presenter->isLinkCurrent('Addproject:add') ? 'active' : NULL,'nav-item'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"' ?>>
+                        <a class="nav-link" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Addproject:add")) ?>">Přidat projekt</a>
+                    </li>
+                    <li<?php if ($_tmp = array_filter([$presenter->isLinkCurrent('Login:register') ? 'active' : NULL,'nav-item'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"' ?>>
+                        <a class="nav-link" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Login:register")) ?>">Registrovat uživatele</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="navbar-collapse collapse show" id="navbarSupportedContent-4" style="">
+                <ul class="navbar-nav ml-auto">
 <?php
 		if ($user->isLoggedIn()) {
-			?>                <a class="nav-link" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Logout:")) ?>">logout</a>
+?>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle waves-effect waves-light" id="navbarDropdownMenuLink-4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <i class="fa fa-user"></i><?php echo LR\Filters::escapeHtmlText($user->getIdentity()->username) /* line 48 */ ?></a>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
+                                <a class="dropdown-item waves-effect waves-light" href="#">Můj účet</a>
+                                <a class="dropdown-item waves-effect waves-light" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Logout:")) ?>">odhlásit</a>
+                            </div>
+                        </li>
 <?php
 		}
 		else {
-			?>                <a class="nav-link" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Login:login")) ?>">Přihlásit</a>
+			?>                        <li<?php if ($_tmp = array_filter([$presenter->isLinkCurrent('Login:login') ? 'active' : NULL,'nav-item'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"' ?>>
+                            <a class="nav-link" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Login:login")) ?>">Přihlásit</a>
+                        </li>
 <?php
 		}
 ?>
-        </li>
-        </ul>
-        </div>
-    </span>
-  </div>
-</nav>
-
+                </ul>
+            </div>
+        </nav>
+        <!--/navbar-->
+        <!-- Start your project here-->
+        <main>
 <?php
 		$this->renderBlock('content', $this->params, 'html');
 ?>
+        </main>
+        <!-- /Start your project here-->
+        <!-- filler-->
+        <div class='filler' ></div>
+        <!--filler-->
+        <!-- Footer -->
+        <footer class="page-footer font-small blue-gradient fixed-bottom">
 
-<?php
-		if ($this->getParentName()) return get_defined_vars();
-		$this->renderBlock('scripts', get_defined_vars());
-?>
+            <!-- Copyright -->
+            <div class="footer-copyright text-center py-3">© 2018 Copyright:
+                <a href="#footer"> Dominik Šlechta</a>
+            </div>
+            <!-- Copyright -->
+
+        </footer>
+        <!-- Footer -->
+
+        <!-- SCRIPTS -->
+        <!-- JQuery -->
+
+        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 86 */ ?>/mdb/js/jquery-3.3.1.min.js"></script>
+        <!-- Bootstrap tooltips -->
+        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 88 */ ?>/mdb/js/popper.min.js"></script>
+        <!-- Bootstrap core JavaScript -->
+        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 90 */ ?>/mdb/js/bootstrap.min.js"></script>
+        <!-- MDB core JavaScript -->
+        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 92 */ ?>/mdb/js/mdb.min.js"></script>
+        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 93 */ ?>/jquery-3.3.1.js"></script>
+        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 94 */ ?>/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript">
+            console.log(screen.height + "   " + $('body').height());
+               if(screen.height < $('body').height()){
+                   $('footer.page-footer').css("position","unset");
+                   console.log(true);
+               }
+               else{
+                   $('footer.page-footer').css("position","fixed")
+               }
+        </script>
     </body>
-</html><?php
+
+</html>
+<?php
 		return get_defined_vars();
 	}
 
@@ -116,27 +135,6 @@ class Template43cc225190 extends Latte\Runtime\Template
 		extract($this->params);
 		Nette\Bridges\ApplicationLatte\UIRuntime::initialize($this, $this->parentName, $this->blocks);
 		
-	}
-
-
-	function blockScripts($_args)
-	{
-		extract($_args);
-?>
-        <script src="https://nette.github.io/resources/js/netteForms.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-        <!-- SCRIPTS -->
-        <!-- JQuery -->
-        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 71 */ ?>/mdb/js/jquery-3.3.1.min.js"></script>
-        <!-- Bootstrap tooltips -->
-        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 73 */ ?>/mdb/js/popper.min.js"></script>
-        <!-- Bootstrap core JavaScript -->
-        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 75 */ ?>/mdb/js/bootstrap.min.js"></script>
-        <!-- MDB core JavaScript -->
-        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 77 */ ?>/mdb/js/mdb.min.js"></script>
-<?php
 	}
 
 }

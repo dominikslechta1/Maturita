@@ -7,12 +7,10 @@ class Templated736fab57e extends Latte\Runtime\Template
 {
 	public $blocks = [
 		'content' => 'blockContent',
-		'title' => 'blockTitle',
 	];
 
 	public $blockTypes = [
 		'content' => 'html',
-		'title' => 'html',
 	];
 
 
@@ -20,7 +18,7 @@ class Templated736fab57e extends Latte\Runtime\Template
 	{
 		extract($this->params);
 		if ($this->getParentName()) return get_defined_vars();
-		$this->renderBlock('content', get_defined_vars()) ?>    <?php
+		$this->renderBlock('content', get_defined_vars());
 		return get_defined_vars();
 	}
 
@@ -36,43 +34,62 @@ class Templated736fab57e extends Latte\Runtime\Template
 	function blockContent($_args)
 	{
 		extract($_args);
-		$this->renderBlock('title', get_defined_vars());
-		if ((!$user->isLoggedIn())) {
 ?>
-<div>
+<div class='login-form'>
+<p class="h4 mb-4 text-center">Přihlášení</p>
 <?php
-			/* line 7 */ $_tmp = $this->global->uiControl->getComponent("loginForm");
-			if ($_tmp instanceof Nette\Application\UI\IRenderable) $_tmp->redrawControl(null, false);
-			$_tmp->render();
-?>
-</div>
+		if ((!$user->isLoggedIn())) {
+			$form = $_form = $this->global->formsStack[] = $this->global->uiControl["loginForm"];
+			?>    <form class=form<?php
+			echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), array (
+			'class' => NULL,
+			), false) ?>>
+
+    <input type="email" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="E-mail"<?php
+			$_input = end($this->global->formsStack)["email"];
+			echo $_input->getControlPart()->addAttributes(array (
+			'type' => NULL,
+			'id' => NULL,
+			'class' => NULL,
+			'placeholder' => NULL,
+			))->attributes() ?>>
+
+    <input type="password" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Heslo"<?php
+			$_input = end($this->global->formsStack)["password"];
+			echo $_input->getControlPart()->addAttributes(array (
+			'type' => NULL,
+			'id' => NULL,
+			'class' => NULL,
+			'placeholder' => NULL,
+			))->attributes() ?>>
+
+    <button class="btn btn-info btn-block my-4" type="submit"<?php
+			$_input = end($this->global->formsStack)["login"];
+			echo $_input->getControlPart()->addAttributes(array (
+			'class' => NULL,
+			'type' => NULL,
+			))->attributes() ?>>Přihlásit</button>
+<?php
+			echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack), false);
+?></form>
 <?php
 		}
 		elseif ((!$user->isInRole('guest'))) {
 ?>
-    
-        <p>
+
+    <p>
 <?php
 			if (isset($userse)) {
-				?>                <?php echo LR\Filters::escapeHtmlText($userse) /* line 13 */ ?>
+				?>            <?php echo LR\Filters::escapeHtmlText($userse) /* line 19 */ ?>
 
 <?php
 			}
 ?>
-            prihlasen
-        </p>
-        <a href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Logout:")) ?>">chces se odhlásit?</a>
+    </p>
+    <a href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Logout:")) ?>">Chcete se odhlásit?</a>
 <?php
 		}
-		
-	}
-
-
-	function blockTitle($_args)
-	{
-		extract($_args);
-?><h1>Přihlášení</h1>
-<?php
+		?></div><?php
 	}
 
 }

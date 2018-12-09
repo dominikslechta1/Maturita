@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-
+        <title>Maturitní projekty</title>
         <!-- Font Awesome -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <!-- Bootstrap core CSS -->
@@ -13,61 +14,75 @@
         <link href="{$basePath}/mdb/css/mdb.min.css" rel="stylesheet">
         <!-- Your custom styles (optional) -->
         <link href="{$basePath}/mdb/css/style.css" rel="stylesheet">
-
         <link href="{$basePath}/style.css" rel="stylesheet" type="text/css" />
-        <link rel="icon" href="maturita_gif.gif" type="image/gif" >
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-        <title>{ifset title}{include title|stripHtml} | {/ifset}Maturita</title>
+
+        <link rel="icon" href="{$basePath}/maturita_gif.gif" type="image/gif" >
     </head>
 
     <body>
-           <nav class="navbar navbar-expand-lg navbar-dark indigo">
-  <a class="navbar-brand" href="Homepage:default">Maturitni projekty</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
-    aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarText">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-          <a class="nav-link" n:href="Homepage:default">Domů
-                      <span class="sr-only">(current)</span>
-        </a>
-          
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" n:href="Addproject:add">Pridat projekt</a>
+        <!-- navbar-->
+        <nav class="mb-1 navbar navbar-expand-lg navbar-dark blue-gradient sticky-top">
+            <a class="navbar-brand" n:href="Homepage:default">Maturitní projekty</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav active-setter">
+                    <li n:class="$presenter->isLinkCurrent('Homepage:default') ? active,nav-item">
+                        <a class="nav-link " n:href="Homepage:default">Domů <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li n:class="$presenter->isLinkCurrent('Addproject:add') ? active,nav-item">
+                        <a class="nav-link" n:href="Addproject:add">Přidat projekt</a>
+                    </li>
+                    <li n:class="$presenter->isLinkCurrent('Login:register') ? active,nav-item">
+                        <a class="nav-link" n:href="Login:register">Registrovat uživatele</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="navbar-collapse collapse show" id="navbarSupportedContent-4" style="">
+                <ul class="navbar-nav ml-auto">
+                    {if $user->isLoggedIn()}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle waves-effect waves-light" id="navbarDropdownMenuLink-4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <i class="fa fa-user"></i>{$user->getIdentity()->username}</a>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
+                                <a class="dropdown-item waves-effect waves-light" href="#">Můj účet</a>
+                                <a class="dropdown-item waves-effect waves-light" n:href="Logout:">odhlásit</a>
+                            </div>
+                        </li>
+                    {else}
+                        <li n:class="$presenter->isLinkCurrent('Login:login') ? active,nav-item">
+                            <a class="nav-link" n:href="Login:login">Přihlásit</a>
+                        </li>
+                    {/if}
+                </ul>
+            </div>
+        </nav>
+        <!--/navbar-->
+        <!-- Start your project here-->
+        <main>
+            {include content}
+        </main>
+        <!-- /Start your project here-->
+        <!-- filler-->
+        <div class='filler' ></div>
+        <!--filler-->
+        <!-- Footer -->
+        <footer class="page-footer font-small blue-gradient fixed-bottom">
 
-      </li>
-      <li class="nav-item" n:if="$user->isInRole('administrator')">
-        <a class="nav-link" n:href="Login:login">Zaregistrovat uživatele</a>
-      </li>
-    </ul>
-    <span class="navbar-text white-text">
-        <div class="collapse navbar-collapse" id="navbarText">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-      {if $user->isLoggedIn()}
-                <a class="nav-link" n:href="Logout:">logout</a>
-            {else}
-                <a class="nav-link" n:href="Login:login">Přihlásit</a>
-            {/if}
-        </li>
-        </ul>
-        </div>
-    </span>
-  </div>
-</nav>
+            <!-- Copyright -->
+            <div class="footer-copyright text-center py-3">© 2018 Copyright:
+                <a href="#footer"> Dominik Šlechta</a>
+            </div>
+            <!-- Copyright -->
 
-        {include content}
+        </footer>
+        <!-- Footer -->
 
-        {block scripts}
-        <script src="https://nette.github.io/resources/js/netteForms.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
         <!-- SCRIPTS -->
         <!-- JQuery -->
+
         <script type="text/javascript" src="{$basePath}/mdb/js/jquery-3.3.1.min.js"></script>
         <!-- Bootstrap tooltips -->
         <script type="text/javascript" src="{$basePath}/mdb/js/popper.min.js"></script>
@@ -75,6 +90,18 @@
         <script type="text/javascript" src="{$basePath}/mdb/js/bootstrap.min.js"></script>
         <!-- MDB core JavaScript -->
         <script type="text/javascript" src="{$basePath}/mdb/js/mdb.min.js"></script>
-        {/block}
+        <script type="text/javascript" src="{$basePath}/jquery-3.3.1.js"></script>
+        <script type="text/javascript" src="{$basePath}/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript">
+            console.log(screen.height + "   " + $('body').height());
+               if(screen.height < $('body').height()){
+                   $('footer.page-footer').css("position","unset");
+                   console.log(true);
+               }
+               else{
+                   $('footer.page-footer').css("position","fixed")
+               }
+        </script>
     </body>
+
 </html>
