@@ -45,10 +45,20 @@ class Template43cc225190 extends Latte\Runtime\Template
                         <a class="nav-link " href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Homepage:default")) ?>">Domů <span class="sr-only">(current)</span></a>
                     </li>
                     <li<?php if ($_tmp = array_filter([$presenter->isLinkCurrent('Addproject:add') ? 'active' : NULL,'nav-item'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"' ?>>
-                        <a class="nav-link" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Addproject:add")) ?>">Přidat projekt</a>
+<?php
+		if ($user->isInRole('administrator')) {
+			?>                        <a class="nav-link" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Addproject:add")) ?>">Přidat projekt</a>
+<?php
+		}
+?>
                     </li>
-                    <li<?php if ($_tmp = array_filter([$presenter->isLinkCurrent('Login:register') ? 'active' : NULL,'nav-item'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"' ?>>
-                        <a class="nav-link" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Login:register")) ?>">Registrovat uživatele</a>
+                    <li <?php if ($_tmp = array_filter([$presenter->isLinkCurrent('Login:register') ? 'active' : NULL,'nav-item'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"' ?>>
+<?php
+		if ($user->isInRole('administrator')) {
+			?>                        <a class="nav-link" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Login:register")) ?>">Registrovat uživatele</a>
+<?php
+		}
+?>
                     </li>
                 </ul>
             </div>
@@ -114,19 +124,18 @@ class Template43cc225190 extends Latte\Runtime\Template
         <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 94 */ ?>/jquery-3.3.1.min.js"></script>
         <script type="text/javascript">
             console.log(screen.height + "   " + $('body').height());
-               if(screen.height < $('body').height()){
+               if(screen.height < $('body').height()+100){
                    $('footer.page-footer').css("position","unset");
                    console.log(true);
                }
                else{
                    $('footer.page-footer').css("position","fixed")
-               }
-               
+               }               
                //text area counter
                function countChar(val) {
         var len = val.value.length;
         if (len >= 255) {
-          val.value = val.value.substring(0, 255);
+          val.value = val.value.substring(0, 256);
         } else {
           $('#charNum').text(len + "/255");
         }

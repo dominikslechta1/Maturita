@@ -36,16 +36,16 @@ class Templated736fab57e extends Latte\Runtime\Template
 		extract($_args);
 ?>
 <div class='login-form'>
-<p class="h4 mb-4 text-center">Přihlášení</p>
+    <p class="h4 mb-4 text-center">Přihlášení</p>
 <?php
 		if ((!$user->isLoggedIn())) {
 			$form = $_form = $this->global->formsStack[] = $this->global->uiControl["loginForm"];
-			?>    <form class=form<?php
+			?>        <form class=form<?php
 			echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), array (
 			'class' => NULL,
 			), false) ?>>
 
-    <input type="email" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="E-mail"<?php
+            <input type="email" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="E-mail"<?php
 			$_input = end($this->global->formsStack)["email"];
 			echo $_input->getControlPart()->addAttributes(array (
 			'type' => NULL,
@@ -54,7 +54,7 @@ class Templated736fab57e extends Latte\Runtime\Template
 			'placeholder' => NULL,
 			))->attributes() ?>>
 
-    <input type="password" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Heslo"<?php
+            <input type="password" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Heslo"<?php
 			$_input = end($this->global->formsStack)["password"];
 			echo $_input->getControlPart()->addAttributes(array (
 			'type' => NULL,
@@ -63,7 +63,7 @@ class Templated736fab57e extends Latte\Runtime\Template
 			'placeholder' => NULL,
 			))->attributes() ?>>
 
-    <button class="btn btn-info btn-block my-4" type="submit"<?php
+            <button class="btn btn-info btn-block my-4" type="submit"<?php
 			$_input = end($this->global->formsStack)["login"];
 			echo $_input->getControlPart()->addAttributes(array (
 			'class' => NULL,
@@ -71,22 +71,22 @@ class Templated736fab57e extends Latte\Runtime\Template
 			))->attributes() ?>>Přihlásit</button>
 <?php
 			echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack), false);
-?></form>
+?>        </form>
 <?php
 		}
 		elseif ((!$user->isInRole('guest'))) {
 ?>
 
-    <p>
+        <p>
 <?php
 			if (isset($userse)) {
-				?>            <?php echo LR\Filters::escapeHtmlText($userse) /* line 19 */ ?>
+				?>                <?php echo LR\Filters::escapeHtmlText($userse) /* line 19 */ ?>
 
 <?php
 			}
 ?>
-    </p>
-    <a href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Logout:")) ?>">Chcete se odhlásit?</a>
+        </p>
+        <a href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Logout:")) ?>">Chcete se odhlásit?</a>
 <?php
 		}
 		?></div><?php

@@ -2,23 +2,23 @@
 
 {block content}
 <div class='login-form'>
-<p class="h4 mb-4 text-center">Přihlášení</p>
-{if (!$user->isLoggedIn())}
-    <form n:name=loginForm class=form>
+    <p class="h4 mb-4 text-center">Přihlášení</p>
+    {if (!$user->isLoggedIn())}
+        <form n:name=loginForm class=form>
 
-    <input type="email" n:name='email' id="defaultLoginFormEmail" class="form-control mb-4" placeholder="E-mail">
+            <input type="email" n:name='email' id="defaultLoginFormEmail" class="form-control mb-4" placeholder="E-mail">
 
-    <input type="password" n:name='password' id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Heslo">
+            <input type="password" n:name='password' id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Heslo">
 
-    <button class="btn btn-info btn-block my-4" n:name='login' type="submit">Přihlásit</button>
-</form>
-{elseif (!$user->isInRole('guest'))}
+            <button class="btn btn-info btn-block my-4" n:name='login' type="submit">Přihlásit</button>
+        </form>
+    {elseif (!$user->isInRole('guest'))}
 
-    <p>
-        {ifset $userse}
-            {$userse}
-        {/ifset}
-    </p>
-    <a n:href="Logout:">Chcete se odhlásit?</a>
-{/if}
+        <p>
+            {ifset $userse}
+                {$userse}
+            {/ifset}
+        </p>
+        <a n:href="Logout:">Chcete se odhlásit?</a>
+    {/if}
 </div>

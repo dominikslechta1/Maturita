@@ -5,7 +5,7 @@
         <group>
             <file>file:/C:/wamp/www/Maturita/app/presenters/templates/Addproject/add.latte</file>
             <file>file:/C:/wamp/www/Maturita/app/presenters/templates/@layout.latte</file>
-            <file>file:/C:/wamp/www/Maturita/app/presenters/templates/Homepage/default.latte</file>
+            <file>file:/C:/wamp/www/Maturita/app/presenters/LoginPresenter.php</file>
             <file>file:/C:/wamp/www/Maturita/www/style.css</file>
             <file>file:/C:/wamp/www/Maturita/app/presenters/AddprojectPresenter.php</file>
         </group>
