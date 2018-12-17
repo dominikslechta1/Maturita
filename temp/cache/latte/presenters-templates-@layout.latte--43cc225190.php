@@ -62,16 +62,17 @@ class Template43cc225190 extends Latte\Runtime\Template
                     </li>
                 </ul>
             </div>
-            <div class="navbar-collapse collapse show" id="navbarSupportedContent-4" style="">
+            <div class="navbar-collapse collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
 <?php
 		if ($user->isLoggedIn()) {
 ?>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle waves-effect waves-light" id="navbarDropdownMenuLink-4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                <i class="fa fa-user"></i><?php echo LR\Filters::escapeHtmlText($user->getIdentity()->username) /* line 48 */ ?></a>
+                                <i class="fa fa-user"></i><?php echo LR\Filters::escapeHtmlText($user->getRoles()[0]) /* line 48 */ ?> <?php
+			echo LR\Filters::escapeHtmlText($user->getIdentity()->username) /* line 48 */ ?></a>
                             <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
-                                <a class="dropdown-item waves-effect waves-light" href="#">Můj účet</a>
+                                <a class="dropdown-item waves-effect waves-light" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Userpage:userpage")) ?>">Můj účet</a>
                                 <a class="dropdown-item waves-effect waves-light" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Logout:")) ?>">odhlásit</a>
                             </div>
                         </li>
@@ -124,22 +125,22 @@ class Template43cc225190 extends Latte\Runtime\Template
         <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 94 */ ?>/jquery-3.3.1.min.js"></script>
         <script type="text/javascript">
             console.log(screen.height + "   " + $('body').height());
-               if(screen.height < $('body').height()+100){
-                   $('footer.page-footer').css("position","unset");
-                   console.log(true);
-               }
-               else{
-                   $('footer.page-footer').css("position","fixed")
-               }               
-               //text area counter
-               function countChar(val) {
-        var len = val.value.length;
-        if (len >= 255) {
-          val.value = val.value.substring(0, 256);
-        } else {
-          $('#charNum').text(len + "/255");
-        }
-      };
+            if (screen.height < $('body').height() + 100) {
+                $('footer.page-footer').css("position", "unset");
+                console.log(true);
+            } else {
+                $('footer.page-footer').css("position", "fixed")
+            }
+            //text area counter
+            function countChar(val) {
+                var len = val.value.length;
+                if (len >= 255) {
+                    val.value = val.value.substring(0, 256);
+                } else {
+                    $('#charNum').text(len + "/255");
+                }
+            }
+            ;
         </script>
     </body>
 

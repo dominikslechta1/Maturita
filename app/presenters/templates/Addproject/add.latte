@@ -3,12 +3,14 @@
 {block content}
 {if $user->isInRole('administrator')}
     <div class='add-project'>
-        <div>
-            <ul class="errors" n:if="$form->hasErrors()">
-    <li n:foreach="$form->errors as $error">{$error}</li>
-</ul>
-        </div>
-        <form n:name=addprojectForm class=form>
+        {ifset $form}
+            <div>
+                <ul class="errors" n:if="$form->hasErrors()">
+                    <li n:foreach="$form->errors as $error">{$error}</li>
+                </ul>
+            </div>
+        {/ifset}
+        <form n:name=addprojectForm class="add-project form">
 
             <p class="h4 mb-4 text-center">Přidat projekt</p>
 
@@ -51,7 +53,7 @@
                 <label class="custom-control-label" for="checkbox">Veřejné</label>
             </div>
 
-            <button class="btn btn-info btn-block my-4" n:name='login' type="submit">Přihlásit</button>
+            <button class="btn btn-info btn-block my-4 blue-gradient" n:name='login' type="submit">Přihlásit</button>
 
         </form>
     </div>

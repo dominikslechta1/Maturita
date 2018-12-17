@@ -96,7 +96,7 @@ class LoginPresenter extends Nette\Application\UI\Presenter {
 
         $form->addEmail('email')->setRequired("email je dulezity")->setHtmlAttribute('placeholder', 'user@example.com');
 
-        $form->addPassword('password')->setRequired('Zvolte si heslo')->addRule(UI\Form::MIN_LENGTH, 'Heslo musí mít alespoň 3 znaky', 5);
+        $form->addPassword('password')->setRequired('Zvolte si heslo')->addRule(UI\Form::MIN_LENGTH, 'Heslo musí mít alespoň 5 znaků', 5);
 
         $form->addPassword('passwordVerify')
                 ->setRequired('Zadejte prosím heslo ještě jednou pro kontrolu')

@@ -21,7 +21,6 @@ class AddprojectPresenter extends Nette\Application\UI\Presenter {
     }
 
     public function renderAdd() {
-        
     }
 
     protected function createComponentAddprojectForm() {

@@ -26,7 +26,7 @@ class Templatee4cf15a6db extends Latte\Runtime\Template
 	function prepare()
 	{
 		extract($this->params);
-		if (isset($this->params['error'])) trigger_error('Variable $error overwritten in foreach on line 8');
+		if (isset($this->params['error'])) trigger_error('Variable $error overwritten in foreach on line 9');
 		Nette\Bridges\ApplicationLatte\UIRuntime::initialize($this, $this->parentName, $this->blocks);
 		
 	}
@@ -38,26 +38,30 @@ class Templatee4cf15a6db extends Latte\Runtime\Template
 		if ($user->isInRole('administrator')) {
 ?>
     <div class='add-project'>
-        <div>
 <?php
-			if ($form->hasErrors()) {
-?>            <ul class="errors">
+			if (isset($form)) {
+?>
+            <div>
 <?php
-				$iterations = 0;
-				foreach ($form->errors as $error) {
-					?>    <li><?php echo LR\Filters::escapeHtmlText($error) /* line 8 */ ?></li>
+				if ($form->hasErrors()) {
+?>                <ul class="errors">
 <?php
-					$iterations++;
+					$iterations = 0;
+					foreach ($form->errors as $error) {
+						?>                    <li><?php echo LR\Filters::escapeHtmlText($error) /* line 9 */ ?></li>
+<?php
+						$iterations++;
+					}
+?>
+                </ul>
+<?php
 				}
 ?>
-</ul>
+            </div>
 <?php
 			}
-?>
-        </div>
-<?php
 			$form = $_form = $this->global->formsStack[] = $this->global->uiControl["addprojectForm"];
-			?>        <form class=form<?php
+			?>        <form class="add-project form"<?php
 			echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), array (
 			'class' => NULL,
 			), false) ?>>
@@ -127,7 +131,7 @@ class Templatee4cf15a6db extends Latte\Runtime\Template
                 <label class="custom-control-label" for="checkbox">Veřejné</label>
             </div>
 
-            <button class="btn btn-info btn-block my-4" type="submit"<?php
+            <button class="btn btn-info btn-block my-4 blue-gradient" type="submit"<?php
 			$_input = end($this->global->formsStack)["login"];
 			echo $_input->getControlPart()->addAttributes(array (
 			'class' => NULL,
@@ -140,7 +144,7 @@ class Templatee4cf15a6db extends Latte\Runtime\Template
     </div>
 <?php
 			if (isset($error)) {
-				?>        <?php echo LR\Filters::escapeHtmlText($error) /* line 59 */ ?>
+				?>        <?php echo LR\Filters::escapeHtmlText($error) /* line 61 */ ?>
 
 <?php
 			}

@@ -27,11 +27,6 @@ return array (
       'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\ErrorPresenter.php',
       'time' => 1537173924,
     ),
-    'App\\Presenters\\HomepagePresenter' => 
-    array (
-      'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\HomepagePresenter.php',
-      'time' => 1543243441,
-    ),
     'App\\Presenters\\LogoutPresenter' => 
     array (
       'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\LogoutPresenter.php',
@@ -45,17 +40,27 @@ return array (
     'App\\Presenters\\LoginPresenter' => 
     array (
       'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\LoginPresenter.php',
-      'time' => 1544353592,
+      'time' => 1544453083,
     ),
     'App\\Presenters\\AddprojectPresenter' => 
     array (
       'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\AddprojectPresenter.php',
-      'time' => 1544362678,
+      'time' => 1544454072,
+    ),
+    'App\\Presenters\\UserpagePresenter' => 
+    array (
+      'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\UserpagePresenter.php',
+      'time' => 1544454005,
+    ),
+    'App\\Presenters\\HomepagePresenter' => 
+    array (
+      'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\HomepagePresenter.php',
+      'time' => 1544456846,
     ),
   ),
   1 => 
   array (
-    'Nette\\Environment' => 24,
+    'Nette\\Environment' => 25,
     'Nette\\Database\\LoginPresenter' => 1,
     'App\\Presenters\\BasePresenter' => 1,
     'MainPresenter' => 3,

@@ -6,7 +6,7 @@
         {foreach $projects as $id => $item}
             <div class="project {$id} hoverable">
                 <!-- Card -->
-                <a class="project {$id} project-link ">
+                <a class="project {$id} project-link" n:href="Homepage:project $item->idProjects">
                     <div class="card card-cascade wider reverse ">
 
 
@@ -14,7 +14,7 @@
                         <div class="card-body card-body-cascade text-center">
 
                             <!-- Title -->
-                            <h4 class="card-title"><strong>{$item->Name}</strong></h4>
+                            <h4 class="card-title"><strong class="card-title-strong">{$item->Name}</strong></h4>
                             <!-- Subtitle -->
                             <h6 class="font-weight-bold indigo-text py-2">{$item->ref('users','User')->UserName}</h6>
                             <!-- Text -->

@@ -42,7 +42,7 @@ class Templatee98316bae0 extends Latte\Runtime\Template
     <div<?php if ($_tmp = array_filter(['register-form'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"' ?>>
 <?php
 			$form = $_form = $this->global->formsStack[] = $this->global->uiControl["signUpForm"];
-			?>        <form class=form autocomplete="off"<?php
+			?>        <form class="form" autocomplete="off"<?php
 			echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), array (
 			'class' => NULL,
 			'autocomplete' => NULL,

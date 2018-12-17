@@ -63,7 +63,7 @@ class Templated736fab57e extends Latte\Runtime\Template
 			'placeholder' => NULL,
 			))->attributes() ?>>
 
-            <button class="btn btn-info btn-block my-4" type="submit"<?php
+            <button class="btn btn-info btn-block my-4 blue-gradient" type="submit"<?php
 			$_input = end($this->global->formsStack)["login"];
 			echo $_input->getControlPart()->addAttributes(array (
 			'class' => NULL,

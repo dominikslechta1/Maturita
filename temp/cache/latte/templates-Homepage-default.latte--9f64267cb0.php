@@ -44,7 +44,8 @@ class Template9f64267cb0 extends Latte\Runtime\Template
 			foreach ($projects as $id => $item) {
 				?>            <div class="project <?php echo LR\Filters::escapeHtmlAttr($id) /* line 7 */ ?> hoverable">
                 <!-- Card -->
-                <a class="project <?php echo LR\Filters::escapeHtmlAttr($id) /* line 9 */ ?> project-link ">
+                <a class="project <?php echo LR\Filters::escapeHtmlAttr($id) /* line 9 */ ?> project-link" href="<?php
+				echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Homepage:project", [$item->idProjects])) ?>">
                     <div class="card card-cascade wider reverse ">
 
 
@@ -52,7 +53,7 @@ class Template9f64267cb0 extends Latte\Runtime\Template
                         <div class="card-body card-body-cascade text-center">
 
                             <!-- Title -->
-                            <h4 class="card-title"><strong><?php echo LR\Filters::escapeHtmlText($item->Name) /* line 17 */ ?></strong></h4>
+                            <h4 class="card-title"><strong class="card-title-strong"><?php echo LR\Filters::escapeHtmlText($item->Name) /* line 17 */ ?></strong></h4>
                             <!-- Subtitle -->
                             <h6 class="font-weight-bold indigo-text py-2"><?php echo LR\Filters::escapeHtmlText($item->ref('users','User')->UserName) /* line 19 */ ?></h6>
                             <!-- Text -->

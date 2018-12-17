@@ -1,0 +1,26 @@
+{block content}
+{ifset $project}
+    <div class="project-one">
+        <div class="jumbotron">
+            <h2 class="display-4">{$project->Name}</h2>
+            <p class="lead">{$project->Desc}</p>
+            <hr class="my-4">
+            <div class="project-buttons">
+            <button class="btn btn-primary btn-lg blue-gradient">smazat</button><button class="btn btn-primary btn-lg blue-gradient">upravit</button>
+        </div>
+        </div>
+            <div>
+                <ul>
+                    <li>
+                        vydal
+                    </li>
+                    <li>
+                        vydal
+                    </li>
+                    <li>
+                        vydal
+                    </li>
+                </ul>
+            </div>
+    </div>
+{/ifset}

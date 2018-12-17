@@ -1,0 +1,22 @@
+{* Latte template *}
+
+{block content}
+{if $user->isLoggedIn()}
+
+    <ul>
+        <li>
+            {$user->getIdentity()->username}
+        </li>
+        <li>
+            {$user->getIdentity()->email}
+        </li>
+        <li>{$user->getRoles()[0]}</li>
+    </ul>
+
+    <button>změnit heslo</button>
+
+
+    {if $user->isInRole('administrator')}
+        <p>administrator settings</p>
+    {/if}
+{/if}

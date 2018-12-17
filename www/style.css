@@ -12,7 +12,7 @@ div.add-project{
 }
 label{
     position: relative !important;
-    
+
 
 }
 li.nav-item.login{
@@ -26,6 +26,27 @@ div.login-form{
     width: 60%;
     margin: 0 auto;
 }
-div.textarea-parent{
-    
+
+@media(max-width: 990px){
+    div.project-one,div.login-form, div.register-form,div.add-project{
+        width: 80%;
+        margin: 0 auto;
+    }
+}
+a.project-link{
+    color:unset;
+}
+strong.card-title-strong{
+    background: -webkit-linear-gradient(40deg,#45cafc,#303f9f);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+div.project-one{
+    width: 60%;
+    margin: 0 auto;
+    display: inline;
+}
+main{
+    width: 80%;
+    margin: 0 auto;
 }
