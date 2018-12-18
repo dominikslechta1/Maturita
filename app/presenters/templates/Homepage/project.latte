@@ -1,26 +1,71 @@
 {block content}
 {ifset $project}
     <div class="project-one">
-        <div class="jumbotron">
+        <!--Locked-->
+        {snippet Locked}
+            <part class="project-locked">
+                {if $user->isInRole('administrator')}
+                        <a n:href="locked! $project->idProjects,$project->Locked" class="ajax" >
+                            <img 
+                                {if $project->Locked == 1} 
+                                    src="{$basePath}/lock.png" alt="locked"
+                                {else}
+                                    src="{$basePath}/unlock.png" alt="unlocked"
+                                {/if} 
+                                width="50px" />
+                        </a>
+                    {else}
+                        <img 
+                            {if $project->Locked == 1} 
+                                src="{$basePath}/lock.png" alt="locked"
+                            {else}
+                                src="{$basePath}/unlock.png" alt="unlocked"
+                            {/if} 
+                            width="50px" />
+                    {/if}
+            </part>
+        {/snippet}
+        <!--Public-->
+        {snippet Public}
+            <part class="project-locked">
+                {if $user->isInRole('administrator')}
+                    <a n:href="publiced! 'id'=>$project->idProjects,'public'=>$project->Public" class="ajax"> 
+                        <img 
+                            {if $project->Public == 0} 
+                                src="{$basePath}/closed-eye.png" alt="closed eye"
+                            {else}
+                                src="{$basePath}/opened-eye.png" alt="opened eye"
+                            {/if} 
+                            width="50px" />
+                    </a>
+                {else}
+                    <img 
+                        {if $project->Public == 0} 
+                            src="{$basePath}/closed-eye.png" alt="closed eye"
+                        {else}
+                            src="{$basePath}/opened-eye.png" alt="opened eye"
+                        {/if} 
+                        width="50px" />
+                {/if}
+            </part>
+        {/snippet}
+        <div class="jumbotron" style="display: contents;">
+
             <h2 class="display-4">{$project->Name}</h2>
             <p class="lead">{$project->Desc}</p>
+
+
+            <div class="project-users">
+                <span class="span-user">Vypracovává: {$project->ref('users','User')->UserName}</span>
+                <span class="span-oponent">Oponent: {$project->ref('users','Oponent')->UserName}</span>
+                <span class="span-consultant">Konzultant: {$project->ref('users','Consultant')->UserName}</span>
+            </div>
             <hr class="my-4">
             <div class="project-buttons">
-            <button class="btn btn-primary btn-lg blue-gradient">smazat</button><button class="btn btn-primary btn-lg blue-gradient">upravit</button>
-        </div>
-        </div>
-            <div>
-                <ul>
-                    <li>
-                        vydal
-                    </li>
-                    <li>
-                        vydal
-                    </li>
-                    <li>
-                        vydal
-                    </li>
-                </ul>
+                <a class="btn btn-primary btn-lg blue" onclick="return confirm('opravdu to chces smazat?')" n:href="delete! $project->idProjects">smazat</a><a class="btn btn-primary btn-lg blue" n:href="Addproject:add $project->idProjects">upravit</a>
             </div>
+
+        </div>
+
     </div>
 {/ifset}

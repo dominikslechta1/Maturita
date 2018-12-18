@@ -42,11 +42,44 @@ strong.card-title-strong{
     -webkit-text-fill-color: transparent;
 }
 div.project-one{
-    width: 60%;
-    margin: 0 auto;
-    display: inline;
+    margin-top: 50px;
+    background-color: white;
+    box-shadow: 0px 0px 17px 0px darkgrey;
+    border-radius: 6px;
+    padding: 20px 20px 20px 30px;
+}
+@media(max-width:780px){
+    div.project-one{
+        display: contents;
+    }
+    div.project-users{
+            display: inline-flex;
+    }
 }
 main{
     width: 80%;
     margin: 0 auto;
+}
+
+.project-base{
+    height: 100%;
+}
+.project-locked{
+    float: right;
+    padding: 10px;
+}
+.txtarea{
+    min-height: 50px;
+}
+.span-user{
+    margin-right: 10%;
+}
+.span-oponent{
+    margin-right: 10%;
+}
+.span-consultant{
+    
+}
+.lead{
+    margin-bottom: 20px;
 }

@@ -1,3 +1,4 @@
 app/config/config.local.neon
 /nbproject/private/
-files/
+www/files/
+temp/
