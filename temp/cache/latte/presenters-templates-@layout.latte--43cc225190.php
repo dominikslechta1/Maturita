@@ -104,7 +104,7 @@ class Template43cc225190 extends Latte\Runtime\Template
 
             <!-- Copyright -->
             <div class="footer-copyright text-center py-3">© 2018 Copyright:
-                <a href="#footer"> Dominik Šlechta</a>
+                <a href="#footer" style="white-space: nowrap;"> Dominik Šlechta</a>
             </div>
             <!-- Copyright -->
 

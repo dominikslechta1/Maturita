@@ -44,8 +44,18 @@ class Templated736fab57e extends Latte\Runtime\Template
 			echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), array (
 			'class' => NULL,
 			), false) ?>>
-
-            <input type="email" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="E-mail"<?php
+            
+<?php
+			ob_start(function () {});
+			?>            <span class="error"><?php
+			ob_start();
+			echo LR\Filters::escapeHtmlText(end($this->global->formsStack)["email"]->getError());
+			$this->global->ifcontent = ob_get_flush();
+?></span>
+<?php
+			if (rtrim($this->global->ifcontent) === "") ob_end_clean();
+			else echo ob_get_clean();
+			?>            <input type="email" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="E-mail"<?php
 			$_input = end($this->global->formsStack)["email"];
 			echo $_input->getControlPart()->addAttributes(array (
 			'type' => NULL,
@@ -53,8 +63,18 @@ class Templated736fab57e extends Latte\Runtime\Template
 			'class' => NULL,
 			'placeholder' => NULL,
 			))->attributes() ?>>
-
-            <input type="password" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Heslo"<?php
+            
+<?php
+			ob_start(function () {});
+			?>            <span class="error"><?php
+			ob_start();
+			echo LR\Filters::escapeHtmlText(end($this->global->formsStack)["password"]->getError());
+			$this->global->ifcontent = ob_get_flush();
+?></span>
+<?php
+			if (rtrim($this->global->ifcontent) === "") ob_end_clean();
+			else echo ob_get_clean();
+			?>            <input type="password" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Heslo"<?php
 			$_input = end($this->global->formsStack)["password"];
 			echo $_input->getControlPart()->addAttributes(array (
 			'type' => NULL,
@@ -62,7 +82,10 @@ class Templated736fab57e extends Latte\Runtime\Template
 			'class' => NULL,
 			'placeholder' => NULL,
 			))->attributes() ?>>
-
+            <div>
+            <a href="">Forgot password?</a>
+        </div>
+            
             <button class="btn btn-info btn-block my-4 blue-gradient" type="submit"<?php
 			$_input = end($this->global->formsStack)["login"];
 			echo $_input->getControlPart()->addAttributes(array (
@@ -80,7 +103,7 @@ class Templated736fab57e extends Latte\Runtime\Template
         <p>
 <?php
 			if (isset($userse)) {
-				?>                <?php echo LR\Filters::escapeHtmlText($userse) /* line 19 */ ?>
+				?>                <?php echo LR\Filters::escapeHtmlText($userse) /* line 24 */ ?>
 
 <?php
 			}

@@ -401,7 +401,12 @@ class Container_2f06cee5c6 extends Nette\DI\Container
 	 */
 	public function createServiceApplication__7()
 	{
-		$service = new App\Presenters\UserpagePresenter;
+		$service = new App\Presenters\UserpagePresenter(
+			$this->getService('database.default.context'),
+			$this->getService('database.default.structure'),
+			$this->getService('database.default.conventions'),
+			$this->getService('cache.storage')
+		);
 		$service->injectPrimary(
 			$this,
 			$this->getService('application.presenterFactory'),
