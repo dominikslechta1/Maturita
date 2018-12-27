@@ -1,10 +1,11 @@
 {* Latte template *}
 
 {block content}
+{var $n = 0}
 <div class="projects-div">
     {if $projects !== null}
         {foreach $projects as $id => $item}
-            <div class="project {$id} hoverable">
+            <div class="project {$id} hoverable animated  zoomIn delay-{$n}s">
                 <!-- Card -->
                 <a class="project {$id} project-link" n:href="Homepage:project $item->idProjects">
                     <div class="card card-cascade wider reverse ">
@@ -26,6 +27,9 @@
                 </a>
                 <!-- Card -->
             </div>
+                        {var $n = $n+1}
         {/foreach}
+    {else}
+        <p>nejsou projekty k vidění</p>
     {/if}
 </div>

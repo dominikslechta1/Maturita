@@ -8,18 +8,18 @@
                         <a n:href="locked! $project->idProjects,$project->Locked" class="ajax" >
                             <img 
                                 {if $project->Locked == 1} 
-                                    src="{$basePath}/lock.png" alt="locked"
+                                    src="{$basePath}/lock.png" alt="locked" title="Projekt je zamknutý"
                                 {else}
-                                    src="{$basePath}/unlock.png" alt="unlocked"
+                                    src="{$basePath}/unlock.png" alt="unlocked" title="Projekt je odemknutý"
                                 {/if} 
                                 width="50px" />
                         </a>
                     {else}
                         <img 
                             {if $project->Locked == 1} 
-                                src="{$basePath}/lock.png" alt="locked"
+                                src="{$basePath}/lock.png" alt="locked" title="Projekt se nemůže nadále editovat"
                             {else}
-                                src="{$basePath}/unlock.png" alt="unlocked"
+                                src="{$basePath}/unlock.png" alt="unlocked" title="Projekt se může editovat"
                             {/if} 
                             width="50px" />
                     {/if}
@@ -32,18 +32,18 @@
                     <a n:href="publiced! 'id'=>$project->idProjects,'public'=>$project->Public" class="ajax"> 
                         <img 
                             {if $project->Public == 0} 
-                                src="{$basePath}/closed-eye.png" alt="closed eye"
+                                src="{$basePath}/closed-eye.png" alt="closed eye" title="Projekt je skrytý"
                             {else}
-                                src="{$basePath}/opened-eye.png" alt="opened eye"
-                            {/if} 
+                                src="{$basePath}/opened-eye.png" alt="opened eye" title="Projekt je viditelný"
+                            {/if}
                             width="50px" />
                     </a>
                 {else}
                     <img 
                         {if $project->Public == 0} 
-                            src="{$basePath}/closed-eye.png" alt="closed eye"
+                            src="{$basePath}/closed-eye.png" alt="closed eye" title="Projekt je skrytý"
                         {else}
-                            src="{$basePath}/opened-eye.png" alt="opened eye"
+                            src="{$basePath}/opened-eye.png" alt="opened eye" title="Projekt je viditelný"
                         {/if} 
                         width="50px" />
                 {/if}

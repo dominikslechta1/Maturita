@@ -39,7 +39,9 @@ class HomepagePresenter extends Nette\Application\UI\Presenter {
                     ->where(" Year", MyDateTime::getYear(DateTime::from(0)))
                     ->fetchAll();
         }
-        
+        if(sizeof($projects, 0) < 1){
+            $projects = null;
+        }
         $this->template->projects = $projects;
     }
 

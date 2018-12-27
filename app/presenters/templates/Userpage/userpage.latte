@@ -1,6 +1,7 @@
 {* Latte template *}
 
 {block content}
+<div>
 {if $user->isLoggedIn()}
 
     <ul>
@@ -13,10 +14,13 @@
         <li>{$user->getRoles()[0]}</li>
     </ul>
 
-    <button>změnit heslo</button>
+    <a n:href="Userpage:changepass" class="btn btn-info  blue-gradient">změnit heslo</a>
 
 
     {if $user->isInRole('administrator')}
         <p>administrator settings</p>
     {/if}
+    {else}
+        <p>nepřihlášen</p>
 {/if}
+</div>

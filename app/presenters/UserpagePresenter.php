@@ -3,35 +3,74 @@
 namespace App\Presenters;
 
 use Nette;
+use Nette\Security\User;
+use App\Model\MyDateTime;
+use Nette\Utils\DateTime;
 use Nette\Database;
 use Nette\Application\UI;
 use App\Presenters;
-use Nette\Security\User;
 use Nette\Database\Context;
-use Nette\Utils\FileSystem;
-use App\Model\MyDateTime;
 
 class UserpagePresenter extends Nette\Application\UI\Presenter {
+
+    private $database;
+
+    public function __construct(Nette\Database\Context $connection, Nette\Database\IStructure $structure, Nette\Database\IConventions $conventions = null, Nette\Caching\IStorage $cacheStorage = null) {
+        $this->database = $connection;
+    }
 
     public function renderUserpage() {
         
     }
 
-    protected function createComponentNewpasswordForm() {
-        $form = new Nette\Application\UI\Form;
-        $form->addPassword('old');
-        $form->addPassword('new')->setRequired('Zvolte nové heslo')->addRule(UI\Form::MIN_LENGTH, 'Heslo musí mít alespoň 5 znaků', 5);
-        $form->addPassword('repeat')
-                ->setRequired('Zadejte prosím heslo ještě jednou pro kontrolu')
-                ->addRule(UI\Form::EQUAL, 'Hesla se neshodují', $form['repeat']);
-        $form->addSubmit('send');
+    public function renderChangepass() {
+        
+    }
 
+    protected function createComponentChangePasswordForm() {
+        $form = new UI\Form;
+        $form->addProtection('Vypršel časový limit, odešlete formulář znovu');
+        $form->addPassword('old')->setRequired('Zadej své staré heslo');
+        $form->addPassword('new')->setRequired('Zvolte nové heslo');
+        $form->addPassword('repeat')->setRequired('Opakuj heslo');
+        $form->addSubmit('send');
+        $form->onValidate[] = [$this, 'PasswordValidate'];
         $form->onSuccess[] = [$this, 'PasswordResetSuccess'];
         return $form;
     }
 
-    private function PasswordResetSuccess(UI\Form $form) {
+    public function PasswordValidate(UI\Form $form) {
+        $values = $form->getValues();
+        if (!password_verify($values->old, $this->database->table('users')->where('idUsers', $this->getUser()->getId())->fetchField('Password'))) {
+            $form['old']->addError('Nesprávné staré heslo');
+        }else{
+            $form['old']->cleanErrors();
+        }
+        if ($values->new !== $values->repeat) {
+            $form['repeat']->addError('Hesla se neshodují!');
+        }else{
+            $form['repeat']->cleanErrors();
+        }
+        if(mb_strlen($values->new) < 5){
+            $form['new']->addError('Krátké heslo!');
+        }else{
+            $form['new']->cleanErrors();
+        }
+        if($values->old == $values->new){
+            $form['new']->addError('Heslo nesmí být stejné jako minulé');
+        }else{
+            $form['new']->cleanErrors();
+        }
+    }
+
+    public function PasswordResetSuccess(UI\Form $form) {
+        $values = $form->getValues();
+        $this->template->test = "proslo";
         
+        $this->database->table('users')->where('idUsers', $this->getUser()->getId())->update([
+            'Password' => password_hash($values->new, PASSWORD_DEFAULT)
+        ]);
+        $this->redirect('Homepage:default');
     }
 
 }

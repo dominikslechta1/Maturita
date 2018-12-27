@@ -5,11 +5,16 @@
     <p class="h4 mb-4 text-center">Přihlášení</p>
     {if (!$user->isLoggedIn())}
         <form n:name=loginForm class=form>
-
+            
+            <span class="error" n:ifcontent>{inputError email}</span>
             <input type="email" n:name='email' id="defaultLoginFormEmail" class="form-control mb-4" placeholder="E-mail">
-
+            
+            <span class="error" n:ifcontent>{inputError password}</span>
             <input type="password" n:name='password' id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Heslo">
-
+            <div>
+            <a href="">Forgot password?</a>
+        </div>
+            
             <button class="btn btn-info btn-block my-4 blue-gradient" n:name='login' type="submit">Přihlásit</button>
         </form>
     {elseif (!$user->isInRole('guest'))}
