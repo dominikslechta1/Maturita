@@ -10,6 +10,8 @@ use Nette\Database;
 use Nette\Application\UI;
 use App\Presenters;
 use Nette\Database\Context;
+use Nette\Security\Passwords;
+use Latte\Engine;
 
 class UserpagePresenter extends Nette\Application\UI\Presenter {
 
@@ -43,30 +45,29 @@ class UserpagePresenter extends Nette\Application\UI\Presenter {
         $values = $form->getValues();
         if (!password_verify($values->old, $this->database->table('users')->where('idUsers', $this->getUser()->getId())->fetchField('Password'))) {
             $form['old']->addError('Nesprávné staré heslo');
-        }else{
+        } else {
             $form['old']->cleanErrors();
         }
         if ($values->new !== $values->repeat) {
             $form['repeat']->addError('Hesla se neshodují!');
-        }else{
+        } else {
             $form['repeat']->cleanErrors();
         }
-        if(mb_strlen($values->new) < 5){
+        if (mb_strlen($values->new) < 5) {
             $form['new']->addError('Krátké heslo!');
-        }else{
+        } else {
             $form['new']->cleanErrors();
         }
-        if($values->old == $values->new){
+        if ($values->old == $values->new) {
             $form['new']->addError('Heslo nesmí být stejné jako minulé');
-        }else{
+        } else {
             $form['new']->cleanErrors();
         }
     }
 
     public function PasswordResetSuccess(UI\Form $form) {
         $values = $form->getValues();
-        $this->template->test = "proslo";
-        
+
         $this->database->table('users')->where('idUsers', $this->getUser()->getId())->update([
             'Password' => password_hash($values->new, PASSWORD_DEFAULT)
         ]);

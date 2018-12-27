@@ -8,6 +8,16 @@ use Nette\Application\UI;
 use App\Presenters;
 use Nette\Security\User;
 use Nette\Database\Context;
+use Nette\Security\Passwords;
+use Latte\Engine;
+use App\Model\MyDateTime;
+use Nette\Utils\DateTime;
+use Nette\Bridges\ApplicationLatte\UIMacros;
+use App\Forms;
+use Nette\Mail\Message;
+use Nette\Mail\SendmailMailer;
+use Nette\Mail\SmtpMailer;
+use Nette\Application\UI\Presenter;
 
 class LoginPresenter extends Nette\Application\UI\Presenter {
 
@@ -23,6 +33,17 @@ class LoginPresenter extends Nette\Application\UI\Presenter {
     }
 
     public function renderRegister() {
+        
+    }
+    
+    public function renderRecoverpassword($username = null,$tokken = null){
+        $user = $this->database->table('users')->where('TempToc', $tokken)->fetch();
+        if($user !== ''){
+            $now = new DateTime();
+            if($now > $user->TocDate){
+                //do new password
+            }
+        }
     }
 
     protected function createComponentLoginForm() {
@@ -59,8 +80,6 @@ class LoginPresenter extends Nette\Application\UI\Presenter {
         $this->redirect('Homepage:default');
     }
 
-    
-    
     //register part
     public function registrationFormValidate(UI\Form $form) {
         $values = $form->getValues();
@@ -108,4 +127,98 @@ class LoginPresenter extends Nette\Application\UI\Presenter {
         return $form;
     }
 
+    protected function createComponentForgetPassword() {
+        $form = new UI\Form;
+        $form->addProtection('Vypršel časový limit, odešlete formulář znovu');
+        $form->addEmail('email')->setRequired('toto je povinné');
+        $form->addSubmit('send');
+        $form->onSubmit[] = [$this, 'validateForget'];
+        $form->onSuccess[] = [$this, 'successForget'];
+        return $form;
+    }
+
+    public function validateForget(UI\Form $form) {
+        $values = $form->getValues();
+        if (!mb_strpos($values->email, '@')) {
+            $form['email']->addError('toto neni email');
+        }
+    }
+
+    public function successForget(UI\Form $form) {
+        $values = $form->getValues();
+
+        $this->template->success = "db";
+        $forgetDb = $this->database
+                ->table('users')
+                ->where('Email', $values->email)
+                ->limit(1)
+                ->fetchField('UserName');
+        $this->template->success = "db";
+        if ($forgetDb !== '') {
+            try{
+            $now = new DateTime();
+            $hash = Passwords::hash($now . $values->email);
+            $this->database->table('users')->where('Email', $values->email)->update([
+                'TempToc' => $hash,
+                'TocDate' => new DateTime('+1 hour')
+            ]);
+            $message = new Message();
+            $uri = $this->getHttpRequest()->getUrl();
+            $params = [
+                'username' => $forgetDb,
+                'token' => $hash,
+                'sitename' => $uri->host,
+            ];
+            $latte = new Engine();
+            $latte->addProvider("uiControl", $this);
+            $latte->addProvider("uiPresenter", $this);
+            UIMacros::install($latte->getCompiler());
+            $message->setFrom('noreply@Maturitniprojekty.com')
+                ->addTo($values->email)
+                ->setSubject('Zapomenuté heslo')
+                ->setHtmlBody($latte->renderToString(__DIR__ . '/templates/rememberMail.latte', $params,null));
+            
+            $mailer = $this->setMailer(2);
+            $mailer->send($message);
+            $this->template->success = "uspech";
+            }
+            catch(Exception $e){
+                $this->template->success = "neuspech";
+            }
+        }
+        else{
+            $this->template->success = "neuspech";
+        }
+    }
+    
+    /**
+     * Method setMailer
+     *
+     * @param int $useSendmail
+     *
+     * @return \Nette\Mail\SendmailMailer|\Nette\Mail\SmtpMailer
+     */
+    protected function setMailer($useSendmail = 1)
+    {
+        if (1 === $useSendmail) {
+            /** @var SendmailMailer mailer */
+            $mailer = new SendmailMailer();
+        } else {
+            /** @var SmtpMailer mailer */
+            $mailer = new SmtpMailer(
+                [
+                    'host' => 'smtp.gmail.com',
+                    'username' => 'jezancz.22@gmail.com',
+                    'password' => 'Jezula248',
+                    'secure' => 'ssl',
+                    'port' => 465,
+                ]
+            );
+        }
+ 
+        return $mailer;
+    }
+
+    
+    
 }

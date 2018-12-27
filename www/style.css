@@ -84,3 +84,8 @@ main{
 .lead{
     margin-bottom: 20px;
 }
+a.btn.btn-outline-light-blue.waves-effect:hover {
+    background-color: #82b1ff!important;
+    color: #327bf3!important;
+    border: 2px solid #327bf3!important;
+}
