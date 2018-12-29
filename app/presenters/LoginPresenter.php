@@ -2,25 +2,21 @@
 
 namespace App\Presenters;
 
-use Nette\Database;
 use Nette;
 use Nette\Application\UI;
-use App\Presenters;
-use Nette\Security\User;
-use Nette\Database\Context;
 use Nette\Security\Passwords;
 use Latte\Engine;
-use App\Model\MyDateTime;
 use Nette\Utils\DateTime;
 use Nette\Bridges\ApplicationLatte\UIMacros;
-use App\Forms;
 use Nette\Mail\Message;
 use Nette\Mail\SendmailMailer;
 use Nette\Mail\SmtpMailer;
-use Nette\Application\UI\Presenter;
+use App\Model;
 
 class LoginPresenter extends Nette\Application\UI\Presenter {
 
+    /** @var Model\SignNewPassFormFactory @inject */
+    public $signNewPassFactory;
     private $database;
 
     // pro práci s vrstvou Database Explorer si předáme Nette\Database\Context
@@ -35,16 +31,50 @@ class LoginPresenter extends Nette\Application\UI\Presenter {
     public function renderRegister() {
         
     }
-    
-    public function renderRecoverpassword($username = null,$tokken = null){
-        $user = $this->database->table('users')->where('TempToc', $tokken)->fetch();
-        if($user !== ''){
+
+    public function renderRecoverpassword($username = null, $token = null) {
+        $user = $this->database->table('users')->where('TempToc', $token)->fetch();
+        if ($user !== '') {
             $now = new DateTime();
-            if($now > $user->TocDate){
-                //do new password
+            if ($now < $user->TocDate) {
+                /** @var Form $form */
+                $form = $this['newPassForm'];
+                if (!$form->isSubmitted()) {
+                    $row = [
+                        'username' => $username,
+                        'hash' => $token,
+                    ];
+                    $form->setDefaults($row);
+                }
             }
         }
     }
+    
+    /**
+     * Method createComponentNewPassForm
+     *
+     * @return \Nette\Application\UI\Form
+     */
+    protected function createComponentNewPassForm()
+    {
+        $form = $this->signNewPassFactory->create();
+ 
+        $form->onSuccess[] = function (UI\Form $form) {
+            $values = $form->getValues();
+            $this->database->table('users')->where('TempToc',$values->hash)->update([
+                'Password' => password_hash($values->password,PASSWORD_DEFAULT),
+                'TempToc' => '',
+                'TocDate' => NULL
+            ]);
+            
+            $this->flashMessage('Heslo bylo změněno', 'success');
+            $this->redirect('Login:login');
+        };
+ 
+        return $form;
+    }
+    
+    
 
     protected function createComponentLoginForm() {
         $form = new UI\Form;
@@ -74,8 +104,6 @@ class LoginPresenter extends Nette\Application\UI\Presenter {
     }
 
     public function loginFormSucceeded(UI\Form $form) {
-
-
         $this->flashMessage('Byl jste úspěšně přihlášen.');
         $this->redirect('Homepage:default');
     }
@@ -146,51 +174,50 @@ class LoginPresenter extends Nette\Application\UI\Presenter {
 
     public function successForget(UI\Form $form) {
         $values = $form->getValues();
-
-        $this->template->success = "db";
         $forgetDb = $this->database
                 ->table('users')
                 ->where('Email', $values->email)
                 ->limit(1)
                 ->fetchField('UserName');
-        $this->template->success = "db";
         if ($forgetDb !== '') {
-            try{
-            $now = new DateTime();
-            $hash = Passwords::hash($now . $values->email);
-            $this->database->table('users')->where('Email', $values->email)->update([
-                'TempToc' => $hash,
-                'TocDate' => new DateTime('+1 hour')
-            ]);
-            $message = new Message();
-            $uri = $this->getHttpRequest()->getUrl();
-            $params = [
-                'username' => $forgetDb,
-                'token' => $hash,
-                'sitename' => $uri->host,
-            ];
-            $latte = new Engine();
-            $latte->addProvider("uiControl", $this);
-            $latte->addProvider("uiPresenter", $this);
-            UIMacros::install($latte->getCompiler());
-            $message->setFrom('noreply@Maturitniprojekty.com')
-                ->addTo($values->email)
-                ->setSubject('Zapomenuté heslo')
-                ->setHtmlBody($latte->renderToString(__DIR__ . '/templates/rememberMail.latte', $params,null));
-            
-            $mailer = $this->setMailer(2);
-            $mailer->send($message);
-            $this->template->success = "uspech";
+            try {
+                $now = new DateTime();
+                $hash = Passwords::hash($now . $values->email);
+                $userexist = $this->database->table('users')->where('Email', $values->email)->update([
+                    'TempToc' => $hash,
+                    'TocDate' => new DateTime('+1 hour')
+                ]);
+                if ($userexist == '') {
+                    $this->alert('uživatel neexistuje');
+                    return;
+                }
+                $message = new Message();
+                $uri = $this->getHttpRequest()->getUrl();
+                $params = [
+                    'username' => $forgetDb,
+                    'token' => $hash,
+                    'sitename' => $uri->host,
+                ];
+                $latte = new Engine();
+                $latte->addProvider("uiControl", $this);
+                $latte->addProvider("uiPresenter", $this);
+                UIMacros::install($latte->getCompiler());
+                $message->setFrom('noreply@Maturitniprojekty.com')
+                        ->addTo($values->email)
+                        ->setSubject('Zapomenuté heslo')
+                        ->setHtmlBody($latte->renderToString(__DIR__ . '/templates/rememberMail.latte', $params, null));
+
+                $mailer = $this->setMailer(2);
+                $mailer->send($message);
+                $this->alert('Podívej se do emailu.');
+            } catch (Exception $e) {
+                $this->alert('Někde nastala chyba!');
             }
-            catch(Exception $e){
-                $this->template->success = "neuspech";
-            }
-        }
-        else{
-            $this->template->success = "neuspech";
+        } else {
+            $this->alert('Uživatel není v databázi!');
         }
     }
-    
+
     /**
      * Method setMailer
      *
@@ -198,27 +225,28 @@ class LoginPresenter extends Nette\Application\UI\Presenter {
      *
      * @return \Nette\Mail\SendmailMailer|\Nette\Mail\SmtpMailer
      */
-    protected function setMailer($useSendmail = 1)
-    {
+    protected function setMailer($useSendmail = 1) {
         if (1 === $useSendmail) {
             /** @var SendmailMailer mailer */
             $mailer = new SendmailMailer();
         } else {
             /** @var SmtpMailer mailer */
             $mailer = new SmtpMailer(
-                [
-                    'host' => 'smtp.gmail.com',
-                    'username' => 'jezancz.22@gmail.com',
-                    'password' => 'Jezula248',
-                    'secure' => 'ssl',
-                    'port' => 465,
-                ]
+                    [
+                'host' => 'smtp.gmail.com',
+                'username' => 'jezancz.22@gmail.com',
+                'password' => 'Jezula248',
+                'secure' => 'ssl',
+                'port' => 465,
+                    ]
             );
         }
- 
+
         return $mailer;
     }
 
-    
-    
+    public function alert($msg) {
+        $this->template->alert = htmlspecialchars($msg);
+    }
+
 }

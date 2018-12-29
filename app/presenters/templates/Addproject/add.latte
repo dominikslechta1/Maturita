@@ -2,7 +2,7 @@
 
 {block content}
 
-
+{if $user->isInRole('administrator')}
     <div class='add-project'>
         {ifset $form}
             <div>
@@ -53,5 +53,8 @@
     {ifset $error}
         {$error}
     {/ifset}
+{else}
+    <strong>Nejsi administrátor, nemůžeš přidávat ani upravovat projekt</strong>
+{/if}
 
 {/block}

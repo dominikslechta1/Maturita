@@ -39,7 +39,7 @@ class HomepagePresenter extends Nette\Application\UI\Presenter {
                     ->where(" Year", MyDateTime::getYear(DateTime::from(0)))
                     ->fetchAll();
         }
-        if(sizeof($projects, 0) < 1){
+        if (sizeof($projects, 0) < 1) {
             $projects = null;
         }
         $this->template->projects = $projects;
@@ -64,29 +64,32 @@ class HomepagePresenter extends Nette\Application\UI\Presenter {
     }
 
     public function handleDelete($id) {
-        $this->database->table('files')->where('Project', $id)->delete();
-        $this->database->table('projects')->where('idProjects', $id)->delete();
-        $this->flashMessage('Záznam s id ' . $id . 'byl smazán');
-        $this->redirect('Homepage:');
+        if ($this->user->isInRole('administrator')) {
+            $this->database->table('files')->where('Project', $id)->delete();
+            $this->database->table('projects')->where('idProjects', $id)->delete();
+            $this->flashMessage('Záznam s id ' . $id . 'byl smazán');
+            $this->redirect('Homepage:');
+        }
     }
-    public function handlePubliced($id,$public){
+
+    public function handlePubliced($id, $public) {
         $this->database->table('projects')
                 ->where('idProjects', $id)
                 ->update(['Public' => ($public == 1) ? '0' : '1']);
-        if($this->isAjax()){ // jde o ajax pozadavek?
-          $this->redrawControl('Public'); // invalidujes dotycnej snippet
-
-       }else{
-          $this->redirect('this');
+        if ($this->isAjax()) { // jde o ajax pozadavek?
+            $this->redrawControl('Public'); // invalidujes dotycnej snippet
+        } else {
+            $this->redirect('this');
         }
     }
-    public function handleLocked($id,$locked){
+
+    public function handleLocked($id, $locked) {
         $this->database->table('projects')->where('idProjects', $id)->update(['Locked' => ($locked == 1) ? '0' : '1']);
-        if($this->isAjax()){ // jde o ajax pozadavek?
-          $this->redrawControl('Locked'); // invalidujes dotycnej snippet
-
-       }else{
-          $this->redirect('this');
+        if ($this->isAjax()) { // jde o ajax pozadavek?
+            $this->redrawControl('Locked'); // invalidujes dotycnej snippet
+        } else {
+            $this->redirect('this');
         }
     }
+
 }

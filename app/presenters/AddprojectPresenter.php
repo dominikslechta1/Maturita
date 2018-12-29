@@ -34,8 +34,14 @@ class AddprojectPresenter extends Nette\Application\UI\Presenter {
             $form->addText('Name')->setRequired('Projekt musí mít název')->setValue($this->project->Name);
             $form->addTextArea('desc')->setValue($this->project->Desc);
             $form->addSelect('user', null, $this->database->table('users')->where('UserPrivilege', 3)->fetchPairs('idUsers', 'UserName'))->setDefaultValue($this->project->User)->setRequired('Projekt musí mít studenta');
-            $form->addSelect('consultant', null, $this->database->table('users')->where('UserPrivilege', 2)->fetchPairs('idUsers', 'UserName'))->setDefaultValue($this->project->Consultant);
-            $form->addSelect('oponent', null, $this->database->table('users')->where('UserPrivilege', 4)->fetchPairs('idUsers', 'UserName'))->setDefaultValue($this->project->Oponent);
+            $form->addSelect('consultant', null, $this->database->table('users')
+                    ->where('UserPrivilege', 2)
+                    ->fetchPairs('idUsers', 'UserName'))
+                    ->setDefaultValue($this->project->Consultant);
+            $form->addSelect('oponent', null, $this->database->table('users')
+                    ->where('UserPrivilege', 4)
+                    ->fetchPairs('idUsers', 'UserName'))
+                    ->setDefaultValue($this->project->Oponent);
             $form->addCheckbox('agree')->setValue($this->project->Public);
             $form->addHidden('preddefined', $this->project->idProjects);
         } else {

@@ -14,3 +14,4 @@ session:
 services:
 	authenticator: MyAuthenticator
 	router: App\RouterFactory::createRouter
+	- App\Model\SignNewPassFormFactory

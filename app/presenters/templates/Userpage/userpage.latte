@@ -14,7 +14,7 @@
         <li>{$user->getRoles()[0]}</li>
     </ul>
 
-    <a n:href="Userpage:changepass" class="btn btn-info  blue-gradient">změnit heslo</a>
+    <a  class="btn btn-info  blue-gradient" n:href="Userpage:changepass">změnit heslo</a>
 
 
     {if $user->isInRole('administrator')}

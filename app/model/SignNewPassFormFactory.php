@@ -2,25 +2,14 @@
  
 namespace App\Model;
  
-use Nette;
 use Nette\Application\UI\Form;
-use Nette\Security\User;
- 
+
 class SignNewPassFormFactory
 {
  
-    use Nette\SmartObject;
  
-    /** @var FormFactory */
-    private $factory;
- 
-    /** @var User */
-    private $user;
- 
-    public function __construct(FormFactory $factory, User $user)
+    public function __construct()
     {
-        $this->factory = $factory;
-        $this->user = $user;
     }
  
     /**
@@ -28,15 +17,14 @@ class SignNewPassFormFactory
      */
     public function create()
     {
-        $form = $this->factory->create();
-        $form->addHidden('username');
-        $form->addHidden('password_hash');
-        $form->addHidden('password_hash_validity');
+        $form = new Form;
+        $form->addText('username')->setDisabled();
+        $form->addHidden('hash');
  
-        $form->addPassword('password', 'Nové heslo')
-            ->setRequired('Vyplňte své nové heslo');
+        $form->addPassword('password')
+            ->setRequired('Vyplňte své nové heslo')->addRule(Form::MIN_LENGTH, 'Minimální délka hesla je 5 znaků', 5);
  
-        $form->addSubmit('send', 'Odeslat');
+        $form->addSubmit('send');
  
         return $form;
     }
