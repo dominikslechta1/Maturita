@@ -34,25 +34,22 @@ class Templatedd8002afcf extends Latte\Runtime\Template
 	function blockContent($_args)
 	{
 		extract($_args);
-?>
-<div>
-<?php
 		if ($user->isLoggedIn()) {
 ?>
 
     <ul>
         <li>
-            <?php echo LR\Filters::escapeHtmlText($user->getIdentity()->username) /* line 9 */ ?>
+            <?php echo LR\Filters::escapeHtmlText($user->getIdentity()->username) /* line 8 */ ?>
 
         </li>
         <li>
-            <?php echo LR\Filters::escapeHtmlText($user->getIdentity()->email) /* line 12 */ ?>
+            <?php echo LR\Filters::escapeHtmlText($user->getIdentity()->email) /* line 11 */ ?>
 
         </li>
-        <li><?php echo LR\Filters::escapeHtmlText($user->getRoles()[0]) /* line 14 */ ?></li>
+        <li><?php echo LR\Filters::escapeHtmlText($user->getRoles()[0]) /* line 13 */ ?></li>
     </ul>
 
-    <a  class="btn btn-info  blue-gradient" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Userpage:changepass")) ?>">změnit heslo</a>
+    <button>změnit heslo</button>
 
 
 <?php
@@ -62,12 +59,7 @@ class Templatedd8002afcf extends Latte\Runtime\Template
 <?php
 			}
 		}
-		else {
-?>
-        <p>nepřihlášen</p>
-<?php
-		}
-		?></div><?php
+		
 	}
 
 }

@@ -33,7 +33,6 @@ class Container_2f06cee5c6 extends Nette\DI\Container
 			'Tracy\ILogger' => [1 => ['tracy.logger']],
 			'Tracy\BlueScreen' => [1 => ['tracy.blueScreen']],
 			'Tracy\Bar' => [1 => ['tracy.bar']],
-			'App\Model\SignNewPassFormFactory' => [1 => ['24_App_Model_SignNewPassFormFactory']],
 			'Nette\Security\IAuthenticator' => [1 => ['authenticator']],
 			'MyAuthenticator' => [1 => ['authenticator']],
 			'Nette\Application\UI\Presenter' => [
@@ -171,7 +170,6 @@ class Container_2f06cee5c6 extends Nette\DI\Container
 			'Nette\DI\Container' => [1 => ['container']],
 		],
 		'services' => [
-			'24_App_Model_SignNewPassFormFactory' => 'App\Model\SignNewPassFormFactory',
 			'application.1' => 'App\Presenters\AddprojectPresenter',
 			'application.2' => 'App\Presenters\Error4xxPresenter',
 			'application.3' => 'App\Presenters\ErrorPresenter',
@@ -265,16 +263,6 @@ class Container_2f06cee5c6 extends Nette\DI\Container
 			'consoleMode' => false,
 			'tempDir' => 'C:\wamp\www\Maturita\app/../temp',
 		];
-	}
-
-
-	/**
-	 * @return App\Model\SignNewPassFormFactory
-	 */
-	public function createService__24_App_Model_SignNewPassFormFactory()
-	{
-		$service = new App\Model\SignNewPassFormFactory;
-		return $service;
 	}
 
 
@@ -382,7 +370,6 @@ class Container_2f06cee5c6 extends Nette\DI\Container
 			$this->getService('security.user'),
 			$this->getService('latte.templateFactory')
 		);
-		$service->signNewPassFactory = $this->getService('24_App_Model_SignNewPassFormFactory');
 		$service->invalidLinkMode = 5;
 		return $service;
 	}
@@ -414,12 +401,7 @@ class Container_2f06cee5c6 extends Nette\DI\Container
 	 */
 	public function createServiceApplication__7()
 	{
-		$service = new App\Presenters\UserpagePresenter(
-			$this->getService('database.default.context'),
-			$this->getService('database.default.structure'),
-			$this->getService('database.default.conventions'),
-			$this->getService('cache.storage')
-		);
+		$service = new App\Presenters\UserpagePresenter;
 		$service->injectPrimary(
 			$this,
 			$this->getService('application.presenterFactory'),

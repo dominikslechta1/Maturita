@@ -27,6 +27,11 @@ return array (
       'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\ErrorPresenter.php',
       'time' => 1537173924,
     ),
+    'App\\Presenters\\LoginPresenter' => 
+    array (
+      'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\LoginPresenter.php',
+      'time' => 1544453083,
+    ),
     'App\\Presenters\\LogoutPresenter' => 
     array (
       'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\LogoutPresenter.php',
@@ -35,37 +40,27 @@ return array (
     'App\\Presenters\\UserpagePresenter' => 
     array (
       'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\UserpagePresenter.php',
-      'time' => 1545933088,
+      'time' => 1544454005,
     ),
     'App\\RouterFactory' => 
     array (
       'file' => 'C:\\wamp\\www\\Maturita\\app\\router\\RouterFactory.php',
       'time' => 1542495568,
     ),
-    'App\\Model\\SignNewPassFormFactory' => 
+    'App\\Presenters\\HomepagePresenter' => 
     array (
-      'file' => 'C:\\wamp\\www\\Maturita\\app\\model\\SignNewPassFormFactory.php',
-      'time' => 1546084064,
-    ),
-    'App\\Presenters\\LoginPresenter' => 
-    array (
-      'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\LoginPresenter.php',
-      'time' => 1546084100,
+      'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\HomepagePresenter.php',
+      'time' => 1545060554,
     ),
     'App\\Presenters\\AddprojectPresenter' => 
     array (
       'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\AddprojectPresenter.php',
-      'time' => 1546085454,
-    ),
-    'App\\Presenters\\HomepagePresenter' => 
-    array (
-      'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\HomepagePresenter.php',
-      'time' => 1546087224,
+      'time' => 1545061330,
     ),
   ),
   1 => 
   array (
-    'Nette\\Environment' => 28,
+    'Nette\\Environment' => 25,
     'Nette\\Database\\LoginPresenter' => 1,
     'App\\Presenters\\BasePresenter' => 1,
     'MainPresenter' => 3,
@@ -75,10 +70,5 @@ return array (
     'UI\\Form' => 3,
     'App\\Presenters\\IndexPresenter' => 1,
     'App\\Presenters\\Debugger' => 1,
-    'App\\Presenters\\DateTime' => 1,
-    'App\\Presenters\\UIMacros' => 1,
-    'App\\Presenters\\SignNewPassPresenter' => 1,
-    'App\\Forms\\SignNewPassFormFactory' => 1,
-    'App\\Model\\FormFactory' => 2,
   ),
 );
