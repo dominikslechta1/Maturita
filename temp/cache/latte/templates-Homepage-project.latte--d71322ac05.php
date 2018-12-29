@@ -50,15 +50,37 @@ class Templated71322ac05 extends Latte\Runtime\Template
 
 
             <div class="project-users">
-                <span class="span-user">Vypracovává: <?php echo LR\Filters::escapeHtmlText($project->ref('users','User')->UserName) /* line 59 */ ?></span>
-                <span class="span-oponent">Oponent: <?php echo LR\Filters::escapeHtmlText($project->ref('users','Oponent')->UserName) /* line 60 */ ?></span>
-                <span class="span-consultant">Konzultant: <?php echo LR\Filters::escapeHtmlText($project->ref('users','Consultant')->UserName) /* line 61 */ ?></span>
+                <span class="span-user">Vypracovává: <?php
+			if ($project->User !== null) {
+				echo LR\Filters::escapeHtmlText($project->ref('users','User')->UserName) /* line 59 */;
+			}
+			else {
+				?>neurčeno<?php
+			}
+?></span>
+                <span class="span-oponent">Oponent: <?php
+			if ($project->Oponent !== null) {
+				echo LR\Filters::escapeHtmlText($project->ref('users','Oponent')->UserName) /* line 60 */;
+			}
+			else {
+				?>neurčeno<?php
+			}
+?></span>
+                <span class="span-consultant">Konzultant: <?php
+			if ($project->Consultant !== null) {
+				echo LR\Filters::escapeHtmlText($project->ref('users','Consultant')->UserName) /* line 61 */;
+			}
+			else {
+				?>neurčeno<?php
+			}
+?></span>
             </div>
             <hr class="my-4">
             <div class="project-buttons">
-                <a class="btn btn-primary btn-lg blue" onclick="return confirm('opravdu to chces smazat?')" href="<?php
-			echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("delete!", [$project->idProjects])) ?>">smazat</a><a class="btn btn-primary btn-lg blue" href="<?php
-			echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Addproject:add", [$project->idProjects])) ?>">upravit</a>
+                <a onclick="return confirm('opravdu to chces smazat?')" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("delete!", [$project->idProjects])) ?>"<?php
+			if ($_tmp = array_filter(['btn', 'btn-primary', 'btn-lg', 'blue', ($user->isInRole('administrator'))?'':'disabled'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"' ?>>smazat</a>
+                <a href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Addproject:add", [$project->idProjects])) ?>"<?php
+			if ($_tmp = array_filter(['btn', 'btn-primary', 'btn-lg', 'blue', ($user->isInRole('administrator'))?'':'disabled'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"' ?>>upravit</a>
             </div>
 
         </div>
@@ -82,11 +104,11 @@ class Templated71322ac05 extends Latte\Runtime\Template
                             <img 
 <?php
 			if ($project->Locked == 1) {
-				?>                                    src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 11 */ ?>/lock.png" alt="locked"
+				?>                                    src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 11 */ ?>/lock.png" alt="locked" title="Projekt je zamknutý"
 <?php
 			}
 			else {
-				?>                                    src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 13 */ ?>/unlock.png" alt="unlocked"
+				?>                                    src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 13 */ ?>/unlock.png" alt="unlocked" title="Projekt je odemknutý"
 <?php
 			}
 ?>
@@ -99,11 +121,11 @@ class Templated71322ac05 extends Latte\Runtime\Template
                         <img 
 <?php
 			if ($project->Locked == 1) {
-				?>                                src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 20 */ ?>/lock.png" alt="locked"
+				?>                                src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 20 */ ?>/lock.png" alt="locked" title="Projekt se nemůže nadále editovat"
 <?php
 			}
 			else {
-				?>                                src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 22 */ ?>/unlock.png" alt="unlocked"
+				?>                                src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 22 */ ?>/unlock.png" alt="unlocked" title="Projekt se může editovat"
 <?php
 			}
 ?>
@@ -130,11 +152,11 @@ class Templated71322ac05 extends Latte\Runtime\Template
                         <img 
 <?php
 			if ($project->Public == 0) {
-				?>                                src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 35 */ ?>/closed-eye.png" alt="closed eye"
+				?>                                src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 35 */ ?>/closed-eye.png" alt="closed eye" title="Projekt je skrytý"
 <?php
 			}
 			else {
-				?>                                src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 37 */ ?>/opened-eye.png" alt="opened eye"
+				?>                                src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 37 */ ?>/opened-eye.png" alt="opened eye" title="Projekt je viditelný"
 <?php
 			}
 ?>
@@ -147,11 +169,11 @@ class Templated71322ac05 extends Latte\Runtime\Template
                     <img 
 <?php
 			if ($project->Public == 0) {
-				?>                            src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 44 */ ?>/closed-eye.png" alt="closed eye"
+				?>                            src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 44 */ ?>/closed-eye.png" alt="closed eye" title="Projekt je skrytý"
 <?php
 			}
 			else {
-				?>                            src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 46 */ ?>/opened-eye.png" alt="opened eye"
+				?>                            src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 46 */ ?>/opened-eye.png" alt="opened eye" title="Projekt je viditelný"
 <?php
 			}
 ?>
