@@ -2,7 +2,29 @@
 
 {block content}
 {if $user->isInRole('administrator')}
-<div>
-    {control registrationForm}
-</div>
+
+
+
+    <div n:class='register-form'>
+        <form n:name=signUpForm class="form" autocomplete="off">
+
+            <p class="h4 mb-4 text-center">Registrace</p>
+
+            <span class="error" n:ifcontent>{inputError name}</span>
+            <input class="form-control mb-4" n:name=name id="textInput" type="text" placeholder="Jméno">
+
+            <span class="error" n:ifcontent>{inputError email}</span>
+            <input type="email" n:name='email' id="defaultLoginFormEmail" class="form-control mb-4" placeholder="E-mail">
+
+            <span class="error" n:ifcontent>{inputError password}</span>
+            <input type="password" n:name='password' id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Heslo">
+            <span class="error" n:ifcontent>{inputError passwordVerify}</span>
+            <input type="password" n:name='passwordVerify' id="defaultLoginFormPasswordVerify" class="form-control mb-4" placeholder="Heslo pro kontrolu">
+
+            <span class="error" n:ifcontent>{inputError privilege}</span>
+            <select n:name='privilege' class="browser-default custom-select mb-4" id="select">   
+            </select>
+            <button n:name='login' class="btn btn-info btn-block my-4 blue-gradient" type="submit">Registrovat</button>
+        </form>
+    </div>
 {/if}

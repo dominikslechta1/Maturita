@@ -5,69 +5,147 @@ use Latte\Runtime as LR;
 
 class Template43cc225190 extends Latte\Runtime\Template
 {
-	public $blocks = [
-		'scripts' => 'blockScripts',
-	];
-
-	public $blockTypes = [
-		'scripts' => 'html',
-	];
-
 
 	function main()
 	{
 		extract($this->params);
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width">
-        <link href="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 6 */ ?>/style.css" rel="stylesheet" type="text/css">
-        <link rel="icon" href="maturita_gif.gif" type="image/gif">
-        <title><?php
-		if (isset($this->blockQueue["title"])) {
-			$this->renderBlock('title', $this->params, function ($s, $type) {
-				$_fi = new LR\FilterInfo($type);
-				return LR\Filters::convertTo($_fi, 'html', $this->filters->filterContent('striphtml', $_fi, $s));
-			});
-			?> | <?php
-		}
-?>Maturita</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Maturitní projekty</title>
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- Bootstrap core CSS -->
+        <link href="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 12 */ ?>/mdb/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Material Design Bootstrap -->
+        <link href="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 14 */ ?>/mdb/css/mdb.min.css" rel="stylesheet">
+        <!-- Your custom styles (optional) -->
+        <link href="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 16 */ ?>/mdb/css/style.css" rel="stylesheet">
+        <link href="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 17 */ ?>/style.css" rel="stylesheet" type="text/css">
+
+        <link rel="icon" href="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 19 */ ?>/maturita_gif.gif" type="image/gif">
     </head>
 
     <body>
-        <div class="menu"><a href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Homepage:default")) ?>"><button>home</button></a>
+        <!-- navbar-->
+        <nav class="mb-1 navbar navbar-expand-lg navbar-dark blue-gradient sticky-top">
+            <a class="navbar-brand" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Homepage:default")) ?>">Maturitní projekty</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav active-setter">
+                    <li<?php if ($_tmp = array_filter([$presenter->isLinkCurrent('Homepage:default') ? 'active' : NULL,'nav-item'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"' ?>>
+                        <a class="nav-link " href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Homepage:default")) ?>">Domů <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li<?php if ($_tmp = array_filter([$presenter->isLinkCurrent('Addproject:add') ? 'active' : NULL,'nav-item'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"' ?>>
 <?php
-		if ($user->isInRole('student')) {
-			?>            <a href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Addproject:Add")) ?>"><button>add project</button></a>
+		if ($user->isInRole('administrator')) {
+			?>                        <a class="nav-link" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Addproject:add")) ?>">Přidat projekt</a>
 <?php
 		}
+?>
+                    </li>
+                    <li <?php if ($_tmp = array_filter([$presenter->isLinkCurrent('Login:register') ? 'active' : NULL,'nav-item'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"' ?>>
+<?php
+		if ($user->isInRole('administrator')) {
+			?>                        <a class="nav-link" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Login:register")) ?>">Registrovat uživatele</a>
+<?php
+		}
+?>
+                    </li>
+                </ul>
+            </div>
+            <div class="navbar-collapse collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+<?php
 		if ($user->isLoggedIn()) {
-			?>                <a href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Logout:")) ?>"><button>logout</button></a>
+?>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle waves-effect waves-light" id="navbarDropdownMenuLink-4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <i class="fa fa-user"></i><?php echo LR\Filters::escapeHtmlText($user->getRoles()[0]) /* line 48 */ ?> <?php
+			echo LR\Filters::escapeHtmlText($user->getIdentity()->username) /* line 48 */ ?></a>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
+                                <a class="dropdown-item waves-effect waves-light" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Userpage:userpage")) ?>">Můj účet</a>
+                                <a class="dropdown-item waves-effect waves-light" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Logout:")) ?>">odhlásit</a>
+                            </div>
+                        </li>
 <?php
 		}
 		else {
-			?>                <a href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Login:login")) ?>"><button>login</button></a>
-<?php
-		}
-		if ($user->isInRole('administrator')) {
-			?>                <a href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Login:register")) ?>"><button>register new user</button></a>
+			?>                        <li<?php if ($_tmp = array_filter([$presenter->isLinkCurrent('Login:login') ? 'active' : NULL,'nav-item'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"' ?>>
+                            <a class="nav-link" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Login:login")) ?>">Přihlásit</a>
+                        </li>
 <?php
 		}
 ?>
-        </div>
-
+                </ul>
+            </div>
+        </nav>
+        <!--/navbar-->
+        <!-- Start your project here-->
+        <main>
 <?php
 		$this->renderBlock('content', $this->params, 'html');
 ?>
+        </main>
+        <!-- /Start your project here-->
+        <!-- filler-->
+        <div class='filler' ></div>
+        <!--filler-->
+        <!-- Footer -->
+        <footer class="page-footer font-small blue-gradient fixed-bottom">
 
-<?php
-		if ($this->getParentName()) return get_defined_vars();
-		$this->renderBlock('scripts', get_defined_vars());
-?>
+            <!-- Copyright -->
+            <div class="footer-copyright text-center py-3">© 2018 Copyright:
+                <a href="#footer"> Dominik Šlechta</a>
+            </div>
+            <!-- Copyright -->
+
+        </footer>
+        <!-- Footer -->
+
+        <!-- SCRIPTS -->
+        <!-- JQuery -->
+
+        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 86 */ ?>/mdb/js/jquery-3.3.1.min.js"></script>
+        <!-- Bootstrap tooltips -->
+        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 88 */ ?>/mdb/js/popper.min.js"></script>
+        <!-- Bootstrap core JavaScript -->
+        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 90 */ ?>/mdb/js/bootstrap.min.js"></script>
+        <!-- MDB core JavaScript -->
+        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 92 */ ?>/mdb/js/mdb.min.js"></script>
+        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 93 */ ?>/jquery-3.3.1.js"></script>
+        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 94 */ ?>/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript">
+            console.log(screen.height + "   " + $('body').height());
+            if (screen.height < $('body').height() + 100) {
+                $('footer.page-footer').css("position", "unset");
+                console.log(true);
+            } else {
+                $('footer.page-footer').css("position", "fixed")
+            }
+            //text area counter
+            function countChar(val) {
+                var len = val.value.length;
+                if (len >= 255) {
+                    val.value = val.value.substring(0, 256);
+                } else {
+                    $('#charNum').text(len + "/255");
+                }
+            }
+            ;
+        </script>
     </body>
-</html><?php
+
+</html>
+<?php
 		return get_defined_vars();
 	}
 
@@ -77,13 +155,6 @@ class Template43cc225190 extends Latte\Runtime\Template
 		extract($this->params);
 		Nette\Bridges\ApplicationLatte\UIRuntime::initialize($this, $this->parentName, $this->blocks);
 		
-	}
-
-
-	function blockScripts($_args)
-	{
-?>        <script src="https://nette.github.io/resources/js/netteForms.min.js"></script>
-<?php
 	}
 
 }

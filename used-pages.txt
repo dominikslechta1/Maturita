@@ -1,0 +1,4 @@
+http://rudolfsvatek.cz/zapomenute-heslo-pro-prihlaseni
+http://php.net/manual/en/function.ini-set.php
+https://mdbootstrap.com/docs/jquery/css/color-combination/
+https://forum.nette.org/en/23193-sending-mail-with-gmail-error-smtp-server-did-not-accept-password

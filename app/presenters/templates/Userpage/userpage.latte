@@ -1,0 +1,26 @@
+{* Latte template *}
+
+{block content}
+<div>
+{if $user->isLoggedIn()}
+
+    <ul>
+        <li>
+            {$user->getIdentity()->username}
+        </li>
+        <li>
+            {$user->getIdentity()->email}
+        </li>
+        <li>{$user->getRoles()[0]}</li>
+    </ul>
+
+    <a  class="btn btn-info  blue-gradient" n:href="Userpage:changepass">změnit heslo</a>
+
+
+    {if $user->isInRole('administrator')}
+        <p>administrator settings</p>
+    {/if}
+    {else}
+        <p>nepřihlášen</p>
+{/if}
+</div>

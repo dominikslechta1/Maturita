@@ -1,28 +1,116 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Maturitní projekty</title>
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- Bootstrap core CSS -->
+        <link href="{$basePath}/mdb/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Material Design Bootstrap -->
+        <link href="{$basePath}/mdb/css/mdb.min.css" rel="stylesheet">
+        <!-- Your custom styles (optional) -->
+        <link href="{$basePath}/mdb/css/style.css" rel="stylesheet">
         <link href="{$basePath}/style.css" rel="stylesheet" type="text/css" />
-        <link rel="icon" href="maturita_gif.gif" type="image/gif" >
-        <title>{ifset title}{include title|stripHtml} | {/ifset}Maturita</title>
+
+        <link rel="icon" href="{$basePath}/maturita_gif.gif" type="image/gif" >
     </head>
 
     <body>
-        <div class="menu"><a n:href="Homepage:default"><button>home</button></a>
-            <a n:href="Addproject:Add"n:if="$user->isInRole('student')"><button>add project</button></a>
-            {if $user->isLoggedIn()}
-                <a n:href="Logout:"><button>logout</button></a>
-            {else}
-                <a n:href="Login:login"><button>login</button></a>
-            {/if}
-                <a n:href="Login:register" n:if="$user->isInRole('administrator')"><button>register new user</button></a>
-        </div>
+        <!-- navbar-->
+        <nav class="mb-1 navbar navbar-expand-lg navbar-dark blue-gradient sticky-top">
+            <a class="navbar-brand" n:href="Homepage:default">Maturitní projekty</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav active-setter">
+                    <li n:class="$presenter->isLinkCurrent('Homepage:default') ? active,nav-item">
+                        <a class="nav-link " n:href="Homepage:default">Domů <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li n:class="$presenter->isLinkCurrent('Addproject:add') ? active,nav-item">
+                        <a n:if="$user->isInRole('administrator')" class="nav-link" n:href="Addproject:add">Přidat projekt</a>
+                    </li>
+                    <li n:class="$presenter->isLinkCurrent('Login:register') ? active,nav-item" >
+                        <a n:if="$user->isInRole('administrator')" class="nav-link" n:href="Login:register">Registrovat uživatele</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="navbar-collapse collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    {if $user->isLoggedIn()}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle waves-effect waves-light" id="navbarDropdownMenuLink-4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <i class="fa fa-user"></i>{$user->getRoles()[0]} {$user->getIdentity()->username}</a>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
+                                <a class="dropdown-item waves-effect waves-light" n:href="Userpage:userpage">Můj účet</a>
+                                <a class="dropdown-item waves-effect waves-light" n:href="Logout:">odhlásit</a>
+                            </div>
+                        </li>
+                    {else}
+                        <li n:class="$presenter->isLinkCurrent('Login:login') ? active,nav-item">
+                            <a class="nav-link" n:href="Login:login">Přihlásit</a>
+                        </li>
+                    {/if}
+                </ul>
+            </div>
+        </nav>
+        <!--/navbar-->
+        <!-- Start your project here-->
+        <main>
+            {include content}
+        </main>
+        <!-- /Start your project here-->
+        <!-- filler-->
+        <div class='filler' ></div>
+        <!--filler-->
+        <!-- Footer -->
+        <footer class="page-footer font-small blue-gradient fixed-bottom">
 
-        {include content}
+            <!-- Copyright -->
+            <div class="footer-copyright text-center py-3">© 2018 Copyright:
+                <a href="#footer" style="white-space: nowrap;"> Dominik Šlechta</a>
+            </div>
+            <!-- Copyright -->
 
-        {block scripts}
-        <script src="https://nette.github.io/resources/js/netteForms.min.js"></script>
-        {/block}
+        </footer>
+        <!-- Footer -->
+
+        <!-- SCRIPTS -->
+        <!-- JQuery -->
+
+        <script type="text/javascript" src="{$basePath}/mdb/js/jquery-3.3.1.min.js"></script>
+        <!-- Bootstrap tooltips -->
+        <script type="text/javascript" src="{$basePath}/mdb/js/popper.min.js"></script>
+        <!-- Bootstrap core JavaScript -->
+        <script type="text/javascript" src="{$basePath}/mdb/js/bootstrap.min.js"></script>
+        <!-- MDB core JavaScript -->
+        <script type="text/javascript" src="{$basePath}/mdb/js/mdb.min.js"></script>
+        <script type="text/javascript" src="{$basePath}/jquery-3.3.1.js"></script>
+        <script type="text/javascript" src="{$basePath}/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript">
+            console.log(screen.height + "   " + $('body').height());
+            if (screen.height < $('body').height() + 100) {
+                $('footer.page-footer').css("position", "unset");
+                console.log(true);
+            } else {
+                $('footer.page-footer').css("position", "fixed")
+            }
+            //text area counter
+            function countChar(val) {
+                var len = val.value.length;
+                if (len >= 255) {
+                    val.value = val.value.substring(0, 256);
+                } else {
+                    $('#charNum').text(len + "/255");
+                }
+            }
+            ;
+        </script>
     </body>
+
 </html>

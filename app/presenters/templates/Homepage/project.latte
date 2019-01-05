@@ -1,0 +1,72 @@
+{block content}
+{ifset $project}
+    <div class="project-one">
+        <!--Locked-->
+        {snippet Locked}
+            <part class="project-locked">
+                {if $user->isInRole('administrator')}
+                        <a n:href="locked! $project->idProjects,$project->Locked" class="ajax" >
+                            <img 
+                                {if $project->Locked == 1} 
+                                    src="{$basePath}/lock.png" alt="locked" title="Projekt je zamknutý"
+                                {else}
+                                    src="{$basePath}/unlock.png" alt="unlocked" title="Projekt je odemknutý"
+                                {/if} 
+                                width="50px" />
+                        </a>
+                    {else}
+                        <img 
+                            {if $project->Locked == 1} 
+                                src="{$basePath}/lock.png" alt="locked" title="Projekt se nemůže nadále editovat"
+                            {else}
+                                src="{$basePath}/unlock.png" alt="unlocked" title="Projekt se může editovat"
+                            {/if} 
+                            width="50px" />
+                    {/if}
+            </part>
+        {/snippet}
+        <!--Public-->
+        {snippet Public}
+            <part class="project-locked">
+                {if $user->isInRole('administrator')}
+                    <a n:href="publiced! 'id'=>$project->idProjects,'public'=>$project->Public" class="ajax"> 
+                        <img 
+                            {if $project->Public == 0} 
+                                src="{$basePath}/closed-eye.png" alt="closed eye" title="Projekt je skrytý"
+                            {else}
+                                src="{$basePath}/opened-eye.png" alt="opened eye" title="Projekt je viditelný"
+                            {/if}
+                            width="50px" />
+                    </a>
+                {else}
+                    <img 
+                        {if $project->Public == 0} 
+                            src="{$basePath}/closed-eye.png" alt="closed eye" title="Projekt je skrytý"
+                        {else}
+                            src="{$basePath}/opened-eye.png" alt="opened eye" title="Projekt je viditelný"
+                        {/if} 
+                        width="50px" />
+                {/if}
+            </part>
+        {/snippet}
+        <div class="jumbotron" style="display: contents;">
+
+            <h2 class="display-4">{$project->Name}</h2>
+            <p class="lead">{$project->Desc}</p>
+
+
+            <div class="project-users">
+                <span class="span-user">Vypracovává: {if $project->User !== null}{$project->ref('users','User')->UserName}{else}neurčeno{/if}</span>
+                <span class="span-oponent">Oponent: {if $project->Oponent !== null}{$project->ref('users','Oponent')->UserName}{else}neurčeno{/if}</span>
+                <span class="span-consultant">Konzultant: {if $project->Consultant !== null}{$project->ref('users','Consultant')->UserName}{else}neurčeno{/if}</span>
+            </div>
+            <hr class="my-4">
+            <div class="project-buttons">
+                <a n:class="'btn', 'btn-primary', 'btn-lg', 'blue', ($user->isInRole('administrator'))?'':'disabled'" onclick="return confirm('opravdu to chces smazat?')" n:href="delete! $project->idProjects">smazat</a>
+                <a n:class="'btn', 'btn-primary', 'btn-lg', 'blue', ($user->isInRole('administrator'))?'':'disabled'" n:href="Addproject:add $project->idProjects">upravit</a>
+            </div>
+
+        </div>
+
+    </div>
+{/ifset}

@@ -1,27 +1,91 @@
-.menu{
-    border-bottom: 2px solid black;
-    text-align: right;
-}
 .error{
     background-color: rgba(255,50,50,0.5) !important;
     font-weight: bold !important;
 }
-.projects-div{
+.project{
+    width: 80%;
+    margin: 10px auto;
+}
+div.add-project{
     width: 60%;
-    height: available;
     margin: 0 auto;
-    /*border: 1px black dashed;*/
 }
-.projects-div > .project{
-    display: block;
-    border-bottom: 1px solid black;
+label{
+    position: relative !important;
+
+
+}
+li.nav-item.login{
+    text-align: left;
+} 
+div.register-form{
+    width: 60%;
     margin: 0 auto;
-    text-align: center;
 }
-.projects-div > .project > .developer,.consultant,.oponent,.year{
-    display: inline-block;
-    border: 1px solid red;
+div.login-form{
+    width: 60%;
+    margin: 0 auto;
 }
-.projects-div > .project > .consultant,.oponent,.year{
-    font-size: 14pt;
+
+@media(max-width: 990px){
+    div.project-one,div.login-form, div.register-form,div.add-project{
+        width: 80%;
+        margin: 0 auto;
+    }
+}
+a.project-link{
+    color:unset;
+}
+strong.card-title-strong{
+    background: -webkit-linear-gradient(40deg,#45cafc,#303f9f);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+div.project-one{
+    margin-top: 50px;
+    background-color: white;
+    box-shadow: 0px 0px 17px 0px darkgrey;
+    border-radius: 6px;
+    padding: 20px 20px 20px 30px;
+}
+@media(max-width:780px){
+    div.project-one{
+        display: contents;
+    }
+    div.project-users{
+            display: inline-flex;
+    }
+}
+main{
+    padding-top: 20px;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.project-base{
+    height: 100%;
+}
+.project-locked{
+    float: right;
+    padding: 10px;
+}
+.txtarea{
+    min-height: 50px;
+}
+.span-user{
+    margin-right: 10%;
+}
+.span-oponent{
+    margin-right: 10%;
+}
+.span-consultant{
+    
+}
+.lead{
+    margin-bottom: 20px;
+}
+a.btn.btn-outline-light-blue.waves-effect:hover {
+    background-color: #82b1ff!important;
+    color: #327bf3!important;
+    border: 2px solid #327bf3!important;
 }

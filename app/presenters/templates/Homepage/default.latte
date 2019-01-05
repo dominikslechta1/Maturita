@@ -1,31 +1,35 @@
 {* Latte template *}
 
 {block content}
+{var $n = 0}
 <div class="projects-div">
     {if $projects !== null}
         {foreach $projects as $id => $item}
-            {if $iterator->last}
-                <div class="project {$id}" style="border: none;">
-                {else}
-                    <div class="project {$id}" >
-                {/if}
-                <div class="name">
-                    <h1 style="margin: 0px;font-size: 30pt;">název: {$item->Name}</h1>
-                </div>
-                <br>
-                <div class="developer">
-                    Vytvořil: {$item->ref('users','User')->UserName}
-                </div>
-                <div class="consultant">
-                    consultant: {$item->ref('users','Consultant')->UserName}
-                </div>
-                <div class="oponent">
-                    oponent: {$item->ref('users','Oponent')->UserName}
-                </div>
-                <div class="year">
-                    v roce: {$item->Year}
-                </div>
+            <div class="project {$id} hoverable animated  zoomIn delay-{$n}s">
+                <!-- Card -->
+                <a class="project {$id} project-link" n:href="Homepage:project $item->idProjects">
+                    <div class="card card-cascade wider reverse ">
+
+
+                        <!-- Card content -->
+                        <div class="card-body card-body-cascade text-center">
+
+                            <!-- Title -->
+                            <h4 class="card-title"><strong class="card-title-strong">{$item->Name}</strong></h4>
+                            <!-- Subtitle -->
+                            <h6 class="font-weight-bold indigo-text py-2">{$item->ref('users','User')->UserName}</h6>
+                            <!-- Text -->
+                            <p class="card-subtitle">{$item->Desc}</p>
+                            <p class="card-text">{$item->Year}</p>
+                        </div>
+
+                    </div>
+                </a>
+                <!-- Card -->
             </div>
+                        {var $n = $n+1}
         {/foreach}
+    {else}
+        <p>nejsou projekty k vidění</p>
     {/if}
 </div>

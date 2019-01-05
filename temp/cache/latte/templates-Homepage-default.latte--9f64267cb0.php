@@ -41,44 +41,37 @@ class Template9f64267cb0 extends Latte\Runtime\Template
 <?php
 		if ($projects !== null) {
 			$iterations = 0;
-			foreach ($iterator = $this->global->its[] = new LR\CachingIterator($projects) as $id => $item) {
-				if ($iterator->last) {
-					?>                <div class="project <?php echo LR\Filters::escapeHtmlAttr($id) /* line 8 */ ?>" style="border: none;">
-<?php
-				}
-				else {
-					?>                    <div class="project <?php echo LR\Filters::escapeHtmlAttr($id) /* line 10 */ ?>" >
-<?php
-				}
-?>
-                <div class="name">
-                    <h1 style="margin: 0px;font-size: 30pt;">název: <?php echo LR\Filters::escapeHtmlText($item->Name) /* line 13 */ ?></h1>
-                </div>
-                <br>
-                <div class="developer">
-                    vývojář: <?php echo LR\Filters::escapeHtmlText($item->ref('users','User')->UserName) /* line 17 */ ?>
+			foreach ($projects as $id => $item) {
+				?>            <div class="project <?php echo LR\Filters::escapeHtmlAttr($id) /* line 7 */ ?> hoverable">
+                <!-- Card -->
+                <a class="project <?php echo LR\Filters::escapeHtmlAttr($id) /* line 9 */ ?> project-link" href="<?php
+				echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Homepage:project", [$item->idProjects])) ?>">
+                    <div class="card card-cascade wider reverse ">
 
-                </div>
-                <div class="consultant">
-                    consultant: <?php echo LR\Filters::escapeHtmlText($item->ref('users','Consultant')->UserName) /* line 20 */ ?>
 
-                </div>
-                <div class="oponent">
-                    oponent: <?php echo LR\Filters::escapeHtmlText($item->ref('users','Oponent')->UserName) /* line 23 */ ?>
+                        <!-- Card content -->
+                        <div class="card-body card-body-cascade text-center">
 
-                </div>
-                <div class="year">
-                    v roce: <?php echo LR\Filters::escapeHtmlText($item->Year) /* line 26 */ ?>
+                            <!-- Title -->
+                            <h4 class="card-title"><strong class="card-title-strong"><?php echo LR\Filters::escapeHtmlText($item->Name) /* line 17 */ ?></strong></h4>
+                            <!-- Subtitle -->
+                            <h6 class="font-weight-bold indigo-text py-2"><?php echo LR\Filters::escapeHtmlText($item->ref('users','User')->UserName) /* line 19 */ ?></h6>
+                            <!-- Text -->
+                            <p class="card-subtitle"><?php echo LR\Filters::escapeHtmlText($item->Desc) /* line 21 */ ?></p>
+                            <p class="card-text"><?php echo LR\Filters::escapeHtmlText($item->Year) /* line 22 */ ?></p>
+                        </div>
 
-                </div>
+                    </div>
+                </a>
+                <!-- Card -->
             </div>
 <?php
 				$iterations++;
 			}
-			array_pop($this->global->its);
-			$iterator = end($this->global->its);
 		}
-		?></div><?php
+?>
+</div>
+<?php
 	}
 
 }

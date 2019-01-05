@@ -1,19 +1,70 @@
 {* Latte template *}
 
 {block content}
-<h1 n:block=title>Přihlášení</h1>
-{if (!$user->isLoggedIn())}
-<div>
-    {control loginForm}
-</div>
-{elseif (!$user->isInRole('guest'))}
-    
+<div class='login-form'>
+    <p class="h4 mb-4 text-center">Přihlášení</p>
+    {if (!$user->isLoggedIn())}
+        <form n:name=loginForm class=form>
+
+            <span class="error" n:ifcontent>{inputError email}</span>
+            <input type="email" n:name='email' id="defaultLoginFormEmail" class="form-control mb-4" placeholder="E-mail">
+
+            <span class="error" n:ifcontent>{inputError password}</span>
+            <input type="password" n:name='password' id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Heslo">
+            <div>
+                <a href="" data-toggle="modal" data-target="#orangeModalSubscription">Zapomenuté heslo?</a>
+            </div>
+
+            <button class="btn btn-info btn-block my-4 blue-gradient" n:name='login' type="submit">Přihlásit</button>
+        </form>
+
+
+        <div class="modal fade" id="orangeModalSubscription" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true" data-backdrop="false">
+            <div class="modal-dialog modal-notify modal-info" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div class="modal-header text-center blue-gradient">
+                        <h4 class="modal-title white-text w-100 font-weight-bold py-2">Žádost</h4>
+
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" class="white-text">&times;</span>
+                        </button>
+                    </div>
+                    <form n:name=forgetPassword class=form>
+                    <!--Body-->
+                    <div class="modal-body">
+                        <div class="modal-top">
+                        <p>zadej svůj email, který používáš na těchto stránkách a přijde ti možnost změny hesla </p>
+                    </div>
+                        
+                        <div class="md-form mb-4">
+                            <input type="email" id="form2" n:name='email' class="form-control validate">
+                            <label data-error="" data-success="" for="form2">Tvůj email</label>
+                        </div>
+                    </div>
+
+                    <!--Footer-->
+                    <div class="modal-footer justify-content-center">
+                        <button type="submit" n:name='send' class="btn btn-outline-light-blue waves-effect">Odeslat</button>
+                    </div>
+                    </form>
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+        {ifset $success}{$success}{/ifset}
+    {elseif (!$user->isInRole('guest'))}
+
         <p>
             {ifset $userse}
                 {$userse}
-                {/ifset}
-            prihlasen
+            {/ifset}
         </p>
-        <a n:href="Logout:">chces se odhlásit?</a>
-{/if}
-    
+        <a n:href="Logout:">Chcete se odhlásit?</a>
+    {/if}
+    {ifset $alert}
+    <script type='text/javascript'>alert({$alert});</script>
+    {/ifset}
+</div>
