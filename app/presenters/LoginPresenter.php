@@ -18,10 +18,13 @@ class LoginPresenter extends Nette\Application\UI\Presenter {
     /** @var Model\SignNewPassFormFactory @inject */
     public $signNewPassFactory;
     private $database;
+    
+    private $mailer;
 
     // pro práci s vrstvou Database Explorer si předáme Nette\Database\Context
-    public function __construct(Nette\Database\Context $connection, Nette\Database\IStructure $structure, Nette\Database\IConventions $conventions = null, Nette\Caching\IStorage $cacheStorage = null) {
+    public function __construct(\Nette\Mail\IMailer $mailer, Nette\Database\Context $connection, Nette\Database\IStructure $structure, Nette\Database\IConventions $conventions = null, Nette\Caching\IStorage $cacheStorage = null) {
         $this->database = $connection;
+        $this->mailer = $mailer;
     }
 
     public function renderLogin() {
@@ -207,7 +210,7 @@ class LoginPresenter extends Nette\Application\UI\Presenter {
                         ->setSubject('Zapomenuté heslo')
                         ->setHtmlBody($latte->renderToString(__DIR__ . '/templates/rememberMail.latte', $params, null));
 
-                $mailer = $this->setMailer(2);
+                $mailer = $this->mailer;
                 $mailer->send($message);
                 $this->alert('Podívej se do emailu.');
             } catch (Exception $e) {
@@ -225,25 +228,17 @@ class LoginPresenter extends Nette\Application\UI\Presenter {
      *
      * @return \Nette\Mail\SendmailMailer|\Nette\Mail\SmtpMailer
      */
-    protected function setMailer($useSendmail = 1) {
-        if (1 === $useSendmail) {
-            /** @var SendmailMailer mailer */
-            $mailer = new SendmailMailer();
-        } else {
-            /** @var SmtpMailer mailer */
-            $mailer = new SmtpMailer(
-                    [
-                'host' => 'smtp.gmail.com',
-                'username' => 'jezancz.22@gmail.com',
-                'password' => 'Jezula248',
-                'secure' => 'ssl',
-                'port' => 465,
-                    ]
-            );
-        }
-
-        return $mailer;
-    }
+//    protected function setMailer($useSendmail = 1) {
+//        if (1 === $useSendmail) {
+//            /** @var SendmailMailer mailer */
+//            $mailer = new SendmailMailer();
+//        } else {
+//            /** @var SmtpMailer mailer */
+//            $mailer = $this->mailer;
+//        }
+//
+//        return $mailer;
+//    }
 
     public function alert($msg) {
         $this->template->alert = htmlspecialchars($msg);

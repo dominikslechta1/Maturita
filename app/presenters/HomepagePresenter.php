@@ -42,6 +42,7 @@ class HomepagePresenter extends Nette\Application\UI\Presenter {
         if (sizeof($projects, 0) < 1) {
             $projects = null;
         }
+
         $this->template->projects = $projects;
     }
 
@@ -60,6 +61,15 @@ class HomepagePresenter extends Nette\Application\UI\Presenter {
         } else {
             $this->template->project = $project;
             $this->project = $project;
+        }
+        if (!isset($this->template->permissed)) {
+            $this->template->permissed = "unset";
+        }
+        if (!isset($this->template->upBtn)) {
+            $this->template->upBtn = 'Přidat soubor';
+        }
+        if (!isset($this->template->upBtnState)) {
+            $this->template->upBtnState = 'open';
         }
     }
 
@@ -90,6 +100,21 @@ class HomepagePresenter extends Nette\Application\UI\Presenter {
         } else {
             $this->redirect('this');
         }
+    }
+
+    public function handleUpdate($state) {
+        if($state == "open"){
+        $this->template->permissed = "unset";
+        $this->template->upBtn = 'Zavřít';
+        $this->template->upBtnState = 'close';
+        }
+        elseif($state == "close"){
+            $this->template->permissed = "none";
+        $this->template->upBtn = 'Přidat soubor';
+        $this->template->upBtnState = 'open';
+        }
+        $this->redrawControl('itemsContainer');
+        $this->redrawControl('file');
     }
 
 }

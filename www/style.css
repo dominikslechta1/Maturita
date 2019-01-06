@@ -53,7 +53,7 @@ div.project-one{
         display: contents;
     }
     div.project-users{
-            display: inline-flex;
+        display: inline-flex;
     }
 }
 main{
@@ -79,7 +79,7 @@ main{
     margin-right: 10%;
 }
 .span-consultant{
-    
+
 }
 .lead{
     margin-bottom: 20px;
@@ -88,4 +88,11 @@ a.btn.btn-outline-light-blue.waves-effect:hover {
     background-color: #82b1ff!important;
     color: #327bf3!important;
     border: 2px solid #327bf3!important;
+}
+
+.upload{
+    margin-top: 15px;
+}
+.upload-button[type=submit]{
+    -webkit-appearance: none;
 }

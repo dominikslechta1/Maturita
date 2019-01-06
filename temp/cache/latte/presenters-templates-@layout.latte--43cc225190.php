@@ -27,8 +27,10 @@ class Template43cc225190 extends Latte\Runtime\Template
         <!-- Your custom styles (optional) -->
         <link href="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 16 */ ?>/mdb/css/style.css" rel="stylesheet">
         <link href="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 17 */ ?>/style.css" rel="stylesheet" type="text/css">
+        <link href="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 18 */ ?>/basic.css" rel="stylesheet">
+        <link href="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 19 */ ?>/dropzone.css" rel="stylesheet">
 
-        <link rel="icon" href="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 19 */ ?>/maturita_gif.gif" type="image/gif">
+        <link rel="icon" href="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 21 */ ?>/maturita_gif.gif" type="image/gif">
     </head>
 
     <body>
@@ -69,8 +71,8 @@ class Template43cc225190 extends Latte\Runtime\Template
 ?>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle waves-effect waves-light" id="navbarDropdownMenuLink-4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                <i class="fa fa-user"></i><?php echo LR\Filters::escapeHtmlText($user->getRoles()[0]) /* line 48 */ ?> <?php
-			echo LR\Filters::escapeHtmlText($user->getIdentity()->username) /* line 48 */ ?></a>
+                                <i class="fa fa-user"></i><?php echo LR\Filters::escapeHtmlText($user->getRoles()[0]) /* line 50 */ ?> <?php
+			echo LR\Filters::escapeHtmlText($user->getIdentity()->username) /* line 50 */ ?></a>
                             <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
                                 <a class="dropdown-item waves-effect waves-light" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Userpage:userpage")) ?>">Můj účet</a>
                                 <a class="dropdown-item waves-effect waves-light" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Logout:")) ?>">odhlásit</a>
@@ -104,7 +106,7 @@ class Template43cc225190 extends Latte\Runtime\Template
 
             <!-- Copyright -->
             <div class="footer-copyright text-center py-3">© 2018 Copyright:
-                <a href="#footer"> Dominik Šlechta</a>
+                <a href="#footer" style="white-space: nowrap;"> Dominik Šlechta</a>
             </div>
             <!-- Copyright -->
 
@@ -114,15 +116,17 @@ class Template43cc225190 extends Latte\Runtime\Template
         <!-- SCRIPTS -->
         <!-- JQuery -->
 
-        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 86 */ ?>/mdb/js/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 88 */ ?>/mdb/js/jquery-3.3.1.min.js"></script>
         <!-- Bootstrap tooltips -->
-        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 88 */ ?>/mdb/js/popper.min.js"></script>
+        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 90 */ ?>/mdb/js/popper.min.js"></script>
         <!-- Bootstrap core JavaScript -->
-        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 90 */ ?>/mdb/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 92 */ ?>/mdb/js/bootstrap.min.js"></script>
         <!-- MDB core JavaScript -->
-        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 92 */ ?>/mdb/js/mdb.min.js"></script>
-        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 93 */ ?>/jquery-3.3.1.js"></script>
-        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 94 */ ?>/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 94 */ ?>/mdb/js/mdb.min.js"></script>
+        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 95 */ ?>/jquery-3.3.1.js"></script>
+        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 96 */ ?>/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 97 */ ?>/dropzone-amd-module.js"></script>
+        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 98 */ ?>/dropzone.js"></script>
         <script type="text/javascript">
             console.log(screen.height + "   " + $('body').height());
             if (screen.height < $('body').height() + 100) {

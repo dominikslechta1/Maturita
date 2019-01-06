@@ -1,0 +1,17 @@
+{* Latte template *}
+
+{block upload}
+<div class="upload project-one ajax">
+    <form id="upload-form">
+        <div action="#" class="dropzone">
+            <div class="fallback">
+                <input name="file" type="file" multiple/>
+            </div>
+        </div>
+        <div class="texarea-parent mb-1">
+            <textarea class="form-control txtarea upload" maxlength="255" onkeydown="countChar(this)" name="desc" rows="3" placeholder="Popis"></textarea>
+            <div id="charNum" class='grey-text' style='width: 100%; text-align: right;'>0/255</div>
+        </div>
+
+    </form>
+</div>
