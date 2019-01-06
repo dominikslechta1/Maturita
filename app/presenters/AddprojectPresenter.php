@@ -31,18 +31,31 @@ class AddprojectPresenter extends Nette\Application\UI\Presenter {
     protected function createComponentAddprojectForm() {
         $form = new Nette\Application\UI\Form;
         if ($this->project !== null) {
+            //nazev
             $form->addText('Name')->setRequired('Projekt musí mít název')->setValue($this->project->Name);
+            
+            //popis
             $form->addTextArea('desc')->setValue($this->project->Desc);
+            
+            //student
             $form->addSelect('user', null, $this->database->table('users')->where('UserPrivilege', 3)->fetchPairs('idUsers', 'UserName'))->setDefaultValue($this->project->User)->setRequired('Projekt musí mít studenta');
+            
+            //consultant
             $form->addSelect('consultant', null, $this->database->table('users')
                     ->where('UserPrivilege', 2)
                     ->fetchPairs('idUsers', 'UserName'))
                     ->setDefaultValue($this->project->Consultant);
+            
+            //oponent
             $form->addSelect('oponent', null, $this->database->table('users')
                     ->where('UserPrivilege', 4)
                     ->fetchPairs('idUsers', 'UserName'))
                     ->setDefaultValue($this->project->Oponent);
+            
+            //verejne
             $form->addCheckbox('agree')->setValue($this->project->Public);
+            
+            //pokud uprava pak id
             $form->addHidden('preddefined', $this->project->idProjects);
         } else {
             $form->addText('Name')->setRequired('Projekt musí mít název');
@@ -66,6 +79,7 @@ class AddprojectPresenter extends Nette\Application\UI\Presenter {
         }
         $res = $this->database->table('projects')
                         ->where('Name', $values->Name)
+                        ->where('idProjects != ?', $values->preddefined)
                         ->where('Year', MyDateTime::getYear(\Nette\Utils\DateTime::from('0')))->count('*');
         if ($res > 0) {
             $form['Name']->addError('duplicitni nazev');

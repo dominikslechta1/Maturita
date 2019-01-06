@@ -2,16 +2,27 @@
 
 {block upload}
 <div class="upload project-one ajax">
-    <form id="upload-form">
+    <form action='#' n:name=uploadForm id="upload-form" class='form'>
+        <!--
         <div action="#" class="dropzone">
             <div class="fallback">
-                <input name="file" type="file" multiple/>
+                <input  type="file" />
             </div>
         </div>
+        -->
+        <input type='file' n:name='file'/>
         <div class="texarea-parent mb-1">
-            <textarea class="form-control txtarea upload" maxlength="255" onkeydown="countChar(this)" name="desc" rows="3" placeholder="Popis"></textarea>
+            <textarea class="form-control txtarea upload" maxlength="255" onkeydown="countChar(this)" n:name='desc' rows="3" placeholder="Popis"></textarea>
             <div id="charNum" class='grey-text' style='width: 100%; text-align: right;'>0/255</div>
         </div>
+        <button class="btn btn-primary btn-block blue" n:name='save'  type="submit">save</button>
 
     </form>
+    {ifset $form}
+        <div>
+            <ul class="errors" n:if="$form->hasErrors()">
+                <li n:foreach="$form->errors as $error">{$error}</li>
+            </ul>
+        </div>
+    {/ifset}
 </div>

@@ -62,8 +62,18 @@ class Template43cc225190 extends Latte\Runtime\Template
 		}
 ?>
                     </li>
+                    <li <?php if ($_tmp = array_filter([$presenter->isLinkCurrent('Login:register') ? 'active' : NULL,'nav-item'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"' ?>>
+<?php
+		if ($user->isInRole('administrator')) {
+			?>                        <a class="nav-link" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Admin:projects")) ?>">Přehled projektu</a>
+<?php
+		}
+?>
+                    </li>
                 </ul>
             </div>
+            
+            <!--login or logged settings-->
             <div class="navbar-collapse collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
 <?php
@@ -71,8 +81,8 @@ class Template43cc225190 extends Latte\Runtime\Template
 ?>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle waves-effect waves-light" id="navbarDropdownMenuLink-4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                <i class="fa fa-user"></i><?php echo LR\Filters::escapeHtmlText($user->getRoles()[0]) /* line 50 */ ?> <?php
-			echo LR\Filters::escapeHtmlText($user->getIdentity()->username) /* line 50 */ ?></a>
+                                <i class="fa fa-user"></i><?php echo LR\Filters::escapeHtmlText($user->getRoles()[0]) /* line 55 */ ?> <?php
+			echo LR\Filters::escapeHtmlText($user->getIdentity()->username) /* line 55 */ ?></a>
                             <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
                                 <a class="dropdown-item waves-effect waves-light" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Userpage:userpage")) ?>">Můj účet</a>
                                 <a class="dropdown-item waves-effect waves-light" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Logout:")) ?>">odhlásit</a>
@@ -116,17 +126,17 @@ class Template43cc225190 extends Latte\Runtime\Template
         <!-- SCRIPTS -->
         <!-- JQuery -->
 
-        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 88 */ ?>/mdb/js/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 93 */ ?>/mdb/js/jquery-3.3.1.min.js"></script>
         <!-- Bootstrap tooltips -->
-        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 90 */ ?>/mdb/js/popper.min.js"></script>
+        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 95 */ ?>/mdb/js/popper.min.js"></script>
         <!-- Bootstrap core JavaScript -->
-        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 92 */ ?>/mdb/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 97 */ ?>/mdb/js/bootstrap.min.js"></script>
         <!-- MDB core JavaScript -->
-        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 94 */ ?>/mdb/js/mdb.min.js"></script>
-        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 95 */ ?>/jquery-3.3.1.js"></script>
-        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 96 */ ?>/jquery-3.3.1.min.js"></script>
-        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 97 */ ?>/dropzone-amd-module.js"></script>
-        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 98 */ ?>/dropzone.js"></script>
+        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 99 */ ?>/mdb/js/mdb.min.js"></script>
+        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 100 */ ?>/jquery-3.3.1.js"></script>
+        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 101 */ ?>/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 102 */ ?>/dropzone-amd-module.js"></script>
+        <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 103 */ ?>/dropzone.js"></script>
         <script type="text/javascript">
             console.log(screen.height + "   " + $('body').height());
             if (screen.height < $('body').height() + 100) {
@@ -144,7 +154,7 @@ class Template43cc225190 extends Latte\Runtime\Template
                     $('#charNum').text(len + "/255");
                 }
             }
-            ;
+   
         </script>
     </body>
 

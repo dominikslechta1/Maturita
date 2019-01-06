@@ -26,7 +26,7 @@ class Templated71322ac05 extends Latte\Runtime\Template
 	{
 		extract($this->params);
 		if ($this->getParentName()) return get_defined_vars();
-		$this->renderBlock('content', get_defined_vars());
+		$this->renderBlock('content', get_defined_vars()) ?>    <?php
 		return get_defined_vars();
 	}
 

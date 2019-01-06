@@ -25,32 +25,7 @@ return array (
     'App\\Presenters\\AddprojectPresenter' => 
     array (
       'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\AddprojectPresenter.php',
-      'time' => 1546718233,
-    ),
-    'App\\Presenters\\LogoutPresenter' => 
-    array (
-      'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\LogoutPresenter.php',
-      'time' => 1546718233,
-    ),
-    'App\\Presenters\\UploadPresenter' => 
-    array (
-      'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\UploadPresenter.php',
-      'time' => 1546724795,
-    ),
-    'App\\Presenters\\UserpagePresenter' => 
-    array (
-      'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\UserpagePresenter.php',
-      'time' => 1546718234,
-    ),
-    'App\\RouterFactory' => 
-    array (
-      'file' => 'C:\\wamp\\www\\Maturita\\app\\router\\RouterFactory.php',
-      'time' => 1546718234,
-    ),
-    'App\\Presenters\\LoginPresenter' => 
-    array (
-      'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\LoginPresenter.php',
-      'time' => 1546734121,
+      'time' => 1546794069,
     ),
     'App\\Presenters\\Error4xxPresenter' => 
     array (
@@ -65,12 +40,37 @@ return array (
     'App\\Presenters\\HomepagePresenter' => 
     array (
       'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\HomepagePresenter.php',
-      'time' => 1546783497,
+      'time' => 1546809766,
+    ),
+    'App\\Presenters\\LoginPresenter' => 
+    array (
+      'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\LoginPresenter.php',
+      'time' => 1546734121,
+    ),
+    'App\\Presenters\\LogoutPresenter' => 
+    array (
+      'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\LogoutPresenter.php',
+      'time' => 1546718233,
+    ),
+    'App\\Presenters\\UserpagePresenter' => 
+    array (
+      'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\UserpagePresenter.php',
+      'time' => 1546718234,
+    ),
+    'App\\RouterFactory' => 
+    array (
+      'file' => 'C:\\wamp\\www\\Maturita\\app\\router\\RouterFactory.php',
+      'time' => 1546718234,
+    ),
+    'App\\Presenters\\AdminPresenter' => 
+    array (
+      'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\AdminPresenter.php',
+      'time' => 1546813099,
     ),
   ),
   1 => 
   array (
-    'Nette\\Environment' => 27,
+    'Nette\\Environment' => 28,
     'Nette\\Database\\LoginPresenter' => 1,
     'App\\Presenters\\BasePresenter' => 1,
     'MainPresenter' => 3,
@@ -81,5 +81,6 @@ return array (
     'App\\Presenters\\IndexPresenter' => 1,
     'App\\Presenters\\Debugger' => 1,
     'App\\Presenters\\Message' => 1,
+    'App\\Presenters\\UploadPresenter' => 1,
   ),
 );

@@ -69,6 +69,11 @@ class Template9f64267cb0 extends Latte\Runtime\Template
 				$iterations++;
 			}
 		}
+		else {
+?>
+        <p>nejsou projekty k vidění</p>
+<?php
+		}
 ?>
 </div>
 <?php

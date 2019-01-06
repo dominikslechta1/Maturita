@@ -40,8 +40,13 @@
                     <li n:class="$presenter->isLinkCurrent('Login:register') ? active,nav-item" >
                         <a n:if="$user->isInRole('administrator')" class="nav-link" n:href="Login:register">Registrovat uživatele</a>
                     </li>
+                    <li n:class="$presenter->isLinkCurrent('Login:register') ? active,nav-item" >
+                        <a n:if="$user->isInRole('administrator')" class="nav-link" n:href="Admin:projects">Přehled projektu</a>
+                    </li>
                 </ul>
             </div>
+            
+            <!--login or logged settings-->
             <div class="navbar-collapse collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
                     {if $user->isLoggedIn()}
@@ -113,7 +118,7 @@
                     $('#charNum').text(len + "/255");
                 }
             }
-            ;
+   
         </script>
     </body>
 

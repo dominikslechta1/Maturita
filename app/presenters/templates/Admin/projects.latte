@@ -1,14 +1,14 @@
 {* Latte template *}
 
 {block content}
-<div class="projects-div">
+<div class="projects-div ajax" n:snippet='all'>
     {if $projects !== null}
         {foreach $projects as $id => $item}
             <div class="project {$id} hoverable">
                 <!-- Card -->
-                <a class="project {$id} project-link" n:href="Homepage:project $item->idProjects">
+                <a class="project {$id} project-link" n:href='Homepage:project $id' >
                     <div class="card card-cascade wider reverse ">
-
+                        
 
                         <!-- Card content -->
                         <div class="card-body card-body-cascade text-center">
