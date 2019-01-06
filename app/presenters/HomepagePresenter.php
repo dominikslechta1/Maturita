@@ -11,9 +11,11 @@ class HomepagePresenter extends Nette\Application\UI\Presenter {
 
     private $database;
     private $project;
+    private $init;
 
     public function __construct(Nette\Database\Context $connection, Nette\Database\IStructure $structure, Nette\Database\IConventions $conventions = null, Nette\Caching\IStorage $cacheStorage = null) {
         $this->database = $connection;
+        $this->init = 0;
     }
 
     /**
@@ -62,14 +64,27 @@ class HomepagePresenter extends Nette\Application\UI\Presenter {
             $this->template->project = $project;
             $this->project = $project;
         }
+        
+        //upload settings
         if (!isset($this->template->permissed)) {
-            $this->template->permissed = "unset";
+            $this->template->permissed = "none";
         }
         if (!isset($this->template->upBtn)) {
             $this->template->upBtn = 'Přidat soubor';
         }
         if (!isset($this->template->upBtnState)) {
             $this->template->upBtnState = 'open';
+        }
+        if (!isset($this->template->btndis)) {
+            $user = $this->user->roles[0];
+            if ($user == 'administrator' ||
+                    $user == 'oponent' ||
+                    $user == 'consultant' ||
+                    $user == 'student' && $this->project->Locked == 0) {
+                $this->template->btndis = true;
+            } else {
+                $this->template->btndis = false;
+            }
         }
     }
 
@@ -79,6 +94,8 @@ class HomepagePresenter extends Nette\Application\UI\Presenter {
             $this->database->table('projects')->where('idProjects', $id)->delete();
             $this->flashMessage('Záznam s id ' . $id . 'byl smazán');
             $this->redirect('Homepage:');
+        } else {
+            $this->flashMessage('Nemáš oprávnění smazat tento soubor', 'unsuccess');
         }
     }
 
@@ -103,18 +120,30 @@ class HomepagePresenter extends Nette\Application\UI\Presenter {
     }
 
     public function handleUpdate($state) {
-        if($state == "open"){
-        $this->template->permissed = "unset";
-        $this->template->upBtn = 'Zavřít';
-        $this->template->upBtnState = 'close';
-        }
-        elseif($state == "close"){
-            $this->template->permissed = "none";
-        $this->template->upBtn = 'Přidat soubor';
-        $this->template->upBtnState = 'open';
+        $user = $this->user->roles[0];
+        if ($user == 'administrator' || $user == 'oponent') {
+            $this->uploadOpen();
+        } elseif ($user == 'consultant') {
+            $this->uploadOpen();
+        } elseif ($user == 'student' && $this->project->Locked == 0) {
+            $this->uploadOpen();
+        } else {
+            $this->flashMessage('Nemáš oprávnění přidávat soubory k tomuto projektu.', 'unsuccess');
         }
         $this->redrawControl('itemsContainer');
         $this->redrawControl('file');
+    }
+
+    private function uploadOpen() {
+        if ($state == "open") {
+            $this->template->permissed = "unset";
+            $this->template->upBtn = 'Zavřít';
+            $this->template->upBtnState = 'close';
+        } elseif ($state == "close") {
+            $this->template->permissed = "none";
+            $this->template->upBtn = 'Přidat soubor';
+            $this->template->upBtnState = 'open';
+        }
     }
 
 }

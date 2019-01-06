@@ -27,29 +27,6 @@ return array (
       'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\AddprojectPresenter.php',
       'time' => 1546718233,
     ),
-    'App\\Presenters\\Error4xxPresenter' => 
-    array (
-      'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\Error4xxPresenter.php',
-<<<<<<< HEAD
-      'time' => 1546718233,
-=======
-      'time' => 1546717353,
->>>>>>> wip
-    ),
-    'App\\Presenters\\ErrorPresenter' => 
-    array (
-      'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\ErrorPresenter.php',
-<<<<<<< HEAD
-      'time' => 1546718233,
-=======
-      'time' => 1546717353,
->>>>>>> wip
-    ),
-    'App\\Presenters\\HomepagePresenter' => 
-    array (
-      'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\HomepagePresenter.php',
-      'time' => 1546731417,
-    ),
     'App\\Presenters\\LogoutPresenter' => 
     array (
       'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\LogoutPresenter.php',
@@ -74,6 +51,21 @@ return array (
     array (
       'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\LoginPresenter.php',
       'time' => 1546734121,
+    ),
+    'App\\Presenters\\Error4xxPresenter' => 
+    array (
+      'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\Error4xxPresenter.php',
+      'time' => 1546718233,
+    ),
+    'App\\Presenters\\ErrorPresenter' => 
+    array (
+      'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\ErrorPresenter.php',
+      'time' => 1546718233,
+    ),
+    'App\\Presenters\\HomepagePresenter' => 
+    array (
+      'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\HomepagePresenter.php',
+      'time' => 1546783497,
     ),
   ),
   1 => 

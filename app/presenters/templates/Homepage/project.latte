@@ -1,6 +1,14 @@
 {block content}
 {ifset $project}
+
+    <!--flashmessage-->
+    {foreach $flashes as $flash}
+        <div class="flash {$flash->type}"><li>{$flash->message}</li></div>
+            {/foreach}
+
+    <!--projekt-->
     <div class="project-one">
+
         <!--Locked-->
         {snippet Locked}
             <part class="project-locked">
@@ -65,7 +73,7 @@
                 <a n:class="'btn', 'btn-primary', 'btn-lg', 'blue', ($user->isInRole('administrator'))?'':'disabled'" onclick="return confirm('opravdu to chces smazat?')" n:href="delete! $project->idProjects">smazat</a>
                 <a n:class="'btn', 'btn-primary', 'btn-lg', 'blue', ($user->isInRole('administrator'))?'':'disabled'" n:href="Addproject:add $project->idProjects">upravit</a>
 
-                <a n:class="'btn', 'btn-primary', 'btn-lg', 'blue', 'ajax', 'upload-button'" onsubmit="alert('hello')" n:snippet="file" n:href="update! 'state'=>$upBtnState" type="submit" form="upload-form">{$upBtn}</a>
+                <a n:class="'btn', 'btn-primary', 'btn-lg', 'blue', 'ajax', 'upload-button', ($btndis)? '':'disabled'" onsubmit="alert('hello')" n:snippet="file" n:href="update! 'state'=>$upBtnState" type="submit" form="upload-form">{$upBtn}</a>
             </div>
 
         </div>
