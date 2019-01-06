@@ -30,12 +30,20 @@ return array (
     'App\\Presenters\\Error4xxPresenter' => 
     array (
       'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\Error4xxPresenter.php',
+<<<<<<< HEAD
       'time' => 1546718233,
+=======
+      'time' => 1546717353,
+>>>>>>> wip
     ),
     'App\\Presenters\\ErrorPresenter' => 
     array (
       'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\ErrorPresenter.php',
+<<<<<<< HEAD
       'time' => 1546718233,
+=======
+      'time' => 1546717353,
+>>>>>>> wip
     ),
     'App\\Presenters\\HomepagePresenter' => 
     array (
