@@ -26,7 +26,7 @@ class Templated71322ac05 extends Latte\Runtime\Template
 	{
 		extract($this->params);
 		if ($this->getParentName()) return get_defined_vars();
-		$this->renderBlock('content', get_defined_vars()) ?>    <?php
+		$this->renderBlock('content', get_defined_vars());
 		return get_defined_vars();
 	}
 
@@ -101,7 +101,7 @@ class Templated71322ac05 extends Latte\Runtime\Template
                 <a href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Addproject:add", [$project->idProjects])) ?>"<?php
 			if ($_tmp = array_filter(['btn', 'btn-primary', 'btn-lg', 'blue', ($user->isInRole('administrator'))?'':'disabled'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"' ?>>upravit</a>
 
-                <a onsubmit="alert('hello')" type="submit" form="upload-form" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("update!", ['state'=>$upBtnState])) ?>"<?php
+                <a type="submit" form="upload-form" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("update!", ['state'=>$upBtnState])) ?>"<?php
 			if ($_tmp = array_filter(['btn', 'btn-primary', 'btn-lg', 'blue', 'ajax', 'upload-button', ($btndis)? '':'disabled'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"';
 			echo ' id="' . htmlSpecialChars($this->global->snippetDriver->getHtmlId('file')) . '"' ?>><?php $this->renderBlock('_file', $this->params) ?>
 </a>
@@ -112,12 +112,19 @@ class Templated71322ac05 extends Latte\Runtime\Template
     </div>
 <?php
 			$useing = $permissed;
-			?><div id="<?php echo htmlSpecialChars($this->global->snippetDriver->getHtmlId('itemsContainer')) ?>"><?php
-			$this->renderBlock('_itemsContainer', $this->params) ?></div>    <div style="display:<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::escapeCss($useing)) /* line 86 */ ?>;" class="ajax">
+?>
+    <div class="mediaup">
+<div id="<?php echo htmlSpecialChars($this->global->snippetDriver->getHtmlId('itemsContainer')) ?>"><?php
+			$this->renderBlock('_itemsContainer', $this->params) ?></div>    <div style="display:<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::escapeCss($useing)) /* line 87 */ ?>;" class="ajax">
 
 <?php
-			/* line 88 */
+			/* line 89 */
 			$this->createTemplate('../Upload/upload.latte', $this->params, "include")->renderToContentType('html');
+?>
+    </div>
+    </div>
+
+<?php
 		}
 		
 	}

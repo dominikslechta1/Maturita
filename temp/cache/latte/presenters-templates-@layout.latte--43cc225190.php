@@ -34,6 +34,7 @@ class Template43cc225190 extends Latte\Runtime\Template
     </head>
 
     <body>
+
         <!-- navbar-->
         <nav class="mb-1 navbar navbar-expand-lg navbar-dark blue-gradient sticky-top">
             <a class="navbar-brand" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Homepage:default")) ?>">Maturitní projekty</a>
@@ -62,7 +63,7 @@ class Template43cc225190 extends Latte\Runtime\Template
 		}
 ?>
                     </li>
-                    <li <?php if ($_tmp = array_filter([$presenter->isLinkCurrent('Login:register') ? 'active' : NULL,'nav-item'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"' ?>>
+                    <li <?php if ($_tmp = array_filter([$presenter->isLinkCurrent('Admin:projects') ? 'active' : NULL,'nav-item'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"' ?>>
 <?php
 		if ($user->isInRole('administrator')) {
 			?>                        <a class="nav-link" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Admin:projects")) ?>">Přehled projektu</a>
@@ -72,7 +73,7 @@ class Template43cc225190 extends Latte\Runtime\Template
                     </li>
                 </ul>
             </div>
-            
+
             <!--login or logged settings-->
             <div class="navbar-collapse collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
@@ -81,8 +82,8 @@ class Template43cc225190 extends Latte\Runtime\Template
 ?>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle waves-effect waves-light" id="navbarDropdownMenuLink-4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                <i class="fa fa-user"></i><?php echo LR\Filters::escapeHtmlText($user->getRoles()[0]) /* line 55 */ ?> <?php
-			echo LR\Filters::escapeHtmlText($user->getIdentity()->username) /* line 55 */ ?></a>
+                                <i class="fa fa-user"></i><?php echo LR\Filters::escapeHtmlText($user->getRoles()[0]) /* line 56 */ ?> <?php
+			echo LR\Filters::escapeHtmlText($user->getIdentity()->username) /* line 56 */ ?></a>
                             <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
                                 <a class="dropdown-item waves-effect waves-light" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Userpage:userpage")) ?>">Můj účet</a>
                                 <a class="dropdown-item waves-effect waves-light" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Logout:")) ?>">odhlásit</a>
@@ -112,7 +113,11 @@ class Template43cc225190 extends Latte\Runtime\Template
         <div class='filler' ></div>
         <!--filler-->
         <!-- Footer -->
-        <footer class="page-footer font-small blue-gradient fixed-bottom">
+        <footer style="<?php
+		if ($presenter->isLinkCurrent('Homepage:project')) {
+			?>position: unset !important<?php
+		}
+?>" class="page-footer font-small blue-gradient fixed-bottom">
 
             <!-- Copyright -->
             <div class="footer-copyright text-center py-3">© 2018 Copyright:
@@ -122,7 +127,6 @@ class Template43cc225190 extends Latte\Runtime\Template
 
         </footer>
         <!-- Footer -->
-
         <!-- SCRIPTS -->
         <!-- JQuery -->
 
@@ -138,13 +142,6 @@ class Template43cc225190 extends Latte\Runtime\Template
         <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 102 */ ?>/dropzone-amd-module.js"></script>
         <script type="text/javascript" src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 103 */ ?>/dropzone.js"></script>
         <script type="text/javascript">
-            console.log(screen.height + "   " + $('body').height());
-            if (screen.height < $('body').height() + 100) {
-                $('footer.page-footer').css("position", "unset");
-                console.log(true);
-            } else {
-                $('footer.page-footer').css("position", "fixed")
-            }
             //text area counter
             function countChar(val) {
                 var len = val.value.length;
@@ -154,8 +151,16 @@ class Template43cc225190 extends Latte\Runtime\Template
                     $('#charNum').text(len + "/255");
                 }
             }
-   
+
+            console.log(screen.height + "   " + $('body').height());
+            if (screen.height < $('body').height() + 10) {
+                $('footer.page-footer').css("position", "unset");
+                console.log(true);
+            } else {
+                $('footer.page-footer').css("position", "fixed");
+            }
         </script>
+
     </body>
 
 </html>

@@ -50,7 +50,17 @@ class Templatee98316bae0 extends Latte\Runtime\Template
 
             <p class="h4 mb-4 text-center">Registrace</p>
 
-            <input class="form-control mb-4" id="textInput" type="text" placeholder="Jméno"<?php
+<?php
+			ob_start(function () {});
+			?>            <span class="error"><?php
+			ob_start();
+			echo LR\Filters::escapeHtmlText(end($this->global->formsStack)["name"]->getError());
+			$this->global->ifcontent = ob_get_flush();
+?></span>
+<?php
+			if (rtrim($this->global->ifcontent) === "") ob_end_clean();
+			else echo ob_get_clean();
+			?>            <input class="form-control mb-4" id="textInput" type="text" placeholder="Jméno"<?php
 			$_input = end($this->global->formsStack)["name"];
 			echo $_input->getControlPart()->addAttributes(array (
 			'class' => NULL,
@@ -59,7 +69,17 @@ class Templatee98316bae0 extends Latte\Runtime\Template
 			'placeholder' => NULL,
 			))->attributes() ?>>
 
-            <input type="email" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="E-mail"<?php
+<?php
+			ob_start(function () {});
+			?>            <span class="error"><?php
+			ob_start();
+			echo LR\Filters::escapeHtmlText(end($this->global->formsStack)["email"]->getError());
+			$this->global->ifcontent = ob_get_flush();
+?></span>
+<?php
+			if (rtrim($this->global->ifcontent) === "") ob_end_clean();
+			else echo ob_get_clean();
+			?>            <input type="email" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="E-mail"<?php
 			$_input = end($this->global->formsStack)["email"];
 			echo $_input->getControlPart()->addAttributes(array (
 			'type' => NULL,
@@ -68,7 +88,17 @@ class Templatee98316bae0 extends Latte\Runtime\Template
 			'placeholder' => NULL,
 			))->attributes() ?>>
 
-            <input type="password" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Heslo"<?php
+<?php
+			ob_start(function () {});
+			?>            <span class="error"><?php
+			ob_start();
+			echo LR\Filters::escapeHtmlText(end($this->global->formsStack)["password"]->getError());
+			$this->global->ifcontent = ob_get_flush();
+?></span>
+<?php
+			if (rtrim($this->global->ifcontent) === "") ob_end_clean();
+			else echo ob_get_clean();
+			?>            <input type="password" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Heslo"<?php
 			$_input = end($this->global->formsStack)["password"];
 			echo $_input->getControlPart()->addAttributes(array (
 			'type' => NULL,
@@ -76,7 +106,17 @@ class Templatee98316bae0 extends Latte\Runtime\Template
 			'class' => NULL,
 			'placeholder' => NULL,
 			))->attributes() ?>>
-            <input type="password" id="defaultLoginFormPasswordVerify" class="form-control mb-4" placeholder="Heslo pro kontrolu"<?php
+<?php
+			ob_start(function () {});
+			?>            <span class="error"><?php
+			ob_start();
+			echo LR\Filters::escapeHtmlText(end($this->global->formsStack)["passwordVerify"]->getError());
+			$this->global->ifcontent = ob_get_flush();
+?></span>
+<?php
+			if (rtrim($this->global->ifcontent) === "") ob_end_clean();
+			else echo ob_get_clean();
+			?>            <input type="password" id="defaultLoginFormPasswordVerify" class="form-control mb-4" placeholder="Heslo pro kontrolu"<?php
 			$_input = end($this->global->formsStack)["passwordVerify"];
 			echo $_input->getControlPart()->addAttributes(array (
 			'type' => NULL,
@@ -85,7 +125,17 @@ class Templatee98316bae0 extends Latte\Runtime\Template
 			'placeholder' => NULL,
 			))->attributes() ?>>
 
-            <select class="browser-default custom-select mb-4" id="select"<?php
+<?php
+			ob_start(function () {});
+			?>            <span class="error"><?php
+			ob_start();
+			echo LR\Filters::escapeHtmlText(end($this->global->formsStack)["privilege"]->getError());
+			$this->global->ifcontent = ob_get_flush();
+?></span>
+<?php
+			if (rtrim($this->global->ifcontent) === "") ob_end_clean();
+			else echo ob_get_clean();
+			?>            <select class="browser-default custom-select mb-4" id="select"<?php
 			$_input = end($this->global->formsStack)["privilege"];
 			echo $_input->getControlPart()->addAttributes(array (
 			'class' => NULL,

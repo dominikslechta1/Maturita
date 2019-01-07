@@ -17,11 +17,15 @@ class AdminPresenter extends Nette\Application\UI\Presenter {
     }
 
     public function renderProjects() {
-        $projects = $projects = $this->database->table('projects')->order('Year DESC')->fetchAll();
+        $projects = $this->database->table('projects')->order('Year DESC')->fetchAll();
         if (sizeof($projects, 0) < 1) {
             $projects = null;
         }
         $this->template->projects = $projects;
+        
+        $Years = $this->database->table('projects')->order('Year DESC')->count('DISTINCT Year');
+        $this->template->Years = $Years;
+        
     }
     public function handlePubliced($id, $public) {
         $this->database->table('projects')

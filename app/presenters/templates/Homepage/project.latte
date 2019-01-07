@@ -1,4 +1,4 @@
-{block content}
+﻿{block content}
 {ifset $project}
 
     <!--flashmessage-->
@@ -73,18 +73,21 @@
                 <a n:class="'btn', 'btn-primary', 'btn-lg', 'blue', ($user->isInRole('administrator'))?'':'disabled'" onclick="return confirm('opravdu to chces smazat?')" n:href="delete! $project->idProjects">smazat</a>
                 <a n:class="'btn', 'btn-primary', 'btn-lg', 'blue', ($user->isInRole('administrator'))?'':'disabled'" n:href="Addproject:add $project->idProjects">upravit</a>
 
-                <a n:class="'btn', 'btn-primary', 'btn-lg', 'blue', 'ajax', 'upload-button', ($btndis)? '':'disabled'" onsubmit="alert('hello')" n:snippet="file" n:href="update! 'state'=>$upBtnState" type="submit" form="upload-form">{$upBtn}</a>
+                <a n:class="'btn', 'btn-primary', 'btn-lg', 'blue', 'ajax', 'upload-button', ($btndis)? '':'disabled'" n:snippet="file" n:href="update! 'state'=>$upBtnState" type="submit" form="upload-form">{$upBtn}</a>
             </div>
 
         </div>
 
     </div>
     {var $useing = $permissed}
+    <div class="mediaup">
     {snippet itemsContainer}
         {var $useing = $permissed}
     {/snippet}
     <div style="display:{$useing};" class="ajax">
 
         {include '../Upload/upload.latte'}
-    {/ifset}
-    
+    </div>
+    </div>
+
+{/ifset}

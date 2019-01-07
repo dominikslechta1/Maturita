@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
     <head>
@@ -22,6 +22,7 @@
     </head>
 
     <body>
+
         <!-- navbar-->
         <nav class="mb-1 navbar navbar-expand-lg navbar-dark blue-gradient sticky-top">
             <a class="navbar-brand" n:href="Homepage:default">Maturitní projekty</a>
@@ -40,12 +41,12 @@
                     <li n:class="$presenter->isLinkCurrent('Login:register') ? active,nav-item" >
                         <a n:if="$user->isInRole('administrator')" class="nav-link" n:href="Login:register">Registrovat uživatele</a>
                     </li>
-                    <li n:class="$presenter->isLinkCurrent('Login:register') ? active,nav-item" >
+                    <li n:class="$presenter->isLinkCurrent('Admin:projects') ? active,nav-item" >
                         <a n:if="$user->isInRole('administrator')" class="nav-link" n:href="Admin:projects">Přehled projektu</a>
                     </li>
                 </ul>
             </div>
-            
+
             <!--login or logged settings-->
             <div class="navbar-collapse collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
@@ -76,7 +77,7 @@
         <div class='filler' ></div>
         <!--filler-->
         <!-- Footer -->
-        <footer class="page-footer font-small blue-gradient fixed-bottom">
+        <footer style="{if $presenter->isLinkCurrent('Homepage:project')}position: unset !important{/if}" class="page-footer font-small blue-gradient fixed-bottom">
 
             <!-- Copyright -->
             <div class="footer-copyright text-center py-3">© 2018 Copyright:
@@ -86,7 +87,6 @@
 
         </footer>
         <!-- Footer -->
-
         <!-- SCRIPTS -->
         <!-- JQuery -->
 
@@ -102,13 +102,6 @@
         <script type="text/javascript" src="{$basePath}/dropzone-amd-module.js"></script>
         <script type="text/javascript" src="{$basePath}/dropzone.js"></script>
         <script type="text/javascript">
-            console.log(screen.height + "   " + $('body').height());
-            if (screen.height < $('body').height() + 100) {
-                $('footer.page-footer').css("position", "unset");
-                console.log(true);
-            } else {
-                $('footer.page-footer').css("position", "fixed")
-            }
             //text area counter
             function countChar(val) {
                 var len = val.value.length;
@@ -118,8 +111,16 @@
                     $('#charNum').text(len + "/255");
                 }
             }
-   
+
+            console.log(screen.height + "   " + $('body').height());
+            if (screen.height < $('body').height() + 10) {
+                $('footer.page-footer').css("position", "unset");
+                console.log(true);
+            } else {
+                $('footer.page-footer').css("position", "fixed");
+            }
         </script>
+
     </body>
 
 </html>

@@ -136,6 +136,7 @@ class HomepagePresenter extends Nette\Application\UI\Presenter {
         
         $this->redrawControl('itemsContainer');
         $this->redrawControl('file');
+        $this->redrawControl('scripts');
     }
 
     private function uploadOpen($state) {
@@ -176,6 +177,7 @@ class HomepagePresenter extends Nette\Application\UI\Presenter {
         $this->uploadOpen('open');
         $this->redrawControl('itemsContainer');
         $this->redrawControl('file');
+        $this->redrawControl('scripts');
     }
 
     public function upSuccess(Form $form) {
@@ -217,6 +219,7 @@ class HomepagePresenter extends Nette\Application\UI\Presenter {
             $this->uploadOpen('close');
         $this->redrawControl('itemsContainer');
         $this->redrawControl('file');
+        $this->redrawControl('scripts');
         }
     }
 

@@ -52,8 +52,15 @@ div.project-one{
     div.project-one{
         display: contents;
     }
+    div.mediaup{
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
     div.project-users{
         display: inline-flex;
+    }
+    .projects-locked{
+        float:unset !important;
     }
 }
 main{
@@ -65,7 +72,7 @@ main{
 .project-base{
     height: 100%;
 }
-.project-locked{
+.project-locked,.projects-locked{
     float: right;
     padding: 10px;
 }
@@ -101,6 +108,40 @@ a.btn.btn-outline-light-blue.waves-effect:hover {
     background-color: lightcoral;
     border-radius: 6px;
     margin-top: 10px;
-    
-    
+
+
+}
+.mediaup{
+    padding-bottom: 20px;
+}
+.projects-one{
+    margin-top: 10px;
+    background-color: white;
+    box-shadow: 0px 0px 1px 0px darkgrey;
+    border-radius: 6px;
+    padding: 20px 20px 20px 30px;
+    color: unset;
+}
+.projects-users{
+    word-wrap: break-word;
+    width: 100%;
+    -webkit-column-width: 150px;
+    -moz-column-width: 150px;
+    column-width: 150px;
+}
+.projects-title{
+    font-size: 20pt;
+    font-weight: bold;
+}
+.project-users p{
+    margin-bottom: 1.3em;
+}
+.page-footer{
+    margin-top: 10px;
+}
+.projects-a{
+    color:unset;
+}
+.dark-blue{
+    color: #4285f4;
 }
