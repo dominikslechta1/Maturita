@@ -8,7 +8,7 @@ use App\Model\MyDateTime;
 use Nette\Utils\DateTime;
 use Nette\Application\UI\Form;
 
-class HomepagePresenter extends Nette\Application\UI\Presenter {
+class HomepagePresenter extends BasePresenter {
 
     private $database;
     public $project;
@@ -122,13 +122,13 @@ class HomepagePresenter extends Nette\Application\UI\Presenter {
         }
     }
 
-    public function handleUpdate($state) {
+    public function handleUpdate($state,$project) {
         $user = $this->user->roles[0];
         if ($user == 'administrator' || $user == 'oponent') {
             $this->uploadOpen($state);
         } elseif ($user == 'consultant') {
             $this->uploadOpen($state);
-        } elseif ($user == 'student' && $this->project->Locked == 0) {
+        } elseif ($user == 'student' && $project == 0) {
             $this->uploadOpen($state);
         } else {
             $this->flashMessage('Nemáš oprávnění přidávat soubory k tomuto projektu.', 'unsuccess');
@@ -171,7 +171,7 @@ class HomepagePresenter extends Nette\Application\UI\Presenter {
         $values = $form->getValues();
         $file = $values['file'];
         $this->projectId = $values->id;
-        if (!in_array($file->getContentType(), array('.pdf', '.rar', 'text/plain'))) {
+        if (!in_array($file->getContentType(), array('application/pdf', '.rar', 'text/plain'))) {
             $form['file']->addError('soubor obsahuje neplatné přípony ' . $file->getContentType());
         }
         $this->uploadOpen('open');
@@ -220,6 +220,7 @@ class HomepagePresenter extends Nette\Application\UI\Presenter {
         $this->redrawControl('itemsContainer');
         $this->redrawControl('file');
         $this->redrawControl('scripts');
+        $this->flashMessage('uspesne ulozeno','success');
         }
     }
 

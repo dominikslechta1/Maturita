@@ -13,7 +13,7 @@ use Nette\Database\Context;
 use Nette\Security\Passwords;
 use Latte\Engine;
 
-class UserpagePresenter extends Nette\Application\UI\Presenter {
+class UserpagePresenter extends BasePresenter {
 
     private $database;
 

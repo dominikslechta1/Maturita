@@ -1,17 +1,55 @@
 {* Latte template *}
 
 {block content}
+
+<!--flashmessage-->
+{foreach $flashes as $flash}
+    <div class="flash {$flash->type}"><li>{$flash->message}</li></div>
+        {/foreach}
+
 <!--admin settings-->
+<!--Year show-->
 {ifset $Years}
-    <div class="projects-admin">
-        {dump $Years}
-        <ul n:inner-foreach="$Years as $id => $row">
-            <li>
-                {$row}
-            </li>
-        </ul>
+    <div class="dropdown show">
+        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Zobrazit Rok</a>
+        <span n:ifset="$curyear"> nyní zobrazen rok: {$curyear}</span>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item ajax" n:href="sortNews! 'id' => 'all'">všechny</a>
+            {foreach $Years as $row}
+                <a class="dropdown-item ajax" n:href="sortNews! 'id' => $row->Year">
+                    {$row->Year}
+                </a>
+            {/foreach}
+        </div>
     </div>
 {/ifset}
+{ifset $curyear}
+<!--Visible state for all-->
+<a class="btn btn-md blue" n:href="allHide! 'hide' => '1', 'year' => $curyear">Skrýt vše pro tento rok</a>
+
+<!--Locked state for all-->
+<a class="btn btn-md blue" n:href="allLock! 'locked' => '1', 'year' => $curyear">Uzamknout vše pro tento rok</a>
+{else}
+    <a class="btn btn-md blue" n:href="allHide! 'hide' => '1', 'year' => 'all'">Skrýt vše pro tento rok</a>
+
+<!--Locked state for all-->
+    <a class="btn btn-md blue" n:href="allLock! 'locked' => '1', 'year' => 'all'">Uzamknout vše pro tento rok</a>
+{/ifset}
+{ifset $curyear}
+<!--Visible state for all-->
+<a class="btn btn-md blue" n:href="allHide! 'hide' => '0', 'year' => $curyear">Zobrazit vše pro tento rok</a>
+
+<!--Locked state for all-->
+<a class="btn btn-md blue" n:href="allLock! 'locked' => '0', 'year' => $curyear">Odemknout vše pro tento rok</a>
+{else}
+    <a class="btn btn-md blue" n:href="allHide! 'hide' => '0', 'year' => 'all'">Zobrazit vše pro tento rok</a>
+
+<!--Locked state for all-->
+    <a class="btn btn-md blue" n:href="allLock! 'locked' => '0', 'year' => 'all'">Odemknout vše pro tento rok</a>
+{/ifset}
+
+
+<!--/admin settings-->
 
 
 <!--projects-->

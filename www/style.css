@@ -2,6 +2,18 @@
     background-color: rgba(255,50,50,0.5) !important;
     font-weight: bold !important;
 }
+.flash.success{
+    padding: 30px 0px 30px 30px;
+    background-color: lightgreen;
+    border-radius: 6px;
+    margin-top: 10px;
+}
+.flash.unsuccess{
+    padding: 30px 0px 30px 30px;
+    background-color: lightcoral;
+    border-radius: 6px;
+    margin-top: 10px;
+}
 .project{
     width: 80%;
     margin: 10px auto;
@@ -103,14 +115,6 @@ a.btn.btn-outline-light-blue.waves-effect:hover {
 .upload-button[type=submit]{
     -webkit-appearance: none;
 }
-.flash.unsuccess{
-    padding: 30px 0px 30px 30px;
-    background-color: lightcoral;
-    border-radius: 6px;
-    margin-top: 10px;
-
-
-}
 .mediaup{
     padding-bottom: 20px;
 }
@@ -144,4 +148,7 @@ a.btn.btn-outline-light-blue.waves-effect:hover {
 }
 .dark-blue{
     color: #4285f4;
+}
+.project-title{
+    word-break: break-word;
 }

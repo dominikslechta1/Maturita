@@ -3,7 +3,7 @@ namespace App\Presenters;
 use Nette;
 use Nette\Application\UI;
 
-class LogoutPresenter extends Nette\Application\UI\Presenter
+class LogoutPresenter extends BasePresenter
 {
   protected function startup(){
     parent::startup();

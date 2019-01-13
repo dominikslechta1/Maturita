@@ -27,15 +27,26 @@ class Container_2f06cee5c6 extends Nette\DI\Container
 			'Nette\Application\UI\ITemplateFactory' => [1 => ['latte.templateFactory']],
 			'Nette\Mail\IMailer' => [1 => ['mail.mailer']],
 			'Nette\Application\IRouter' => [1 => ['routing.router']],
+			'Nette\Security\Passwords' => [1 => ['security.passwords']],
 			'Nette\Security\IUserStorage' => [1 => ['security.userStorage']],
 			'Nette\Security\User' => [1 => ['security.user']],
 			'Nette\Http\Session' => [1 => ['session.session']],
 			'Tracy\ILogger' => [1 => ['tracy.logger']],
 			'Tracy\BlueScreen' => [1 => ['tracy.blueScreen']],
 			'Tracy\Bar' => [1 => ['tracy.bar']],
-			'App\Model\SignNewPassFormFactory' => [1 => ['24_App_Model_SignNewPassFormFactory']],
+			'App\Model\SignNewPassFormFactory' => [1 => ['25_App_Model_SignNewPassFormFactory']],
 			'Nette\Security\IAuthenticator' => [1 => ['authenticator']],
 			'MyAuthenticator' => [1 => ['authenticator']],
+			'App\Presenters\BasePresenter' => [
+				1 => [
+					'application.1',
+					'application.2',
+					'application.5',
+					'application.6',
+					'application.7',
+					'application.8',
+				],
+			],
 			'Nette\Application\UI\Presenter' => [
 				[
 					'application.1',
@@ -91,54 +102,7 @@ class Container_2f06cee5c6 extends Nette\DI\Container
 					'application.8',
 				],
 			],
-			'Nette\Application\IPresenter' => [
-				[
-					'application.1',
-					'application.2',
-					'application.3',
-					'application.4',
-					'application.5',
-					'application.6',
-					'application.7',
-					'application.8',
-					'application.9',
-					'application.10',
-				],
-			],
-			'ArrayAccess' => [
-				[
-					'application.1',
-					'application.2',
-					'application.3',
-					'application.5',
-					'application.6',
-					'application.7',
-					'application.8',
-				],
-			],
-			'Nette\Application\UI\IStatePersistent' => [
-				[
-					'application.1',
-					'application.2',
-					'application.3',
-					'application.5',
-					'application.6',
-					'application.7',
-					'application.8',
-				],
-			],
-			'Nette\Application\UI\ISignalReceiver' => [
-				[
-					'application.1',
-					'application.2',
-					'application.3',
-					'application.5',
-					'application.6',
-					'application.7',
-					'application.8',
-				],
-			],
-			'Nette\ComponentModel\IComponent' => [
+			'Nette\Application\UI\IRenderable' => [
 				[
 					'application.1',
 					'application.2',
@@ -160,7 +124,7 @@ class Container_2f06cee5c6 extends Nette\DI\Container
 					'application.8',
 				],
 			],
-			'Nette\Application\UI\IRenderable' => [
+			'Nette\ComponentModel\IComponent' => [
 				[
 					'application.1',
 					'application.2',
@@ -169,6 +133,53 @@ class Container_2f06cee5c6 extends Nette\DI\Container
 					'application.6',
 					'application.7',
 					'application.8',
+				],
+			],
+			'Nette\Application\UI\ISignalReceiver' => [
+				[
+					'application.1',
+					'application.2',
+					'application.3',
+					'application.5',
+					'application.6',
+					'application.7',
+					'application.8',
+				],
+			],
+			'Nette\Application\UI\IStatePersistent' => [
+				[
+					'application.1',
+					'application.2',
+					'application.3',
+					'application.5',
+					'application.6',
+					'application.7',
+					'application.8',
+				],
+			],
+			'ArrayAccess' => [
+				[
+					'application.1',
+					'application.2',
+					'application.3',
+					'application.5',
+					'application.6',
+					'application.7',
+					'application.8',
+				],
+			],
+			'Nette\Application\IPresenter' => [
+				[
+					'application.1',
+					'application.2',
+					'application.3',
+					'application.4',
+					'application.5',
+					'application.6',
+					'application.7',
+					'application.8',
+					'application.9',
+					'application.10',
 				],
 			],
 			'App\Presenters\AddprojectPresenter' => [1 => ['application.1']],
@@ -184,7 +195,7 @@ class Container_2f06cee5c6 extends Nette\DI\Container
 			'Nette\DI\Container' => [1 => ['container']],
 		],
 		'services' => [
-			'24_App_Model_SignNewPassFormFactory' => 'App\Model\SignNewPassFormFactory',
+			'25_App_Model_SignNewPassFormFactory' => 'App\Model\SignNewPassFormFactory',
 			'application.1' => 'App\Presenters\AddprojectPresenter',
 			'application.10' => 'NetteModule\MicroPresenter',
 			'application.2' => 'App\Presenters\AdminPresenter',
@@ -214,6 +225,7 @@ class Container_2f06cee5c6 extends Nette\DI\Container
 			'latte.templateFactory' => 'Nette\Application\UI\ITemplateFactory',
 			'mail.mailer' => 'Nette\Mail\IMailer',
 			'routing.router' => 'Nette\Application\IRouter',
+			'security.passwords' => 'Nette\Security\Passwords',
 			'security.user' => 'Nette\Security\User',
 			'security.userStorage' => 'Nette\Security\IUserStorage',
 			'session.session' => 'Nette\Http\Session',
@@ -287,7 +299,7 @@ class Container_2f06cee5c6 extends Nette\DI\Container
 	/**
 	 * @return App\Model\SignNewPassFormFactory
 	 */
-	public function createService__24_App_Model_SignNewPassFormFactory()
+	public function createService__25_App_Model_SignNewPassFormFactory()
 	{
 		$service = new App\Model\SignNewPassFormFactory;
 		return $service;
@@ -435,7 +447,7 @@ class Container_2f06cee5c6 extends Nette\DI\Container
 			$this->getService('security.user'),
 			$this->getService('latte.templateFactory')
 		);
-		$service->signNewPassFactory = $this->getService('24_App_Model_SignNewPassFormFactory');
+		$service->signNewPassFactory = $this->getService('25_App_Model_SignNewPassFormFactory');
 		$service->invalidLinkMode = 5;
 		return $service;
 	}
@@ -730,6 +742,16 @@ class Container_2f06cee5c6 extends Nette\DI\Container
 		if (!$service instanceof Nette\Application\IRouter) {
 			throw new Nette\UnexpectedValueException('Unable to create service \'routing.router\', value returned by factory is not Nette\Application\IRouter type.');
 		}
+		return $service;
+	}
+
+
+	/**
+	 * @return Nette\Security\Passwords
+	 */
+	public function createServiceSecurity__passwords()
+	{
+		$service = new Nette\Security\Passwords;
 		return $service;
 	}
 

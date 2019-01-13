@@ -1,12 +1,17 @@
 {* Latte template *}
 
 {block content}
+<!--flashmessage-->
+    {foreach $flashes as $flash}
+        <div class="flash {$flash->type}"><li>{$flash->message}</li></div>
+            {/foreach}
+
 
 {if $user->isInRole('administrator')}
     <div class='add-project'>
         {ifset $form}
             <div>
-                <ul class="errors" n:if="$form->hasErrors()">
+                <ul class="unsuccess" n:if="$form->hasErrors()">
                     <li n:foreach="$form->errors as $error">{$error}</li>
                 </ul>
             </div>

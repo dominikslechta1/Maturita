@@ -1,6 +1,11 @@
 {* Latte template *}
 
 {block content}
+<!--flashmessage-->
+    {foreach $flashes as $flash}
+        <div class="flash {$flash->type}"><li>{$flash->message}</li></div>
+            {/foreach}
+
 <div class="projects-div">
     {if $projects !== null}
         {foreach $projects as $id => $item}

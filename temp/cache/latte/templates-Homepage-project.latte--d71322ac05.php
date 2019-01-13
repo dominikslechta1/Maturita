@@ -64,44 +64,45 @@ class Templated71322ac05 extends Latte\Runtime\Template
 <div id="<?php echo htmlSpecialChars($this->global->snippetDriver->getHtmlId('Locked')) ?>"><?php $this->renderBlock('_Locked', $this->params) ?></div>        <!--Public-->
 <div id="<?php echo htmlSpecialChars($this->global->snippetDriver->getHtmlId('Public')) ?>"><?php $this->renderBlock('_Public', $this->params) ?></div>        <div class="jumbotron" style="display: contents;">
 
-            <h2 class="display-4"><?php echo LR\Filters::escapeHtmlText($project->Name) /* line 62 */ ?></h2>
+            <h2 class="display-4 project-title"><?php echo LR\Filters::escapeHtmlText($project->Name) /* line 62 */ ?></h2>
             <p class="lead"><?php echo LR\Filters::escapeHtmlText($project->Desc) /* line 63 */ ?></p>
 
-
-            <div class="project-users">
-                <span class="span-user">Vypracovává: <?php
+            <div class="projects-users">
+                <p class="span-user">Vypracovává: <?php
 			if ($project->User != null) {
-				echo LR\Filters::escapeHtmlText($project->ref('users','User')->UserName) /* line 67 */;
+				echo LR\Filters::escapeHtmlText($project->ref('users','User')->UserName) /* line 66 */;
 			}
 			else {
 				?>neurčeno<?php
 			}
-?></span>
-                <span class="span-oponent">Oponent: <?php
+?></p>
+                <p class="span-oponent">Oponent: <?php
 			if ($project->Oponent != null) {
-				echo LR\Filters::escapeHtmlText($project->ref('users','Oponent')->UserName) /* line 68 */;
+				echo LR\Filters::escapeHtmlText($project->ref('users','Oponent')->UserName) /* line 67 */;
 			}
 			else {
 				?>neurčeno<?php
 			}
-?></span>
-                <span class="span-consultant">Konzultant: <?php
+?></p>
+                <p class="span-consultant">Konzultant: <?php
 			if ($project->Consultant != null) {
-				echo LR\Filters::escapeHtmlText($project->ref('users','Consultant')->UserName) /* line 69 */;
+				echo LR\Filters::escapeHtmlText($project->ref('users','Consultant')->UserName) /* line 68 */;
 			}
 			else {
 				?>neurčeno<?php
 			}
-?></span>
+?></p>                                    
+                <p>Rok: <?php echo LR\Filters::escapeHtmlText($project->Year) /* line 69 */ ?></p>
             </div>
+
             <hr class="my-4">
             <div class="project-buttons">
                 <a onclick="return confirm('opravdu to chces smazat?')" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("delete!", [$project->idProjects])) ?>"<?php
 			if ($_tmp = array_filter(['btn', 'btn-primary', 'btn-lg', 'blue', ($user->isInRole('administrator'))?'':'disabled'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"' ?>>smazat</a>
                 <a href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Addproject:add", [$project->idProjects])) ?>"<?php
-			if ($_tmp = array_filter(['btn', 'btn-primary', 'btn-lg', 'blue', ($user->isInRole('administrator'))?'':'disabled'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"' ?>>upravit</a>
+			if ($_tmp = array_filter(['btn', 'btn-primary', 'btn-lg', 'blue', ($user->isInRole('administrator')||$user->isInRole('student'))?'':'disabled'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"' ?>>upravit</a>
 
-                <a type="submit" form="upload-form" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("update!", ['state'=>$upBtnState])) ?>"<?php
+                <a type="submit" form="upload-form" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("update!", ['state'=>$upBtnState, 'project' => $project->Locked])) ?>"<?php
 			if ($_tmp = array_filter(['btn', 'btn-primary', 'btn-lg', 'blue', 'ajax', 'upload-button', ($btndis)? '':'disabled'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"';
 			echo ' id="' . htmlSpecialChars($this->global->snippetDriver->getHtmlId('file')) . '"' ?>><?php $this->renderBlock('_file', $this->params) ?>
 </a>
@@ -115,13 +116,13 @@ class Templated71322ac05 extends Latte\Runtime\Template
 ?>
     <div class="mediaup">
 <div id="<?php echo htmlSpecialChars($this->global->snippetDriver->getHtmlId('itemsContainer')) ?>"><?php
-			$this->renderBlock('_itemsContainer', $this->params) ?></div>    <div style="display:<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::escapeCss($useing)) /* line 87 */ ?>;" class="ajax">
+			$this->renderBlock('_itemsContainer', $this->params) ?></div>        <div style="display:<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::escapeCss($useing)) /* line 88 */ ?>;" class="ajax">
 
 <?php
-			/* line 89 */
+			/* line 90 */
 			$this->createTemplate('../Upload/upload.latte', $this->params, "include")->renderToContentType('html');
 ?>
-    </div>
+        </div>
     </div>
 
 <?php
@@ -230,7 +231,7 @@ class Templated71322ac05 extends Latte\Runtime\Template
 	{
 		extract($_args);
 		$this->global->snippetDriver->enter("file", "static");
-		echo LR\Filters::escapeHtmlText($upBtn) /* line 76 */;
+		echo LR\Filters::escapeHtmlText($upBtn) /* line 77 */;
 		$this->global->snippetDriver->leave();
 		
 	}

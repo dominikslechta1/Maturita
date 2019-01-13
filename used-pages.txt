@@ -1,7 +1,0 @@
-http://rudolfsvatek.cz/zapomenute-heslo-pro-prihlaseni
-http://php.net/manual/en/function.ini-set.php
-https://mdbootstrap.com/docs/jquery/css/color-combination/
-https://forum.nette.org/en/23193-sending-mail-with-gmail-error-smtp-server-did-not-accept-password
-http://php.net/manual/en/function.in-array.php
-https://api.nette.org/2.4/Nette.Http.FileUpload.html
-https://forum.nette.org/cs/25137-validacni-pravidla-pri-uploadu

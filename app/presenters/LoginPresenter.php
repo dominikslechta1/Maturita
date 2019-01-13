@@ -13,7 +13,7 @@ use Nette\Mail\SendmailMailer;
 use Nette\Mail\SmtpMailer;
 use App\Model;
 
-class LoginPresenter extends Nette\Application\UI\Presenter {
+class LoginPresenter extends BasePresenter {
 
     /** @var Model\SignNewPassFormFactory @inject */
     public $signNewPassFactory;
@@ -131,7 +131,7 @@ class LoginPresenter extends Nette\Application\UI\Presenter {
                 'Email' => htmlspecialchars($values->email),
                 'UserPrivilege' => $values->privilege,
             ]);
-            $this->flashMessage('Byl jste úspěšně registrován.');
+            $this->flashMessage('Uživatel byl zaregistrován','success');
             $this->redirect('Homepage:default');
         } catch (Nette\Database\ConnectionException $e) {
             

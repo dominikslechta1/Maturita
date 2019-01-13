@@ -22,15 +22,25 @@ return array (
       'file' => 'C:\\wamp\\www\\Maturita\\app\\model\\SignNewPassFormFactory.php',
       'time' => 1546844950,
     ),
-    'App\\RouterFactory' => 
+    'App\\Model\\UserManager' => 
     array (
-      'file' => 'C:\\wamp\\www\\Maturita\\app\\router\\RouterFactory.php',
-      'time' => 1546844951,
+      'file' => 'C:\\wamp\\www\\Maturita\\app\\model\\UserManager.php',
+      'time' => 1546863987,
     ),
-    'App\\Presenters\\AddprojectPresenter' => 
+    'App\\Model\\DuplicateNameException' => 
     array (
-      'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\AddprojectPresenter.php',
-      'time' => 1546844950,
+      'file' => 'C:\\wamp\\www\\Maturita\\app\\model\\UserManager.php',
+      'time' => 1546863987,
+    ),
+    'App\\Presenters\\AdminPresenter' => 
+    array (
+      'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\AdminPresenter.php',
+      'time' => 1546875175,
+    ),
+    'App\\Presenters\\BasePresenter' => 
+    array (
+      'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\BasePresenter.php',
+      'time' => 1546863987,
     ),
     'App\\Presenters\\Error4xxPresenter' => 
     array (
@@ -42,45 +52,39 @@ return array (
       'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\ErrorPresenter.php',
       'time' => 1546844950,
     ),
-    'App\\Presenters\\LoginPresenter' => 
+    'App\\Presenters\\HomepagePresenter' => 
     array (
-      'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\LoginPresenter.php',
-      'time' => 1546844950,
+      'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\HomepagePresenter.php',
+      'time' => 1546875719,
     ),
     'App\\Presenters\\LogoutPresenter' => 
     array (
       'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\LogoutPresenter.php',
-      'time' => 1546844950,
+      'time' => 1546872332,
     ),
     'App\\Presenters\\UserpagePresenter' => 
     array (
       'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\UserpagePresenter.php',
-      'time' => 1546844951,
+      'time' => 1546872323,
     ),
-    'App\\Presenters\\HomepagePresenter' => 
+    'App\\RouterFactory' => 
     array (
-      'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\HomepagePresenter.php',
-      'time' => 1546845972,
+      'file' => 'C:\\wamp\\www\\Maturita\\app\\router\\RouterFactory.php',
+      'time' => 1546863987,
     ),
-    'App\\Presenters\\AdminPresenter' => 
+    'App\\Presenters\\LoginPresenter' => 
     array (
-      'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\AdminPresenter.php',
-      'time' => 1546857832,
+      'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\LoginPresenter.php',
+      'time' => 1546933754,
+    ),
+    'App\\Presenters\\AddprojectPresenter' => 
+    array (
+      'file' => 'C:\\wamp\\www\\Maturita\\app\\presenters\\AddprojectPresenter.php',
+      'time' => 1546935396,
     ),
   ),
   1 => 
   array (
-    'Nette\\Environment' => 28,
-    'Nette\\Database\\LoginPresenter' => 1,
-    'App\\Presenters\\BasePresenter' => 1,
-    'MainPresenter' => 3,
-    'App\\Presenters\\MainPresenter' => 3,
-    'App\\Presenters\\UI\\Form' => 1,
-    'App\\Presenters\\Form' => 3,
-    'UI\\Form' => 3,
-    'App\\Presenters\\IndexPresenter' => 1,
-    'App\\Presenters\\Debugger' => 1,
-    'App\\Presenters\\Message' => 1,
-    'App\\Presenters\\UploadPresenter' => 1,
+    'Nette\\Environment' => 3,
   ),
 );

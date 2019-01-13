@@ -26,7 +26,8 @@ class Templatee4cf15a6db extends Latte\Runtime\Template
 	function prepare()
 	{
 		extract($this->params);
-		if (isset($this->params['error'])) trigger_error('Variable $error overwritten in foreach on line 10');
+		if (isset($this->params['flash'])) trigger_error('Variable $flash overwritten in foreach on line 5');
+		if (isset($this->params['error'])) trigger_error('Variable $error overwritten in foreach on line 15');
 		Nette\Bridges\ApplicationLatte\UIRuntime::initialize($this, $this->parentName, $this->blocks);
 		
 	}
@@ -36,6 +37,17 @@ class Templatee4cf15a6db extends Latte\Runtime\Template
 	{
 		extract($_args);
 ?>
+<!--flashmessage-->
+<?php
+		$iterations = 0;
+		foreach ($flashes as $flash) {
+			?>        <div class="flash <?php echo LR\Filters::escapeHtmlAttr($flash->type) /* line 6 */ ?>"><li><?php
+			echo LR\Filters::escapeHtmlText($flash->message) /* line 6 */ ?></li></div>
+<?php
+			$iterations++;
+		}
+?>
+
 
 <?php
 		if ($user->isInRole('administrator')) {
@@ -47,11 +59,11 @@ class Templatee4cf15a6db extends Latte\Runtime\Template
             <div>
 <?php
 				if ($form->hasErrors()) {
-?>                <ul class="errors">
+?>                <ul class="unsuccess">
 <?php
 					$iterations = 0;
 					foreach ($form->errors as $error) {
-						?>                    <li><?php echo LR\Filters::escapeHtmlText($error) /* line 10 */ ?></li>
+						?>                    <li><?php echo LR\Filters::escapeHtmlText($error) /* line 15 */ ?></li>
 <?php
 						$iterations++;
 					}
@@ -71,7 +83,7 @@ class Templatee4cf15a6db extends Latte\Runtime\Template
 
             <p class="h4 mb-4 text-center"><?php
 			if (isset($name)) {
-				echo LR\Filters::escapeHtmlText($name) /* line 16 */;
+				echo LR\Filters::escapeHtmlText($name) /* line 21 */;
 			}
 			else {
 				?>Přidat projekt<?php
@@ -162,7 +174,7 @@ class Templatee4cf15a6db extends Latte\Runtime\Template
     </div>
 <?php
 			if (isset($error)) {
-				?>        <?php echo LR\Filters::escapeHtmlText($error) /* line 54 */ ?>
+				?>        <?php echo LR\Filters::escapeHtmlText($error) /* line 59 */ ?>
 
 <?php
 			}

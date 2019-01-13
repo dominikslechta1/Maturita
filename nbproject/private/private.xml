@@ -3,12 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/wamp/www/Maturita/app/presenters/templates/Admin/projects.latte</file>
-            <file>file:/C:/wamp/www/Maturita/app/presenters/templates/@layout.latte</file>
-            <file>file:/C:/wamp/www/Maturita/app/presenters/AdminPresenter.php</file>
+            <file>file:/C:/wamp/www/Maturita/app/presenters/templates/Addproject/add.latte</file>
             <file>file:/C:/wamp/www/Maturita/app/presenters/HomepagePresenter.php</file>
-            <file>file:/C:/wamp/www/Maturita/app/presenters/templates/Homepage/default.latte</file>
+            <file>file:/C:/wamp/www/Maturita/app/presenters/LoginPresenter.php</file>
             <file>file:/C:/wamp/www/Maturita/app/presenters/templates/Homepage/project.latte</file>
+            <file>file:/C:/wamp/www/Maturita/app/presenters/AddprojectPresenter.php</file>
         </group>
     </open-files>
 </project-private>

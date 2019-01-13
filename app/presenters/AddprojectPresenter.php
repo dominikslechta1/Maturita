@@ -11,7 +11,7 @@ use Nette\Database\Context;
 use Nette\Utils\FileSystem;
 use App\Model\MyDateTime;
 
-class AddprojectPresenter extends Nette\Application\UI\Presenter {
+class AddprojectPresenter extends BasePresenter {
 
     private $database;
     private $project = null;
@@ -120,55 +120,6 @@ class AddprojectPresenter extends Nette\Application\UI\Presenter {
             }
         }
         $this->redirect('Homepage:');
+        $this->flashMessage('Projekt uložen');
     }
-
-//    public function validateProject(UI\Form $form) {
-//        $values = $form->getValues();
-//        $file = $values['file'];
-//        if ($file->getContentType() !== 'application/pdf') {
-//            $form['file']->addError('toto není pdf soubor');
-//        }
-//    }
-//
-//    public function saveProject(UI\Form $form) {
-//        $values = $form->getValues();
-//        if ($values->file->isOk()) {
-//            //extension
-//            $file_ext = strtolower(
-//                    mb_substr(
-//                            $values->file->getSanitizedName(), strrpos(
-//                                    $values->file->getSanitizedName(), "."
-//                            )
-//                    )
-//            );
-//            //new name with rnd name
-//            $file_name = uniqid(rand(0, 20), TRUE);
-//            // move to save dir
-//            $values->file->move('files/' . $file_name . $file_ext);
-//            
-//            
-//            //projects insert
-//            $projectId = $this->database->table('projects')->insert([
-//                'Name' => $values->Name,
-//                'FileDir' => 'files',
-//                'User' => $this->getUser()->getId(),
-//                'Consultant' => $values->consultant,
-//                'Oponent' => $values->oponent,
-//                'Year' => MyDateTime::getYear(\Nette\Utils\DateTime::from('0')),
-//                'Public' => ($values->agree == true)? 1 : 0,
-//            ]); 
-//            //check for type
-//            $n = [
-//                'FileType' => $file_ext,
-//                'Description' => ''
-//            ];
-//            $fileTypeId = $this->database->query('INSERT INTO filetypes ? ON DUPLICATE KEY UPDATE ?', $n,$n);
-//            //file insert 
-//            $this->database->table('files')->insert([
-//                'FileName' => $file_name,
-//                'Project' => $projectId,
-//                'FileType' => $this->database->table('filetypes')->select('idFileTypes')->where('FileType', $file_ext)->fetchField()
-//            ]);
-//        }
-//    }
 }

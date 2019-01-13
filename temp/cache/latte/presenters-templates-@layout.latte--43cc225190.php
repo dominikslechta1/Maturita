@@ -151,11 +151,11 @@ class Template43cc225190 extends Latte\Runtime\Template
                     $('#charNum').text(len + "/255");
                 }
             }
-
-            console.log(screen.height + "   " + $('body').height());
-            if (screen.height < $('body').height() + 10) {
+            console.log(screen.height);
+            console.log('<');
+            console.log($('body').height() + 100);
+            if (screen.height < $('body').height() + 100) {
                 $('footer.page-footer').css("position", "unset");
-                console.log(true);
             } else {
                 $('footer.page-footer').css("position", "fixed");
             }
