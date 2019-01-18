@@ -32,6 +32,17 @@ class AdminPresenter extends BasePresenter {
         $Years = $this->database->table('projects')->order('Year DESC')->select('DISTINCT Year')->fetchAll();
         $this->template->Years = $Years;
     }
+    
+    
+    public function renderUsers(){
+        $users = $this->database->table('users')->fetchAll();
+        if(sizeof($users, 0) < 1){
+            $users = null;
+        }
+        $this->template->users = $users;
+    }
+    
+    
 
     public function handlePubliced($id, $public) {
         $this->database->table('projects')

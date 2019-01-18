@@ -50,7 +50,7 @@ class Templatee4cf15a6db extends Latte\Runtime\Template
 
 
 <?php
-		if ($user->isInRole('administrator')) {
+		if ($user->isInRole('administrator') || $user->isInRole('student')) {
 ?>
     <div class='add-project'>
 <?php

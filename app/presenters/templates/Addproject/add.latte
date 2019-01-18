@@ -7,7 +7,7 @@
             {/foreach}
 
 
-{if $user->isInRole('administrator')}
+{if $user->isInRole('administrator') || $user->isInRole('student')}
     <div class='add-project'>
         {ifset $form}
             <div>

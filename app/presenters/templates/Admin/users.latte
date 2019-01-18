@@ -1,0 +1,32 @@
+{* Latte template *}
+
+{block content}
+{if $user->isInRole('administrator')}
+    {foreach $flashes as $flash}
+        <div class="flash {$flash->type}"><li>{$flash->message}</li></div>
+            {/foreach}
+    <!--projects-->
+    <div class="projects-div ajax">
+        {if $users !== null}
+            {snippet all}
+                {foreach $users as $id => $usero}
+                    <div>
+                        <div class="projects-one {$id} ajax hoverable">
+                            <a n:href="Userpage:usero $id" class="projects-a">
+                                <div class="jumbotron" style="display: contents;">
+                                    <p class="projects-title dark-blue">{$usero->UserName}</p>
+                                    <p class="card-text">{$usero->Email}</p>
+                                    <div class="projects-users">
+                                        <p>Oprávnění: {$usero->ref('privileges','UserPrivilege')->Privilege}</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                {/foreach}
+            {/snippet}
+        {else}
+            <p>nejsou projekty k vidění</p>
+        {/if}
+    </div>
+{/if}

@@ -28,6 +28,35 @@ class UserpagePresenter extends BasePresenter {
     public function renderChangepass() {
         
     }
+    public function renderUsero($id = null){
+        $usero = $this->database->table('users')->where('idUsers', $id)->order('UserPrivilege',"ASC")->fetch();
+        if(sizeof($usero, 0) < 1){
+            $usero = null;
+        }
+        
+        $this->template->usera = $usero;
+        
+    }
+    public function handleDelete($id){
+        if ($this->user->isInRole('administrator')&& $this->user->getIdentity()->getId() !== $id) {
+            
+            $v = $this->database->table('files')->where('Project', [
+                    $this->database->table('projects')
+                    ->where('User =? OR Oponent = ? OR Consultant = ?',$id,$id,$id)
+                    ->select('idProjects')
+                    ])->delete();
+            
+            $this->database->table('projects')
+                    ->where('User =? OR Oponent = ? OR Consultant = ?',$id,$id,$id)
+                    ->delete();
+            $this->database->table('users')->where('idUsers', $id)->delete();
+            $this->flashMessage($v.' Uživatel s id ' . $id . 'byl smazán',"success");
+            $this->redirect('Admin:users');
+            
+        } else {
+            $this->flashMessage('Nemáš oprávnění smazat tento soubor', 'unsuccess');
+        }
+    }
 
     protected function createComponentChangePasswordForm() {
         $form = new UI\Form;
@@ -73,5 +102,7 @@ class UserpagePresenter extends BasePresenter {
         ]);
         $this->redirect('Homepage:default');
     }
+    
+    
 
 }

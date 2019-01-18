@@ -1,128 +1,131 @@
 {* Latte template *}
 
 {block content}
-
-<!--flashmessage-->
-{foreach $flashes as $flash}
-    <div class="flash {$flash->type}"><li>{$flash->message}</li></div>
-        {/foreach}
-
-<!--admin settings-->
-<!--Year show-->
-{ifset $Years}
-    <div class="dropdown show">
-        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Zobrazit Rok</a>
-        <span n:ifset="$curyear"> nyní zobrazen rok: {$curyear}</span>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            <a class="dropdown-item ajax" n:href="sortNews! 'id' => 'all'">všechny</a>
-            {foreach $Years as $row}
-                <a class="dropdown-item ajax" n:href="sortNews! 'id' => $row->Year">
-                    {$row->Year}
-                </a>
+{if $user->isInRole("administrator")}
+    <!--flashmessage-->
+    {foreach $flashes as $flash}
+        <div class="flash {$flash->type}"><li>{$flash->message}</li></div>
             {/foreach}
+
+    <!--admin settings-->
+    <!--Year show-->
+    {ifset $Years}
+        <div class="dropdown show">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Zobrazit Rok</a>
+            <span n:ifset="$curyear"> nyní zobrazen rok: {$curyear}</span>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item ajax" n:href="sortNews! 'id' => 'all'">všechny</a>
+                {foreach $Years as $row}
+                    <a class="dropdown-item ajax" n:href="sortNews! 'id' => $row->Year">
+                        {$row->Year}
+                    </a>
+                {/foreach}
+            </div>
         </div>
-    </div>
-{/ifset}
-{ifset $curyear}
-<!--Visible state for all-->
-<a class="btn btn-md blue" n:href="allHide! 'hide' => '1', 'year' => $curyear">Skrýt vše pro tento rok</a>
+    {/ifset}
+    {ifset $curyear}
+        <!--Visible state for all-->
+        <a class="btn btn-md blue" n:href="allHide! 'hide' => '1', 'year' => $curyear">Skrýt vše pro tento rok</a>
 
-<!--Locked state for all-->
-<a class="btn btn-md blue" n:href="allLock! 'locked' => '1', 'year' => $curyear">Uzamknout vše pro tento rok</a>
-{else}
-    <a class="btn btn-md blue" n:href="allHide! 'hide' => '1', 'year' => 'all'">Skrýt vše pro tento rok</a>
+        <!--Locked state for all-->
+        <a class="btn btn-md blue" n:href="allLock! 'locked' => '1', 'year' => $curyear">Uzamknout vše pro tento rok</a>
+    {else}
+        <a class="btn btn-md blue" n:href="allHide! 'hide' => '1', 'year' => 'all'">Skrýt vše pro tento rok</a>
 
-<!--Locked state for all-->
-    <a class="btn btn-md blue" n:href="allLock! 'locked' => '1', 'year' => 'all'">Uzamknout vše pro tento rok</a>
-{/ifset}
-{ifset $curyear}
-<!--Visible state for all-->
-<a class="btn btn-md blue" n:href="allHide! 'hide' => '0', 'year' => $curyear">Zobrazit vše pro tento rok</a>
+        <!--Locked state for all-->
+        <a class="btn btn-md blue" n:href="allLock! 'locked' => '1', 'year' => 'all'">Uzamknout vše pro tento rok</a>
+    {/ifset}
+    {ifset $curyear}
+        <!--Visible state for all-->
+        <a class="btn btn-md blue" n:href="allHide! 'hide' => '0', 'year' => $curyear">Zobrazit vše pro tento rok</a>
 
-<!--Locked state for all-->
-<a class="btn btn-md blue" n:href="allLock! 'locked' => '0', 'year' => $curyear">Odemknout vše pro tento rok</a>
-{else}
-    <a class="btn btn-md blue" n:href="allHide! 'hide' => '0', 'year' => 'all'">Zobrazit vše pro tento rok</a>
+        <!--Locked state for all-->
+        <a class="btn btn-md blue" n:href="allLock! 'locked' => '0', 'year' => $curyear">Odemknout vše pro tento rok</a>
+    {else}
+        <a class="btn btn-md blue" n:href="allHide! 'hide' => '0', 'year' => 'all'">Zobrazit vše pro tento rok</a>
 
-<!--Locked state for all-->
-    <a class="btn btn-md blue" n:href="allLock! 'locked' => '0', 'year' => 'all'">Odemknout vše pro tento rok</a>
-{/ifset}
-
-
-<!--/admin settings-->
+        <!--Locked state for all-->
+        <a class="btn btn-md blue" n:href="allLock! 'locked' => '0', 'year' => 'all'">Odemknout vše pro tento rok</a>
+    {/ifset}
 
 
-<!--projects-->
-<div class="projects-div ajax">
-    {if $projects !== null}
-        {snippet all}
-            {foreach $projects as $id => $project}
-                <div>
-                    <div class="projects-one {$id} ajax hoverable">
-                        <div class=" wider reverse">
-                            <div class="projects-part">
-                                <!--Locked-->
-                                <part class="projects-locked">
-                                    {if $user->isInRole('administrator')}
-                                        <a n:href="locked! $project->idProjects,$project->Locked" class="ajax" >
+    <!--/admin settings-->
+
+
+    <!--projects-->
+    <div class="projects-div ajax">
+        {if $projects !== null}
+            {snippet all}
+                {foreach $projects as $id => $project}
+                    <div>
+                        <div class="projects-one {$id} ajax hoverable">
+                            <div class=" wider reverse">
+                                <div class="projects-part">
+                                    <!--Locked-->
+                                    <part class="projects-locked">
+                                        {if $user->isInRole('administrator')}
+                                            <a n:href="locked! $project->idProjects,$project->Locked" class="ajax" >
+                                                <img 
+                                                    {if $project->Locked == 1} 
+                                                        src="{$basePath}/lock.png" alt="locked" title="Projekt je zamknutý"
+                                                    {else}
+                                                        src="{$basePath}/unlock.png" alt="unlocked" title="Projekt je odemknutý"
+                                                    {/if} 
+                                                    width="30px" />
+                                            </a>
+                                        {else}
                                             <img 
                                                 {if $project->Locked == 1} 
-                                                    src="{$basePath}/lock.png" alt="locked" title="Projekt je zamknutý"
+                                                    src="{$basePath}/lock.png" alt="locked" title="Projekt se nemůže nadále editovat"
                                                 {else}
-                                                    src="{$basePath}/unlock.png" alt="unlocked" title="Projekt je odemknutý"
+                                                    src="{$basePath}/unlock.png" alt="unlocked" title="Projekt se může editovat"
                                                 {/if} 
                                                 width="30px" />
-                                        </a>
-                                    {else}
-                                        <img 
-                                            {if $project->Locked == 1} 
-                                                src="{$basePath}/lock.png" alt="locked" title="Projekt se nemůže nadále editovat"
-                                            {else}
-                                                src="{$basePath}/unlock.png" alt="unlocked" title="Projekt se může editovat"
-                                            {/if} 
-                                            width="30px" />
-                                    {/if}
-                                </part>
-                                <part class="projects-locked">
-                                    {if $user->isInRole('administrator')}
-                                        <a n:href="publiced! 'id'=>$project->idProjects,'public'=>$project->Public" class="ajax"> 
+                                        {/if}
+                                    </part>
+                                    <part class="projects-locked">
+                                        {if $user->isInRole('administrator')}
+                                            <a n:href="publiced! 'id'=>$project->idProjects,'public'=>$project->Public" class="ajax"> 
+                                                <img 
+                                                    {if $project->Public == 0} 
+                                                        src="{$basePath}/closed-eye.png" alt="closed eye" title="Projekt je skrytý"
+                                                    {else}
+                                                        src="{$basePath}/opened-eye.png" alt="opened eye" title="Projekt je viditelný"
+                                                    {/if}
+                                                    width="30px" />
+                                            </a>
+                                        {else}
                                             <img 
                                                 {if $project->Public == 0} 
                                                     src="{$basePath}/closed-eye.png" alt="closed eye" title="Projekt je skrytý"
                                                 {else}
                                                     src="{$basePath}/opened-eye.png" alt="opened eye" title="Projekt je viditelný"
-                                                {/if}
+                                                {/if} 
                                                 width="30px" />
-                                        </a>
-                                    {else}
-                                        <img 
-                                            {if $project->Public == 0} 
-                                                src="{$basePath}/closed-eye.png" alt="closed eye" title="Projekt je skrytý"
-                                            {else}
-                                                src="{$basePath}/opened-eye.png" alt="opened eye" title="Projekt je viditelný"
-                                            {/if} 
-                                            width="30px" />
-                                    {/if}
-                                </part>
-                            </div>
-                            <a n:href="Homepage:project $id" class="projects-a">
-                                <div class="jumbotron" style="display: contents;">
-                                    <p class="projects-title dark-blue">{$project->Name}</p>
-                                    <p class="card-text">{$project->Desc}</p>
-                                    <div class="projects-users">
-                                        <p>Vypracovává: {if $project->User != null}{$project->ref('users','User')->UserName}{else}neurčeno{/if}</p>
-                                        <p>Oponent: {if $project->Oponent != null}{$project->ref('users','Oponent')->UserName}{else}neurčeno{/if}</p>
-                                        <p>Konzultant: {if $project->Consultant != null}{$project->ref('users','Consultant')->UserName}{else}neurčeno{/if}</p>
-                                        <p>Rok: {$project->Year}</p>
-                                    </div>
+                                        {/if}
+                                    </part>
                                 </div>
-                            </a>
+                                <a n:href="Homepage:project $id" class="projects-a">
+                                    <div class="jumbotron" style="display: contents;">
+                                        <p class="projects-title dark-blue">{$project->Name}</p>
+                                        <p class="card-text">{$project->Desc}</p>
+                                        <div class="projects-users">
+                                            <p>Vypracovává: {if $project->User != null}{$project->ref('users','User')->UserName}{else}neurčeno{/if}</p>
+                                            <p>Oponent: {if $project->Oponent != null}{$project->ref('users','Oponent')->UserName}{else}neurčeno{/if}</p>
+                                            <p>Konzultant: {if $project->Consultant != null}{$project->ref('users','Consultant')->UserName}{else}neurčeno{/if}</p>
+                                            <p>Rok: {$project->Year}</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            {/foreach}
-        {/snippet}
-    {else}
-        <p>nejsou projekty k vidění</p>
-    {/if}
-</div>
+                {/foreach}
+            {/snippet}
+        {else}
+            <p>nejsou projekty k vidění</p>
+        {/if}
+    </div>
+{else}
+    <p>nemas opravneni</p>
+{/if}
