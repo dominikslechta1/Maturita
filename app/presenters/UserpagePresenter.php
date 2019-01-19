@@ -37,9 +37,13 @@ class UserpagePresenter extends BasePresenter {
         $this->template->usera = $usero;
         
     }
+    
+    
+    
+    
+    
     public function handleDelete($id){
-        if ($this->user->isInRole('administrator')&& $this->user->getIdentity()->getId() !== $id) {
-            
+        if ($this->user->isInRole('administrator')&& $this->user->getIdentity()->getId() != $id) {
             $v = $this->database->table('files')->where('Project', [
                     $this->database->table('projects')
                     ->where('User =? OR Oponent = ? OR Consultant = ?',$id,$id,$id)

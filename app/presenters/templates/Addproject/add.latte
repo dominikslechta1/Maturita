@@ -21,7 +21,7 @@
             <p class="h4 mb-4 text-center">{ifset $name}{$name}{else}Přidat projekt{/ifset}</p>
 
             <label for="textInput">Název projektu*</label>
-            <input type="text" id="textInput" n:name='Name' class="form-control mb-4" placeholder="Název">
+            <input type="text" id="textInput" n:name='Name' n:class="'form-control mb-4', ($user->isInRole('administrator'))? '':'disabled'" placeholder="Název">
 
             <div class="texarea-parent mb-1">
                 <label for="field">Popis</label>
@@ -29,23 +29,23 @@
                 <div id="charNum" class='grey-text' style='width: 100%; text-align: right;'>0/255</div>
             </div>
             <label for="select-user">Student*</label>
-            <select class="browser-default custom-select mb-4" n:name='user' id="select-user">
+            <select n:class="'browser-default custom-select mb-4', ($user->isInRole('administrator'))? '':'disabled'" n:name='user' id="select-user">
                 <option value="" disabled="" selected="">Choose your option</option>
             </select>
 
             <label for="select-cons">Konzultant</label>
-            <select class="browser-default custom-select mb-4" n:name='consultant' id="select-cons">
+            <select n:class="'browser-default custom-select mb-4', ($user->isInRole('administrator'))? '':'disabled'" n:name='consultant' id="select-cons">
                 <option value="" disabled="" selected="">Choose your option</option>
             </select>
 
             <label for="select-oponent">Oponent</label>
-            <select class="browser-default custom-select mb-4" n:name='oponent' id="select-oponent">
+            <select n:class="'browser-default custom-select mb-4', ($user->isInRole('administrator'))? '':'disabled'" n:name='oponent' id="select-oponent">
                 <option value="" disabled="" selected="">Choose your option</option>
             </select>
 
 
 
-            <div class="custom-control custom-checkbox mb-4">
+            <div n:class="'custom-control custom-checkbox mb-4',($user->isInRole('administrator'))? '':'disabled'">
                 <input type="checkbox" n:name='agree' class="custom-control-input" id="checkbox">
                 <label class="custom-control-label" for="checkbox">Veřejné</label>
             </div>

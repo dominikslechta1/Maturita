@@ -152,3 +152,6 @@ a.btn.btn-outline-light-blue.waves-effect:hover {
 .project-title{
     word-break: break-word;
 }
+.disabled:not(.custom-checkbox){
+    background: #e9ecef;
+}

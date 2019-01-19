@@ -91,14 +91,15 @@ class Templatee4cf15a6db extends Latte\Runtime\Template
 ?></p>
 
             <label for="textInput">Název projektu*</label>
-            <input type="text" id="textInput" class="form-control mb-4" placeholder="Název"<?php
+            <input type="text" id="textInput" placeholder="Název"<?php
 			$_input = end($this->global->formsStack)["Name"];
 			echo $_input->getControlPart()->addAttributes(array (
 			'type' => NULL,
 			'id' => NULL,
-			'class' => NULL,
 			'placeholder' => NULL,
-			))->attributes() ?>>
+			'class' => NULL,
+			))->attributes();
+			if ($_tmp = array_filter(['form-control mb-4', ($user->isInRole('administrator'))? '':'disabled'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"' ?>>
 
             <div class="texarea-parent mb-1">
                 <label for="field">Popis</label>
@@ -114,35 +115,38 @@ class Templatee4cf15a6db extends Latte\Runtime\Template
                 <div id="charNum" class='grey-text' style='width: 100%; text-align: right;'>0/255</div>
             </div>
             <label for="select-user">Student*</label>
-            <select class="browser-default custom-select mb-4" id="select-user"<?php
+            <select id="select-user"<?php
+			if ($_tmp = array_filter(['browser-default custom-select mb-4', ($user->isInRole('administrator'))? '':'disabled'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"';
 			$_input = end($this->global->formsStack)["user"];
 			echo $_input->getControlPart()->addAttributes(array (
-			'class' => NULL,
 			'id' => NULL,
+			'class' => NULL,
 			))->attributes() ?>>
 <?php echo $_input->getControl()->getHtml() ?>            </select>
 
             <label for="select-cons">Konzultant</label>
-            <select class="browser-default custom-select mb-4" id="select-cons"<?php
+            <select id="select-cons"<?php
+			if ($_tmp = array_filter(['browser-default custom-select mb-4', ($user->isInRole('administrator'))? '':'disabled'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"';
 			$_input = end($this->global->formsStack)["consultant"];
 			echo $_input->getControlPart()->addAttributes(array (
-			'class' => NULL,
 			'id' => NULL,
+			'class' => NULL,
 			))->attributes() ?>>
 <?php echo $_input->getControl()->getHtml() ?>            </select>
 
             <label for="select-oponent">Oponent</label>
-            <select class="browser-default custom-select mb-4" id="select-oponent"<?php
+            <select id="select-oponent"<?php
+			if ($_tmp = array_filter(['browser-default custom-select mb-4', ($user->isInRole('administrator'))? '':'disabled'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"';
 			$_input = end($this->global->formsStack)["oponent"];
 			echo $_input->getControlPart()->addAttributes(array (
-			'class' => NULL,
 			'id' => NULL,
+			'class' => NULL,
 			))->attributes() ?>>
 <?php echo $_input->getControl()->getHtml() ?>            </select>
 
 
 
-            <div class="custom-control custom-checkbox mb-4">
+            <div<?php if ($_tmp = array_filter(['custom-control custom-checkbox mb-4',($user->isInRole('administrator'))? '':'disabled'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"' ?>>
                 <input type="checkbox" class="custom-control-input" id="checkbox"<?php
 			$_input = end($this->global->formsStack)["agree"];
 			echo $_input->getControlPart()->addAttributes(array (

@@ -5,6 +5,11 @@
     {foreach $flashes as $flash}
         <div class="flash {$flash->type}"><li>{$flash->message}</li></div>
             {/foreach}
+    <div>
+    {ifset $test}
+        {$test}
+    {/ifset}
+    </div>
 
     <!--projekt-->
     <div class="project-one">
@@ -90,5 +95,25 @@
             {include '../Upload/upload.latte'}
         </div>
     </div>
+
+    <div class="cards">
+        {ifset $files}
+            {foreach $files as $id => $item}
+                <div class="card mb-3">
+                    <div class="card-body hoverable ">
+                        <h5 class="card-title">{$item->Name}</h5>
+                        <p class="card-link">{$item->Desc}</p>
+                        <small class="card-text">{$item->ref('filetypes','FileType')->FileType}</small><br>
+                        <a class="card-link" href="{$basePath}/files/{$item->FileName}{$item->ref('filetypes','FileType')->FileType}" download="{$item->Name}{$item->ref('filetypes','FileType')->FileType}">Download</a>
+                        <a n:class="'card-link', ($user->isInRole('administrator'))? '':'disabled'" n:href="deleteFile! 'fileId'=>$id">delete</a>
+                    </div>
+                </div>
+            {/foreach}
+        {/ifset}
+    </div>
+
+    
+
+
 
 {/ifset}

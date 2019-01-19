@@ -32,25 +32,29 @@ class AddprojectPresenter extends BasePresenter {
         $form = new Nette\Application\UI\Form;
         if ($this->project !== null) {
             //nazev
-            $form->addText('Name')->setRequired('Projekt musí mít název')->setValue($this->project->Name);
+            $form->addText('Name')
+                    ->setRequired('Projekt musí mít název')
+                    ->setValue($this->project->Name);
             
             //popis
             $form->addTextArea('desc')->setValue($this->project->Desc);
             
             //student
-            $form->addSelect('user', null, $this->database->table('users')->where('UserPrivilege', 3)->fetchPairs('idUsers', 'UserName'))->setDefaultValue($this->project->User)->setRequired('Projekt musí mít studenta');
+            $form->addSelect('user', null, $this->database->table('users')->where('UserPrivilege', 3)->fetchPairs('idUsers', 'UserName'))
+                    ->setDefaultValue($this->project->User)
+                    ->setRequired('Projekt musí mít studenta')
+                    ->setPrompt('');
             
             //consultant
-            $form->addSelect('consultant', null, $this->database->table('users')
-                    ->where('UserPrivilege', 2)
-                    ->fetchPairs('idUsers', 'UserName'))
-                    ->setDefaultValue($this->project->Consultant);
+            $form->addSelect('consultant', null, $this->database->table('users')->where('UserPrivilege', 2)->fetchPairs('idUsers', 'UserName'))
+                    ->setOption('class', 'disabled')
+                    ->setDefaultValue($this->project->Consultant)
+                    ->setPrompt('');
             
             //oponent
-            $form->addSelect('oponent', null, $this->database->table('users')
-                    ->where('UserPrivilege', 4)
-                    ->fetchPairs('idUsers', 'UserName'))
-                    ->setDefaultValue($this->project->Oponent);
+            $form->addSelect('oponent', null, ($this->database->table('users')->where('UserPrivilege', 4)->fetchPairs('idUsers', 'UserName')))
+                    ->setDefaultValue($this->project->Oponent)
+                    ->setPrompt('');
             
             //verejne
             $form->addCheckbox('agree')->setValue($this->project->Public);
@@ -75,23 +79,25 @@ class AddprojectPresenter extends BasePresenter {
     public function validateProject(UI\Form $form) {
         $values = $form->getValues();
         if ($values->desc > 256) {
-            $form[desc]->addError('popis přesahuje maximální dovolený limit písmen');
+            $this->flashMessage('Písmena','success');
+            $form['desc']->addError('popis přesahuje maximální dovolený limit písmen');
+            
         }
         $res = $this->database->table('projects')
                         ->where('Name', $values->Name)
                         ->where('idProjects != ?', $values->preddefined)
                         ->where('Year', MyDateTime::getYear(\Nette\Utils\DateTime::from('0')))->count('*');
-        if ($res > 0) {
+        if ($res > 0 && $values->preddefined == 0) {
+            $this->flashMessage('duplicita','success');
             $form['Name']->addError('duplicitni nazev');
-            $this->template->form = $form;
+            
         }
     }
 
     public function saveProject(UI\Form $form) {
         $values = $form->getValues();
-        if ($values->preddefined == 0) {
-            try {
-                $projectId = $this->database->table('projects')->insert([
+        if ($values->preddefined == 0 && $this->user->isInRole('administrator')) {
+                $this->database->table('projects')->insert([
                     'Name' => $values->Name,
                     'FileDir' => 'files',
                     'User' => $values->user,
@@ -99,27 +105,28 @@ class AddprojectPresenter extends BasePresenter {
                     'Oponent' => $values->oponent,
                     'Year' => MyDateTime::getYear(\Nette\Utils\DateTime::from('0')),
                     'Public' => ($values->agree == true) ? 1 : 0,
+                    'Desc' => $values->desc,
                 ]);
-            } catch (mysqli_sql_exception $e) {
-                $this->template->error = var_dump($e);
-            }
+        }
+        elseif($this->user->isInRole('administrator')){
+            $this->database->table('projects')->where('idProjects',$values->preddefined)->update([
+                    'Name' => $values->Name,
+                    'FileDir' => 'files',
+                    'User' => $values->user,
+                    'Consultant' => $values->consultant,
+                    'Oponent' => $values->oponent,
+                    'Year' => MyDateTime::getYear(\Nette\Utils\DateTime::from('0')),
+                    'Public' => ($values->agree == true) ? 1 : 0,
+                    'Desc' => $values->desc,
+                ]);
         }
         else{
-            try {
-                $projectId = $this->database->table('projects')->where('idProjects',$values->preddefined)->update([
-                    'Name' => $values->Name,
-                    'FileDir' => 'files',
-                    'User' => $values->user,
-                    'Consultant' => $values->consultant,
-                    'Oponent' => $values->oponent,
-                    'Year' => MyDateTime::getYear(\Nette\Utils\DateTime::from('0')),
-                    'Public' => ($values->agree == true) ? 1 : 0,
+                $this->database->table('projects')->where('idProjects',$values->preddefined)->update([
+                    'Desc' => $values->desc,
                 ]);
-            } catch (mysqli_sql_exception $e) {
-                $this->template->error = var_dump($e);
-            }
         }
+        $this->flashMessage('Projekt uložen','success');
         $this->redirect('Homepage:');
-        $this->flashMessage('Projekt uložen');
+        
     }
 }

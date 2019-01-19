@@ -7,6 +7,7 @@ use Nette\Security\User;
 use App\Model\MyDateTime;
 use Nette\Utils\DateTime;
 use Nette\Application\UI\Form;
+use Nette\Utils\FileSystem;
 
 class HomepagePresenter extends BasePresenter {
 
@@ -51,12 +52,19 @@ class HomepagePresenter extends BasePresenter {
      */
     public function renderProject($projectId) {
         $project = $this->database->table('projects')->where('idProjects', $projectId)->fetch();
+        $files = $this->database->table('files')->where('Project', $projectId)->fetchAll();
+        if ($files == null) {
+            $files = null;
+        }
         if ($this->user->isInRole('administrator')) {
+            $this->template->files = $files;
             $this->template->project = $project;
         } else if ($project->Public == 0) {
             if ($this->user->isLoggedIn() && ($this->user->getIdentity()->username == $project->ref('users', 'User')->UserName ||
                     $this->user->getIdentity()->username == $project->ref('users', 'Oponent')->UserName ||
                     $this->user->getIdentity()->username == $project->ref('users', 'Consultant')->UserName)) {
+
+                $this->template->files = $files;
                 $this->template->project = $project;
             } else {
                 $this->error('Projekt je zamčen veřejnosti');
@@ -64,7 +72,7 @@ class HomepagePresenter extends BasePresenter {
         } else {
             $this->template->project = $project;
         }
-        
+
         $this->project = $project;
         $this->projectId = $project->idProjects;
 
@@ -122,7 +130,7 @@ class HomepagePresenter extends BasePresenter {
         }
     }
 
-    public function handleUpdate($state,$project) {
+    public function handleUpdate($state, $project) {
         $user = $this->user->roles[0];
         if ($user == 'administrator' || $user == 'oponent') {
             $this->uploadOpen($state);
@@ -133,10 +141,30 @@ class HomepagePresenter extends BasePresenter {
         } else {
             $this->flashMessage('Nemáš oprávnění přidávat soubory k tomuto projektu.', 'unsuccess');
         }
-        
+
         $this->redrawControl('itemsContainer');
         $this->redrawControl('file');
         $this->redrawControl('scripts');
+    }
+//deletes file from database and server folder
+    public function handleDeleteFile($fileId) {
+        $user = $this->user->roles[0];
+        if ($user == 'administrator') {
+            
+            $file = $this->database->table('files')->where('idFiles',$fileId)->fetch();
+            
+            $fileFullName = $file->FileName . $file->ref('filetypes','FileType')->FileType;
+            try{
+                 
+                FileSystem::delete(__DIR__. '\\..\\..\\www\\files\\' . $fileFullName);
+            } catch (Exception $ex) {
+            }
+            $this->database->table('files')->where('idFiles', $fileId)->delete();
+            $this->flashMessage('Úspěšně smazáno', 'success');
+            $this->redirect('this');
+        } else {
+            $this->flashMessage('Nemáš oprávnění smazat tento soubor', 'unsuccess');
+        }
     }
 
     private function uploadOpen($state) {
@@ -152,11 +180,16 @@ class HomepagePresenter extends BasePresenter {
     }
 
     protected function createComponentUploadForm() {
+        //extension get
+        $acex = $this->acceptedExtension();
+        $acexstring = implode(",", $acex);
         $form = new Form;
         $form->addUpload('file', null, false)
+                ->setAttribute('accept', $acexstring)
                 ->addCondition(Form::FILLED)
-                //->addRule(Form::MIME_TYPE, 'Povolené formáty jsou ZIP, RAR, PDF a TXT', 'application/x-rar, application/x-rar-compressed, application/rar, application/x-pdf, application/pdf, text/plain')
+                //->addRule(Form::MIME_TYPE, 'Povolené formáty jsou ZIP, RAR, PDF a TXT', 'text/plain')
                 ->setRequired('');
+        $form->addText('name', null, null, 80)->setRequired('Soubor musí mít název');
         $form->addTextArea('desc', null, null, 3);
         $form->addHidden('id', $this->projectId);
         $form->addSubmit('save');
@@ -167,12 +200,28 @@ class HomepagePresenter extends BasePresenter {
 
     public function upValidate(Form $form) {
 
-        
+
         $values = $form->getValues();
+        if ($values->file->isOk()) {
+            $file_ext = strtolower(
+                    mb_substr(
+                            $values->file->getSanitizedName(), strrpos(
+                                    $values->file->getSanitizedName(), "."
+                            )
+                    )
+            );
+        }
         $file = $values['file'];
         $this->projectId = $values->id;
-        if (!in_array($file->getContentType(), array('application/pdf', '.rar', 'text/plain'))) {
-            $form['file']->addError('soubor obsahuje neplatné přípony ' . $file->getContentType());
+        $field = $this->acceptedExtension();
+        if (!in_array($file_ext, $field)) {
+//array('.pdf', '.rar', '.txt', '.zip')
+            $form['file']->addError('Soubor obsahuje neplatné přípony ' . $file_ext);
+            $this->flashMessage('Soubor obsahuje neplatné přípony ', 'unsuccess');
+        }
+        if ($values->name == '') {
+            $form['name']->addError('Musí mít název');
+            $this->flashMessage('Název', 'unsuccess');
         }
         $this->uploadOpen('open');
         $this->redrawControl('itemsContainer');
@@ -196,33 +245,40 @@ class HomepagePresenter extends BasePresenter {
             // move to save dir
             $values->file->move('files/' . $file_name . $file_ext);
             //projects insert
-            $projectId = $this->database->table('projects')
+            $this->database->table('projects')
                     ->where('idProjects', $this->projectId)
                     ->update([
-                'FileDir' => 'files'
+                        'FileDir' => 'files'
             ]);
-            //check for type
-            $n = [
-                'FileType' => $file_ext,
-            ];
-            $this->database->query('INSERT INTO filetypes ? ON DUPLICATE KEY UPDATE ?', $n, $n);
 
             //file insert 
-            $this->database->table('files')->insert([
+            $uploaded = $this->database->table('files')->insert([
                 'FileName' => $file_name,
                 'Project' => $this->projectId,
                 'FileType' => $this->database->table('filetypes')->select('idFileTypes')->where('FileType', $file_ext)->fetchField(),
-                'Desc' => $values->desc
+                'Desc' => $values->desc,
+                'Name' => $values->name
             ]);
-            
-            //after full success
-            $this->uploadOpen('close');
-        $this->redrawControl('itemsContainer');
-        $this->redrawControl('file');
-        $this->redrawControl('scripts');
-        $this->flashMessage('uspesne ulozeno','success');
+            if ($uploaded == '') {
+                $this->flashMessage('uspesne ulozeno ', 'success');
+                $this->redirect('this');
+            } else {
+
+                //after full success
+                $this->flashMessage('uspesne ulozeno ', 'success');
+                $this->redirect('this');
+            }
         }
     }
-
+    
+    //function extension get to get accepted file extension for upload
+    public function acceptedExtension(){
+        $n = $this->database->table('filetypes')->fetchAll();
+        $field = array();
+        foreach ($n as $id => $item) {
+            array_push($field, $item->FileType);
+        }
+        return $field;
+    }
 
 }

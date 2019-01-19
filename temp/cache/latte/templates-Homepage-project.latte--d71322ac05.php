@@ -35,6 +35,8 @@ class Templated71322ac05 extends Latte\Runtime\Template
 	{
 		extract($this->params);
 		if (isset($this->params['flash'])) trigger_error('Variable $flash overwritten in foreach on line 5');
+		if (isset($this->params['id'])) trigger_error('Variable $id overwritten in foreach on line 101');
+		if (isset($this->params['item'])) trigger_error('Variable $item overwritten in foreach on line 101');
 		Nette\Bridges\ApplicationLatte\UIRuntime::initialize($this, $this->parentName, $this->blocks);
 		
 	}
@@ -56,6 +58,15 @@ class Templated71322ac05 extends Latte\Runtime\Template
 				$iterations++;
 			}
 ?>
+    <div>
+<?php
+			if (isset($test)) {
+				?>        <?php echo LR\Filters::escapeHtmlText($test) /* line 10 */ ?>
+
+<?php
+			}
+?>
+    </div>
 
     <!--projekt-->
     <div class="project-one">
@@ -64,13 +75,13 @@ class Templated71322ac05 extends Latte\Runtime\Template
 <div id="<?php echo htmlSpecialChars($this->global->snippetDriver->getHtmlId('Locked')) ?>"><?php $this->renderBlock('_Locked', $this->params) ?></div>        <!--Public-->
 <div id="<?php echo htmlSpecialChars($this->global->snippetDriver->getHtmlId('Public')) ?>"><?php $this->renderBlock('_Public', $this->params) ?></div>        <div class="jumbotron" style="display: contents;">
 
-            <h2 class="display-4 project-title"><?php echo LR\Filters::escapeHtmlText($project->Name) /* line 62 */ ?></h2>
-            <p class="lead"><?php echo LR\Filters::escapeHtmlText($project->Desc) /* line 63 */ ?></p>
+            <h2 class="display-4 project-title"><?php echo LR\Filters::escapeHtmlText($project->Name) /* line 67 */ ?></h2>
+            <p class="lead"><?php echo LR\Filters::escapeHtmlText($project->Desc) /* line 68 */ ?></p>
 
             <div class="projects-users">
                 <p class="span-user">Vypracovává: <?php
 			if ($project->User != null) {
-				echo LR\Filters::escapeHtmlText($project->ref('users','User')->UserName) /* line 66 */;
+				echo LR\Filters::escapeHtmlText($project->ref('users','User')->UserName) /* line 71 */;
 			}
 			else {
 				?>neurčeno<?php
@@ -78,7 +89,7 @@ class Templated71322ac05 extends Latte\Runtime\Template
 ?></p>
                 <p class="span-oponent">Oponent: <?php
 			if ($project->Oponent != null) {
-				echo LR\Filters::escapeHtmlText($project->ref('users','Oponent')->UserName) /* line 67 */;
+				echo LR\Filters::escapeHtmlText($project->ref('users','Oponent')->UserName) /* line 72 */;
 			}
 			else {
 				?>neurčeno<?php
@@ -86,13 +97,13 @@ class Templated71322ac05 extends Latte\Runtime\Template
 ?></p>
                 <p class="span-consultant">Konzultant: <?php
 			if ($project->Consultant != null) {
-				echo LR\Filters::escapeHtmlText($project->ref('users','Consultant')->UserName) /* line 68 */;
+				echo LR\Filters::escapeHtmlText($project->ref('users','Consultant')->UserName) /* line 73 */;
 			}
 			else {
 				?>neurčeno<?php
 			}
 ?></p>                                    
-                <p>Rok: <?php echo LR\Filters::escapeHtmlText($project->Year) /* line 69 */ ?></p>
+                <p>Rok: <?php echo LR\Filters::escapeHtmlText($project->Year) /* line 74 */ ?></p>
             </div>
 
             <hr class="my-4">
@@ -116,14 +127,45 @@ class Templated71322ac05 extends Latte\Runtime\Template
 ?>
     <div class="mediaup">
 <div id="<?php echo htmlSpecialChars($this->global->snippetDriver->getHtmlId('itemsContainer')) ?>"><?php
-			$this->renderBlock('_itemsContainer', $this->params) ?></div>        <div style="display:<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::escapeCss($useing)) /* line 88 */ ?>;" class="ajax">
+			$this->renderBlock('_itemsContainer', $this->params) ?></div>        <div style="display:<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::escapeCss($useing)) /* line 93 */ ?>;" class="ajax">
 
 <?php
-			/* line 90 */
+			/* line 95 */
 			$this->createTemplate('../Upload/upload.latte', $this->params, "include")->renderToContentType('html');
 ?>
         </div>
     </div>
+
+    <div class="cards">
+<?php
+			if (isset($files)) {
+				$iterations = 0;
+				foreach ($files as $id => $item) {
+?>
+                <div class="card mb-3">
+                    <div class="card-body hoverable ">
+                        <h5 class="card-title"><?php echo LR\Filters::escapeHtmlText($item->Name) /* line 104 */ ?></h5>
+                        <p class="card-link"><?php echo LR\Filters::escapeHtmlText($item->Desc) /* line 105 */ ?></p>
+                        <small class="card-text"><?php echo LR\Filters::escapeHtmlText($item->ref('filetypes','FileType')->FileType) /* line 106 */ ?></small><br>
+                        <a class="card-link" href="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 107 */ ?>/files/<?php
+					echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($item->FileName)) /* line 107 */;
+					echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($item->ref('filetypes','FileType')->FileType)) /* line 107 */ ?>" download="<?php
+					echo LR\Filters::escapeHtmlAttr($item->Name) /* line 107 */;
+					echo LR\Filters::escapeHtmlAttr($item->ref('filetypes','FileType')->FileType) /* line 107 */ ?>">Download</a>
+                        <a href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("deleteFile!", ['fileId'=>$id])) ?>"<?php
+					if ($_tmp = array_filter(['card-link', ($user->isInRole('administrator'))? '':'disabled'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"' ?>>delete</a>
+                    </div>
+                </div>
+<?php
+					$iterations++;
+				}
+			}
+?>
+    </div>
+
+    
+
+
 
 <?php
 		}
@@ -143,11 +185,11 @@ class Templated71322ac05 extends Latte\Runtime\Template
                         <img 
 <?php
 			if ($project->Locked == 1) {
-				?>                                src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 19 */ ?>/lock.png" alt="locked" title="Projekt je zamknutý"
+				?>                                src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 24 */ ?>/lock.png" alt="locked" title="Projekt je zamknutý"
 <?php
 			}
 			else {
-				?>                                src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 21 */ ?>/unlock.png" alt="unlocked" title="Projekt je odemknutý"
+				?>                                src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 26 */ ?>/unlock.png" alt="unlocked" title="Projekt je odemknutý"
 <?php
 			}
 ?>
@@ -160,11 +202,11 @@ class Templated71322ac05 extends Latte\Runtime\Template
                     <img 
 <?php
 			if ($project->Locked == 1) {
-				?>                            src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 28 */ ?>/lock.png" alt="locked" title="Projekt se nemůže nadále editovat"
+				?>                            src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 33 */ ?>/lock.png" alt="locked" title="Projekt se nemůže nadále editovat"
 <?php
 			}
 			else {
-				?>                            src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 30 */ ?>/unlock.png" alt="unlocked" title="Projekt se může editovat"
+				?>                            src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 35 */ ?>/unlock.png" alt="unlocked" title="Projekt se může editovat"
 <?php
 			}
 ?>
@@ -191,11 +233,11 @@ class Templated71322ac05 extends Latte\Runtime\Template
                         <img 
 <?php
 			if ($project->Public == 0) {
-				?>                                src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 43 */ ?>/closed-eye.png" alt="closed eye" title="Projekt je skrytý"
+				?>                                src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 48 */ ?>/closed-eye.png" alt="closed eye" title="Projekt je skrytý"
 <?php
 			}
 			else {
-				?>                                src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 45 */ ?>/opened-eye.png" alt="opened eye" title="Projekt je viditelný"
+				?>                                src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 50 */ ?>/opened-eye.png" alt="opened eye" title="Projekt je viditelný"
 <?php
 			}
 ?>
@@ -208,11 +250,11 @@ class Templated71322ac05 extends Latte\Runtime\Template
                     <img 
 <?php
 			if ($project->Public == 0) {
-				?>                            src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 52 */ ?>/closed-eye.png" alt="closed eye" title="Projekt je skrytý"
+				?>                            src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 57 */ ?>/closed-eye.png" alt="closed eye" title="Projekt je skrytý"
 <?php
 			}
 			else {
-				?>                            src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 54 */ ?>/opened-eye.png" alt="opened eye" title="Projekt je viditelný"
+				?>                            src="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 59 */ ?>/opened-eye.png" alt="opened eye" title="Projekt je viditelný"
 <?php
 			}
 ?>
@@ -231,7 +273,7 @@ class Templated71322ac05 extends Latte\Runtime\Template
 	{
 		extract($_args);
 		$this->global->snippetDriver->enter("file", "static");
-		echo LR\Filters::escapeHtmlText($upBtn) /* line 77 */;
+		echo LR\Filters::escapeHtmlText($upBtn) /* line 82 */;
 		$this->global->snippetDriver->leave();
 		
 	}
