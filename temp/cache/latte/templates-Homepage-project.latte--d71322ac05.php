@@ -111,7 +111,7 @@ class Templated71322ac05 extends Latte\Runtime\Template
                 <a onclick="return confirm('opravdu to chces smazat?')" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("delete!", [$project->idProjects])) ?>"<?php
 			if ($_tmp = array_filter(['btn', 'btn-primary', 'btn-lg', 'blue', ($user->isInRole('administrator'))?'':'disabled'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"' ?>>smazat</a>
                 <a href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Addproject:add", [$project->idProjects])) ?>"<?php
-			if ($_tmp = array_filter(['btn', 'btn-primary', 'btn-lg', 'blue', ($user->isInRole('administrator')||$user->isInRole('student'))?'':'disabled'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"' ?>>upravit</a>
+			if ($_tmp = array_filter(['btn', 'btn-primary', 'btn-lg', 'blue', ($project->Locked == 0||$user->isInRole('administrator'))?'':'disabled'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"' ?>>upravit</a>
 
                 <a type="submit" form="upload-form" href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("update!", ['state'=>$upBtnState, 'project' => $project->Locked])) ?>"<?php
 			if ($_tmp = array_filter(['btn', 'btn-primary', 'btn-lg', 'blue', 'ajax', 'upload-button', ($btndis)? '':'disabled'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"';

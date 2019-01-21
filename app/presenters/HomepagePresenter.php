@@ -53,6 +53,7 @@ class HomepagePresenter extends BasePresenter {
     public function renderProject($projectId) {
         $project = $this->database->table('projects')->where('idProjects', $projectId)->fetch();
         $files = $this->database->table('files')->where('Project', $projectId)->fetchAll();
+
         if ($files == null) {
             $files = null;
         }
@@ -60,16 +61,27 @@ class HomepagePresenter extends BasePresenter {
             $this->template->files = $files;
             $this->template->project = $project;
         } else if ($project->Public == 0) {
-            if ($this->user->isLoggedIn() && ($this->user->getIdentity()->username == $project->ref('users', 'User')->UserName ||
-                    $this->user->getIdentity()->username == $project->ref('users', 'Oponent')->UserName ||
-                    $this->user->getIdentity()->username == $project->ref('users', 'Consultant')->UserName)) {
-
+            //if public 0 then check for right user
+            if ($this->user->isLoggedIn() && ($this->user->getIdentity()->email == $project->ref('users', 'User')->Email ||
+                    $this->user->getIdentity()->email == $project->ref('users', 'Oponent')->Email ||
+                    $this->user->getIdentity()->email == $project->ref('users', 'Consultant')->Email)) {
                 $this->template->files = $files;
                 $this->template->project = $project;
             } else {
                 $this->error('Projekt je zamčen veřejnosti');
             }
         } else {
+            if ($this->user->isLoggedIn()) {
+                try{
+                if ($this->user->getIdentity()->email == $project->ref('users', 'User')->Email ||
+                        $this->user->getIdentity()->email == $project->ref('users', 'Oponent')->Email ||
+                        $this->user->getIdentity()->email == $project->ref('users', 'Consultant')->Email) {
+                    $this->template->files = $files;
+                }
+                } catch (Exception $e){
+                    
+                }
+            }
             $this->template->project = $project;
         }
 
@@ -146,18 +158,20 @@ class HomepagePresenter extends BasePresenter {
         $this->redrawControl('file');
         $this->redrawControl('scripts');
     }
+
 //deletes file from database and server folder
     public function handleDeleteFile($fileId) {
         $user = $this->user->roles[0];
         if ($user == 'administrator') {
-            
-            $file = $this->database->table('files')->where('idFiles',$fileId)->fetch();
-            
-            $fileFullName = $file->FileName . $file->ref('filetypes','FileType')->FileType;
-            try{
-                 
-                FileSystem::delete(__DIR__. '\\..\\..\\www\\files\\' . $fileFullName);
+
+            $file = $this->database->table('files')->where('idFiles', $fileId)->fetch();
+
+            $fileFullName = $file->FileName . $file->ref('filetypes', 'FileType')->FileType;
+            try {
+
+                FileSystem::delete(__DIR__ . '\\..\\..\\www\\files\\' . $fileFullName);
             } catch (Exception $ex) {
+                
             }
             $this->database->table('files')->where('idFiles', $fileId)->delete();
             $this->flashMessage('Úspěšně smazáno', 'success');
@@ -270,9 +284,9 @@ class HomepagePresenter extends BasePresenter {
             }
         }
     }
-    
+
     //function extension get to get accepted file extension for upload
-    public function acceptedExtension(){
+    public function acceptedExtension() {
         $n = $this->database->table('filetypes')->fetchAll();
         $field = array();
         foreach ($n as $id => $item) {

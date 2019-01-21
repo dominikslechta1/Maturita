@@ -79,7 +79,7 @@ class AddprojectPresenter extends BasePresenter {
     public function validateProject(UI\Form $form) {
         $values = $form->getValues();
         if ($values->desc > 256) {
-            $this->flashMessage('Písmena','success');
+            $this->flashMessage('Písmena','unsuccess');
             $form['desc']->addError('popis přesahuje maximální dovolený limit písmen');
             
         }
@@ -88,7 +88,7 @@ class AddprojectPresenter extends BasePresenter {
                         ->where('idProjects != ?', $values->preddefined)
                         ->where('Year', MyDateTime::getYear(\Nette\Utils\DateTime::from('0')))->count('*');
         if ($res > 0 && $values->preddefined == 0) {
-            $this->flashMessage('duplicita','success');
+            $this->flashMessage('duplicita','unsuccess');
             $form['Name']->addError('duplicitni nazev');
             
         }

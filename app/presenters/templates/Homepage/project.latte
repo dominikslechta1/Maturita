@@ -77,7 +77,7 @@
             <hr class="my-4">
             <div class="project-buttons">
                 <a n:class="'btn', 'btn-primary', 'btn-lg', 'blue', ($user->isInRole('administrator'))?'':'disabled'" onclick="return confirm('opravdu to chces smazat?')" n:href="delete! $project->idProjects">smazat</a>
-                <a n:class="'btn', 'btn-primary', 'btn-lg', 'blue', ($user->isInRole('administrator')||$user->isInRole('student'))?'':'disabled'" n:href="Addproject:add $project->idProjects">upravit</a>
+                <a n:class="'btn', 'btn-primary', 'btn-lg', 'blue', ($project->Locked == 0||$user->isInRole('administrator'))?'':'disabled'" n:href="Addproject:add $project->idProjects">upravit</a>
 
                 <a n:class="'btn', 'btn-primary', 'btn-lg', 'blue', 'ajax', 'upload-button', ($btndis)? '':'disabled'" n:snippet="file" n:href="update! 'state'=>$upBtnState, 'project' => $project->Locked" type="submit" form="upload-form">{$upBtn}</a>
             </div>
