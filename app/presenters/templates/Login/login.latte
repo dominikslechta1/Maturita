@@ -11,8 +11,8 @@
 
             <span class="error" n:ifcontent>{inputError password}</span>
             <input type="password" n:name='password' id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Heslo">
-            
-<div>
+
+            <div>
                 <a href="#" data-toggle="modal" data-target="#orangeModalSubscription">Zapomenuté heslo?</a>
             </div>
             <button class="btn btn-info btn-block my-4 blue-gradient" n:name='login' type="submit">Přihlásit</button>
@@ -33,38 +33,38 @@
                         </button>
                     </div>
                     <form n:name=forgetPassword class=form>
-                    <!--Body-->
-                    <div class="modal-body">
-                        <div class="modal-top">
-                        <p>zadej svůj email, který používáš na těchto stránkách a přijde ti možnost změny hesla </p>
-                    </div>
-                        
-                        <div class="md-form mb-4">
-                            <input type="email" id="form2" n:name='email' class="form-control validate">
-                            <label data-error="" data-success="" for="form2">Tvůj email</label>
-                        </div>
-                    </div>
+                        <!--Body-->
+                        <div class="modal-body">
+                            <div class="modal-top">
+                                <p>zadej svůj email, který používáš na těchto stránkách a přijde ti možnost změny hesla </p>
+                            </div>
 
-                    <!--Footer-->
-                    <div class="modal-footer justify-content-center">
-                        <button type="submit" n:name='send' class="btn btn-outline-light-blue waves-effect">Odeslat</button>
-                    </div>
+                            <div class="md-form mb-4">
+                                <input type="email" id="form2" n:name='email' class="form-control validate">
+                                <label data-error="" data-success="" for="form2">Tvůj email</label>
+                            </div>
+                        </div>
+
+                        <!--Footer-->
+                        <div class="modal-footer justify-content-center">
+                            <button type="submit" n:name='send' class="btn btn-outline-light-blue waves-effect">Odeslat</button>
+                        </div>
                     </form>
                 </div>
                 <!--/.Content-->
             </div>
         </div>
-        {ifset $success}{$success}{/ifset}
-    {elseif (!$user->isInRole('guest'))}
+    {ifset $success}{$success}{/ifset}
+{elseif (!$user->isInRole('guest'))}
 
-        <p>
-            {ifset $userse}
-                {$userse}
-            {/ifset}
-        </p>
-        <a n:href="Logout:">Chcete se odhlásit?</a>
-    {/if}
-    {ifset $alert}
+    <p>
+        {ifset $userse}
+            {$userse}
+        {/ifset}
+    </p>
+    <a n:href="Logout:">Chcete se odhlásit?</a>
+{/if}
+{ifset $alert}
     <script type='text/javascript'>alert({$alert});</script>
-    {/ifset}
+{/ifset}
 </div>

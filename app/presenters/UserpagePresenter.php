@@ -16,6 +16,7 @@ use Latte\Engine;
 class UserpagePresenter extends BasePresenter {
 
     private $database;
+    private $usera;
 
     public function __construct(Nette\Database\Context $connection, Nette\Database\IStructure $structure, Nette\Database\IConventions $conventions = null, Nette\Caching\IStorage $cacheStorage = null) {
         $this->database = $connection;
@@ -28,35 +29,49 @@ class UserpagePresenter extends BasePresenter {
     public function renderChangepass() {
         
     }
-    public function renderUsero($id = null){
-        $usero = $this->database->table('users')->where('idUsers', $id)->order('UserPrivilege',"ASC")->fetch();
-        if(sizeof($usero, 0) < 1){
+
+    public function renderUsero($id = null) {
+        if (BasePresenter::isQueryunSec(array($id))) {
+            $this->error("neplatné znaky v url", "405");
+        }
+        $usero = $this->database->table('users')->where('idUsers', $id)->order('UserPrivilege', "ASC")->fetch();
+        if (sizeof($usero, 0) < 1) {
             $usero = null;
         }
-        
+
         $this->template->usera = $usero;
-        
     }
-    
-    
-    
-    
-    
-    public function handleDelete($id){
-        if ($this->user->isInRole('administrator')&& $this->user->getIdentity()->getId() != $id) {
+
+    public function renderUseredit($id = null) {
+        if (BasePresenter::isQueryunSec(array($id))) {
+            $this->error("neplatné znaky v url", "405");
+        } else {
+            $usero = $this->database->table('users')->where('idUsers', $id)->fetch();
+            if (sizeof($usero, 0) < 1) {
+                $usero = null;
+            }
+            $this->usera = $usero;
+            $this->template->usera = $usero;
+        }
+    }
+
+    public function handleDelete($id) {
+        if (BasePresenter::isQueryunSec(array($id))) {
+            $this->error("neplatné znaky v url", "405");
+        }
+        if ($this->user->isInRole('administrator') && $this->user->getIdentity()->getId() != $id) {
             $v = $this->database->table('files')->where('Project', [
-                    $this->database->table('projects')
-                    ->where('User =? OR Oponent = ? OR Consultant = ?',$id,$id,$id)
-                    ->select('idProjects')
+                                $this->database->table('projects')
+                                ->where('User =? OR Oponent = ? OR Consultant = ?', $id, $id, $id)
+                                ->select('idProjects')
                     ])->delete();
-            
+
             $this->database->table('projects')
-                    ->where('User =? OR Oponent = ? OR Consultant = ?',$id,$id,$id)
+                    ->where('User =? OR Oponent = ? OR Consultant = ?', $id, $id, $id)
                     ->delete();
             $this->database->table('users')->where('idUsers', $id)->delete();
-            $this->flashMessage($v.' Uživatel s id ' . $id . 'byl smazán',"success");
+            $this->flashMessage($v . ' Uživatel s id ' . $id . 'byl smazán', "success");
             $this->redirect('Admin:users');
-            
         } else {
             $this->flashMessage('Nemáš oprávnění smazat tento soubor', 'unsuccess');
         }
@@ -106,7 +121,50 @@ class UserpagePresenter extends BasePresenter {
         ]);
         $this->redirect('Homepage:default');
     }
-    
-    
+
+    protected function createComponentEditUserForm() {
+        $form = new UI\Form;
+        $a = $this->usera;
+        $form->addProtection('Vypršel časový limit, odešlete formulář znovu');
+        if($a !== null){
+        
+        $form->addText('name')->setRequired()->setValue($a->UserName);
+        $form->addEmail('email')->setRequired()->setValue($a->Email);
+        $form->addHidden('preddefined')->setValue($a->idUsers);
+        }else{
+        $form->addText('name')->setRequired();
+        $form->addEmail('email')->setRequired();
+        $form->addHidden('preddefined'); 
+        }
+        $form->addSubmit('edit');
+        $form->onValidate[] = [$this, 'editValidate'];
+        $form->onSuccess[] = [$this, 'editSuccess'];
+        return $form;
+    }
+
+    public function editValidate(UI\Form $form) {
+        $values = $form->getValues();
+        $esc = $this->database->table('users')->where('Email = ? AND idUsers != ?',$values->email,$values->preddefined)->count();
+        if($esc > 0){
+            $form['email']->addError('Tento email je již v databázi');
+        }
+    }
+
+    public function editSuccess(UI\Form $form) {
+        $values = $form->getValues();
+        if (BasePresenter::isQueryunsec(array($values->preddefined))) {
+            $this->error(null, "405");
+        } else {
+            if (BasePresenter::isQueryunsec($values)) {
+                $this->error(null, "405");
+            }
+            $this->database->table('users')->where('idUsers', $values->preddefined)->update([
+                'UserName' => $values->name,
+                'Email' => $values->email
+            ]);
+            $this->flashMessage('Uživatel byl upraven','success');
+            $this->redirect('Admin:users');
+        }
+    }
 
 }

@@ -1,0 +1,23 @@
+{* Latte template *}
+
+{block content}
+<div class='login-form'>
+    <p class="h4 mb-4 text-center">Úprava uživatele</p>
+    {if $user->isInRole('administrator')}
+        <form n:name=editUserForm class=form>
+
+
+            <label for="defaultLoginFormName"> Jméno: </label><span class="error col-5" n:ifcontent>{inputError name}</span>
+            <input type="text" n:name='name' id="defaultLoginFormName" class="form-control mb-4" placeholder="Jméno">
+
+
+
+            <label for="defaultLoginFormEmail"> E-mail: </label><span class="error col-5" n:ifcontent>{inputError email}</span>
+            <input type="email" n:name='email' id="defaultLoginFormEmail" class="form-control mb-4" placeholder="E-mail">
+
+
+
+            <button class="btn btn-info btn-block my-4 blue-gradient" n:name='edit' type="submit">Upravit</button>
+        </form>
+    {/if}
+</div>

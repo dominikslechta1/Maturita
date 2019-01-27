@@ -18,7 +18,7 @@
             <hr class="my-4">
             <div class="project-buttons">
                 <a n:class="'btn', 'btn-primary', 'btn-lg', 'blue', ($user->isInRole('administrator')&& $user->getId() !== $usera->idUsers)?'':'disabled'" onclick="return confirm('tato akce smaže i všechny připojené projekty opravdu to chceš udělat?')" n:href="delete! $usera->idUsers">smazat</a>
-                <a n:class="'btn', 'btn-primary', 'btn-lg', 'blue', ($user->isInRole('administrator'))?'':'disabled'" n:href="Homepage:">upravit</a>
+                <a n:class="'btn', 'btn-primary', 'btn-lg', 'blue', ($user->isInRole('administrator'))?'':'disabled'" n:href="Userpage:useredit 'id'=>$usera->idUsers">upravit</a>
             </div>
 
         </div>
