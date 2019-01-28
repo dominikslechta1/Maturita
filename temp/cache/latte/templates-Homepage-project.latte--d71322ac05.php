@@ -35,8 +35,8 @@ class Templated71322ac05 extends Latte\Runtime\Template
 	{
 		extract($this->params);
 		if (isset($this->params['flash'])) trigger_error('Variable $flash overwritten in foreach on line 5');
-		if (isset($this->params['id'])) trigger_error('Variable $id overwritten in foreach on line 101');
-		if (isset($this->params['item'])) trigger_error('Variable $item overwritten in foreach on line 101');
+		if (isset($this->params['id'])) trigger_error('Variable $id overwritten in foreach on line 113');
+		if (isset($this->params['item'])) trigger_error('Variable $item overwritten in foreach on line 113');
 		Nette\Bridges\ApplicationLatte\UIRuntime::initialize($this, $this->parentName, $this->blocks);
 		
 	}
@@ -61,7 +61,7 @@ class Templated71322ac05 extends Latte\Runtime\Template
     <div>
 <?php
 			if (isset($test)) {
-				?>        <?php echo LR\Filters::escapeHtmlText($test) /* line 10 */ ?>
+				?>            <?php echo LR\Filters::escapeHtmlText($test) /* line 10 */ ?>
 
 <?php
 			}
@@ -77,9 +77,9 @@ class Templated71322ac05 extends Latte\Runtime\Template
 
             <h2 class="display-4 project-title"><?php echo LR\Filters::escapeHtmlText($project->Name) /* line 67 */ ?></h2>
             <p class="lead"><?php echo LR\Filters::escapeHtmlText($project->Desc) /* line 68 */ ?></p>
-
-            <div class="projects-users">
-                <p class="span-user">Vypracovává: <?php
+            <div class="projects-bottom-section">
+                <div class="projects-users">
+                    <p class="span-user">Vypracovává: <?php
 			if ($project->User != null) {
 				echo LR\Filters::escapeHtmlText($project->ref('users','User')->UserName) /* line 71 */;
 			}
@@ -87,7 +87,7 @@ class Templated71322ac05 extends Latte\Runtime\Template
 				?>neurčeno<?php
 			}
 ?></p>
-                <p class="span-oponent">Oponent: <?php
+                    <p class="span-oponent">Oponent: <?php
 			if ($project->Oponent != null) {
 				echo LR\Filters::escapeHtmlText($project->ref('users','Oponent')->UserName) /* line 72 */;
 			}
@@ -95,7 +95,7 @@ class Templated71322ac05 extends Latte\Runtime\Template
 				?>neurčeno<?php
 			}
 ?></p>
-                <p class="span-consultant">Konzultant: <?php
+                    <p class="span-consultant">Konzultant: <?php
 			if ($project->Consultant != null) {
 				echo LR\Filters::escapeHtmlText($project->ref('users','Consultant')->UserName) /* line 73 */;
 			}
@@ -103,7 +103,26 @@ class Templated71322ac05 extends Latte\Runtime\Template
 				?>neurčeno<?php
 			}
 ?></p>                                    
-                <p>Rok: <?php echo LR\Filters::escapeHtmlText($project->Year) /* line 74 */ ?></p>
+                    <p>Rok: <?php echo LR\Filters::escapeHtmlText($project->Year) /* line 74 */ ?></p>
+                </div>
+<?php
+			if (isset($reqfiles)) {
+?>
+                    <div class="projects-files"> 
+                        <p>text práce: <a href="#download">stáhnout</a></p>
+                        <p>text práce v pdf: <a href="#downloadpdf">stáhnout</a></p>
+                    </div>
+<?php
+			}
+			else {
+?>
+                    <div class="projects-files">
+                        <label>text prace: <input class="upload" type="file"></label>
+                        <label>text prace v pdf: <input class="upload" type="file"></label>
+                    </div>
+<?php
+			}
+?>
             </div>
 
             <hr class="my-4">
@@ -127,10 +146,10 @@ class Templated71322ac05 extends Latte\Runtime\Template
 ?>
     <div class="mediaup">
 <div id="<?php echo htmlSpecialChars($this->global->snippetDriver->getHtmlId('itemsContainer')) ?>"><?php
-			$this->renderBlock('_itemsContainer', $this->params) ?></div>        <div style="display:<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::escapeCss($useing)) /* line 93 */ ?>;" class="ajax">
+			$this->renderBlock('_itemsContainer', $this->params) ?></div>        <div style="display:<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::escapeCss($useing)) /* line 105 */ ?>;" class="ajax">
 
 <?php
-			/* line 95 */
+			/* line 107 */
 			$this->createTemplate('../Upload/upload.latte', $this->params, "include")->renderToContentType('html');
 ?>
         </div>
@@ -144,16 +163,16 @@ class Templated71322ac05 extends Latte\Runtime\Template
 ?>
                 <div class="card mb-3">
                     <div class="card-body hoverable ">
-                        <h5 class="card-title"><?php echo LR\Filters::escapeHtmlText($item->Name) /* line 104 */ ?></h5>
-                        <p class="card-link"><?php echo LR\Filters::escapeHtmlText($item->Desc) /* line 105 */ ?></p>
-                        <small class="card-text"><?php echo LR\Filters::escapeHtmlText($item->ref('filetypes','FileType')->FileType) /* line 106 */ ?></small><br>
-                        <a class="card-link" href="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 107 */ ?>/files/<?php
-					echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($item->FileName)) /* line 107 */;
-					echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($item->ref('filetypes','FileType')->FileType)) /* line 107 */ ?>" download="<?php
-					echo LR\Filters::escapeHtmlAttr($item->Name) /* line 107 */;
-					echo LR\Filters::escapeHtmlAttr($item->ref('filetypes','FileType')->FileType) /* line 107 */ ?>">Download</a>
+                        <h5 class="card-title"><?php echo LR\Filters::escapeHtmlText($item->Name) /* line 116 */ ?></h5>
+                        <p class="card-link"><?php echo LR\Filters::escapeHtmlText($item->Desc) /* line 117 */ ?></p>
+                        <small class="card-text"><?php echo LR\Filters::escapeHtmlText($item->ref('filetypes','FileType')->FileType) /* line 118 */ ?></small><br>
+                        <a class="card-link" href="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 119 */ ?>/files/<?php
+					echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($item->FileName)) /* line 119 */;
+					echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($item->ref('filetypes','FileType')->FileType)) /* line 119 */ ?>" download="<?php
+					echo LR\Filters::escapeHtmlAttr($item->Name) /* line 119 */;
+					echo LR\Filters::escapeHtmlAttr($item->ref('filetypes','FileType')->FileType) /* line 119 */ ?>">Stáhnout</a>
                         <a href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("deleteFile!", ['fileId'=>$id])) ?>"<?php
-					if ($_tmp = array_filter(['card-link', ($user->isInRole('administrator'))? '':'disabled'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"' ?>>delete</a>
+					if ($_tmp = array_filter(['card-link', ($user->isInRole('administrator'))? '':'disabled'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"' ?>>smazat</a>
                     </div>
                 </div>
 <?php
@@ -163,7 +182,7 @@ class Templated71322ac05 extends Latte\Runtime\Template
 ?>
     </div>
 
-    
+
 
 
 
@@ -273,7 +292,7 @@ class Templated71322ac05 extends Latte\Runtime\Template
 	{
 		extract($_args);
 		$this->global->snippetDriver->enter("file", "static");
-		echo LR\Filters::escapeHtmlText($upBtn) /* line 82 */;
+		echo LR\Filters::escapeHtmlText($upBtn) /* line 94 */;
 		$this->global->snippetDriver->leave();
 		
 	}

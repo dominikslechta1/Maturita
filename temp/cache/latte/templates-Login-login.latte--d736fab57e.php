@@ -82,8 +82,8 @@ class Templated736fab57e extends Latte\Runtime\Template
 			'class' => NULL,
 			'placeholder' => NULL,
 			))->attributes() ?>>
-            
-<div>
+
+            <div>
                 <a href="#" data-toggle="modal" data-target="#orangeModalSubscription">Zapomenuté heslo?</a>
             </div>
             <button class="btn btn-info btn-block my-4 blue-gradient" type="submit"<?php
@@ -116,33 +116,33 @@ class Templated736fab57e extends Latte\Runtime\Template
 			echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), array (
 			'class' => NULL,
 			), false) ?>>
-                    <!--Body-->
-                    <div class="modal-body">
-                        <div class="modal-top">
-                        <p>zadej svůj email, který používáš na těchto stránkách a přijde ti možnost změny hesla </p>
-                    </div>
-                        
-                        <div class="md-form mb-4">
-                            <input type="email" id="form2" class="form-control validate"<?php
+                        <!--Body-->
+                        <div class="modal-body">
+                            <div class="modal-top">
+                                <p>zadej svůj email, který používáš na těchto stránkách a přijde ti možnost změny hesla </p>
+                            </div>
+
+                            <div class="md-form mb-4">
+                                <input type="email" id="form2" class="form-control validate"<?php
 			$_input = end($this->global->formsStack)["email"];
 			echo $_input->getControlPart()->addAttributes(array (
 			'type' => NULL,
 			'id' => NULL,
 			'class' => NULL,
 			))->attributes() ?>>
-                            <label data-error="" data-success="" for="form2">Tvůj email</label>
+                                <label data-error="" data-success="" for="form2">Tvůj email</label>
+                            </div>
                         </div>
-                    </div>
 
-                    <!--Footer-->
-                    <div class="modal-footer justify-content-center">
-                        <button type="submit" class="btn btn-outline-light-blue waves-effect"<?php
+                        <!--Footer-->
+                        <div class="modal-footer justify-content-center">
+                            <button type="submit" class="btn btn-outline-light-blue waves-effect"<?php
 			$_input = end($this->global->formsStack)["send"];
 			echo $_input->getControlPart()->addAttributes(array (
 			'type' => NULL,
 			'class' => NULL,
 			))->attributes() ?>>Odeslat</button>
-                    </div>
+                        </div>
 <?php
 			echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack), false);
 ?>                    </form>
@@ -150,7 +150,7 @@ class Templated736fab57e extends Latte\Runtime\Template
                 <!--/.Content-->
             </div>
         </div>
-        <?php
+    <?php
 			if (isset($success)) {
 				echo LR\Filters::escapeHtmlText($success) /* line 57 */;
 			}
@@ -161,16 +161,16 @@ class Templated736fab57e extends Latte\Runtime\Template
 		elseif ((!$user->isInRole('guest'))) {
 ?>
 
-        <p>
+    <p>
 <?php
 			if (isset($userse)) {
-				?>                <?php echo LR\Filters::escapeHtmlText($userse) /* line 62 */ ?>
+				?>            <?php echo LR\Filters::escapeHtmlText($userse) /* line 62 */ ?>
 
 <?php
 			}
 ?>
-        </p>
-        <a href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Logout:")) ?>">Chcete se odhlásit?</a>
+    </p>
+    <a href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("Logout:")) ?>">Chcete se odhlásit?</a>
 <?php
 		}
 		if (isset($alert)) {

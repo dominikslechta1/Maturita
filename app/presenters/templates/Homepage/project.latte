@@ -6,9 +6,9 @@
         <div class="flash {$flash->type}"><li>{$flash->message}</li></div>
             {/foreach}
     <div>
-    {ifset $test}
-        {$test}
-    {/ifset}
+        {ifset $test}
+            {$test}
+        {/ifset}
     </div>
 
     <!--projekt-->
@@ -66,12 +66,24 @@
 
             <h2 class="display-4 project-title">{$project->Name}</h2>
             <p class="lead">{$project->Desc}</p>
-
-            <div class="projects-users">
-                <p class="span-user">Vypracovává: {if $project->User != null}{$project->ref('users','User')->UserName}{else}neurčeno{/if}</p>
-                <p class="span-oponent">Oponent: {if $project->Oponent != null}{$project->ref('users','Oponent')->UserName}{else}neurčeno{/if}</p>
-                <p class="span-consultant">Konzultant: {if $project->Consultant != null}{$project->ref('users','Consultant')->UserName}{else}neurčeno{/if}</p>                                    
-                <p>Rok: {$project->Year}</p>
+            <div class="projects-bottom-section">
+                <div class="projects-users">
+                    <p class="span-user">Vypracovává: {if $project->User != null}{$project->ref('users','User')->UserName}{else}neurčeno{/if}</p>
+                    <p class="span-oponent">Oponent: {if $project->Oponent != null}{$project->ref('users','Oponent')->UserName}{else}neurčeno{/if}</p>
+                    <p class="span-consultant">Konzultant: {if $project->Consultant != null}{$project->ref('users','Consultant')->UserName}{else}neurčeno{/if}</p>                                    
+                    <p>Rok: {$project->Year}</p>
+                </div>
+                {ifset $reqfiles}
+                    <div class="projects-files"> 
+                        <p>text práce: <a href="#download">stáhnout</a></p>
+                        <p>text práce v pdf: <a href="#downloadpdf">stáhnout</a></p>
+                    </div>
+                {else}
+                    <div class="projects-files">
+                        <label>text prace: <input class="upload" type="file" /></label>
+                        <label>text prace v pdf: <input class="upload" type="file" /></label>
+                    </div>
+                {/ifset}
             </div>
 
             <hr class="my-4">
@@ -104,15 +116,15 @@
                         <h5 class="card-title">{$item->Name}</h5>
                         <p class="card-link">{$item->Desc}</p>
                         <small class="card-text">{$item->ref('filetypes','FileType')->FileType}</small><br>
-                        <a class="card-link" href="{$basePath}/files/{$item->FileName}{$item->ref('filetypes','FileType')->FileType}" download="{$item->Name}{$item->ref('filetypes','FileType')->FileType}">Download</a>
-                        <a n:class="'card-link', ($user->isInRole('administrator'))? '':'disabled'" n:href="deleteFile! 'fileId'=>$id">delete</a>
+                        <a class="card-link" href="{$basePath}/files/{$item->FileName}{$item->ref('filetypes','FileType')->FileType}" download="{$item->Name}{$item->ref('filetypes','FileType')->FileType}">Stáhnout</a>
+                        <a n:class="'card-link', ($user->isInRole('administrator'))? '':'disabled'" n:href="deleteFile! 'fileId'=>$id">smazat</a>
                     </div>
                 </div>
             {/foreach}
         {/ifset}
     </div>
 
-    
+
 
 
 

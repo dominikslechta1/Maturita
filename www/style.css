@@ -54,11 +54,24 @@ strong.card-title-strong{
     -webkit-text-fill-color: transparent;
 }
 div.project-one{
-    margin-top: 50px;
+    margin-top: 20px;
     background-color: white;
     box-shadow: 0px 0px 17px 0px darkgrey;
     border-radius: 6px;
     padding: 20px 20px 20px 30px;
+}
+
+.projects-bottom-section{
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+.projects-files{
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    text-align: right;
+    
 }
 @media(max-width:780px){
     div.project-one{
@@ -128,10 +141,12 @@ a.btn.btn-outline-light-blue.waves-effect:hover {
 }
 .projects-users{
     word-wrap: break-word;
-    width: 100%;
+
     -webkit-column-width: 150px;
     -moz-column-width: 150px;
     column-width: 150px;
+    display:flex;
+    flex-direction: column;
 }
 .projects-title{
     font-size: 20pt;
