@@ -279,12 +279,51 @@ class HomepagePresenter extends BasePresenter {
             } else {
 
                 //after full success
-                $this->flashMessage('uspesne ulozeno ', 'success');
+                $this->flashMessage('neuspesne ulozeno ', 'unsuccess');
                 $this->redirect('this');
             }
         }
     }
 
+    
+    
+    //url upload function form
+    protected function createComponentUrlForm() {
+        $form = new Form;
+        $form->addHidden('id', $this->projectId);
+        $form->addText('url');
+        $form->addSubmit('upload');
+        $form->onValidate[] = [$this, 'validateUrl'];
+        $form->onSuccess[] = [$this, 'sendUrl'];
+        return $form;
+    }
+    
+    public function validateUrl(Form $form){
+        $values = $form->getValues();
+        if(strpos($values->url, 'http://') !== false || strpos($values->url, 'https://') !== false){
+            
+        }else{
+            $form['url']->addError('nespravna url');
+            $this->flashMessage('nespravna url ' , 'unsuccess');
+            $this->redrawControl('flash');
+        }
+    }
+    
+    public function sendUrl(Form $form){
+        $values = $form->getValues();
+        
+    $this->database->table('projects')
+            ->where('idProjects', $values->id)
+            ->update([
+        'Url' => $values->url
+    ]);
+    $this->redrawControl('filesUp');
+    $this->flashMessage('url ulozena','success');
+    }
+    
+    
+    
+    
     //function extension get to get accepted file extension for upload
     public function acceptedExtension() {
         $n = $this->database->table('filetypes')->fetchAll();

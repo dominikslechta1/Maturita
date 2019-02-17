@@ -70,8 +70,45 @@ div.project-one{
     display: flex;
     justify-content: flex-end;
     flex-direction: column;
-    text-align: right;
+    width:250px;
+}
+
+.projects-files .upload{
+    display: none;
+}
+.projects-files > label{
     
+}
+.url-form{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.url-form  *{
+margin:0;
+    
+}
+.url-form > span{
+    margin: 0 6px;
+    margin-bottom: 20px;
+    width: 95%;
+}
+.url-form .url-btn{
+    padding-left: 0;
+    padding-right: 0;
+    width: 100%;
+}
+.url-form .url-up{
+    margin-bottom: 5px;
+    width: calc(100% - 12px);
+        margin: 5px 6px;
+    
+}
+.url-form .url-up:valid{
+   border-color: green;
+}
+.url-form .url-up:invalid{
+    border-color: red;
 }
 @media(max-width:780px){
     div.project-one{
