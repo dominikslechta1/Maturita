@@ -9,6 +9,7 @@ use Nette\Utils\DateTime;
 use Nette\Application\UI\Form;
 use Nette\Utils\FileSystem;
 
+
 class HomepagePresenter extends BasePresenter {
 
     private $database;
@@ -87,7 +88,7 @@ class HomepagePresenter extends BasePresenter {
 
         $this->project = $project;
         $this->projectId = $project->idProjects;
-
+        
         //upload settings
         if (!isset($this->template->permissed)) {
             $this->template->permissed = "none";
@@ -332,6 +333,26 @@ class HomepagePresenter extends BasePresenter {
             array_push($field, $item->FileType);
         }
         return $field;
+    }
+    
+    
+    
+    //function delete url
+    public function handleDeleteUrl ($id = -1){
+        $projectid = $this->database->table('projects')->where('idProjects',$id)->fetchField('idProjects');
+        if($projectid < 1){
+            $this->flashMessage('spatne id '. $id , 'unsuccess');
+            return;
+        }
+        $n = $this->database->table('projects')->where('idProjects', $projectid)->update([
+            'Url' => null
+        ]);
+        if($n > 0){
+            $this->flashMessage('url úspěšně smazána', 'success');
+        }else{
+            $this->flashMessage('url nebyla smazána '. $this->projectId , 'unsuccess');
+            return;
+        }
     }
 
 }

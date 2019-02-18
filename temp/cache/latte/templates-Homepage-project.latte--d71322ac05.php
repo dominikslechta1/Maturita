@@ -39,8 +39,8 @@ class Templated71322ac05 extends Latte\Runtime\Template
 	{
 		extract($this->params);
 		if (isset($this->params['flash'])) trigger_error('Variable $flash overwritten in foreach on line 6');
-		if (isset($this->params['id'])) trigger_error('Variable $id overwritten in foreach on line 134');
-		if (isset($this->params['item'])) trigger_error('Variable $item overwritten in foreach on line 134');
+		if (isset($this->params['id'])) trigger_error('Variable $id overwritten in foreach on line 133');
+		if (isset($this->params['item'])) trigger_error('Variable $item overwritten in foreach on line 133');
 		Nette\Bridges\ApplicationLatte\UIRuntime::initialize($this, $this->parentName, $this->blocks);
 		
 	}
@@ -122,10 +122,10 @@ class Templated71322ac05 extends Latte\Runtime\Template
 ?>
         <div class="mediaup">
 <div id="<?php echo htmlSpecialChars($this->global->snippetDriver->getHtmlId('itemsContainer')) ?>"><?php
-			$this->renderBlock('_itemsContainer', $this->params) ?></div>            <div style="display:<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::escapeCss($useing)) /* line 126 */ ?>;" class="ajax">
+			$this->renderBlock('_itemsContainer', $this->params) ?></div>            <div style="display:<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::escapeCss($useing)) /* line 125 */ ?>;" class="ajax">
 
 <?php
-			/* line 128 */
+			/* line 127 */
 			$this->createTemplate('../Upload/upload.latte', $this->params, "include")->renderToContentType('html');
 ?>
             </div>
@@ -139,14 +139,14 @@ class Templated71322ac05 extends Latte\Runtime\Template
 ?>
                     <div class="card mb-3">
                         <div class="card-body hoverable ">
-                            <h5 class="card-title"><?php echo LR\Filters::escapeHtmlText($item->Name) /* line 137 */ ?></h5>
-                            <p class="card-link"><?php echo LR\Filters::escapeHtmlText($item->Desc) /* line 138 */ ?></p>
-                            <small class="card-text"><?php echo LR\Filters::escapeHtmlText($item->ref('filetypes','FileType')->FileType) /* line 139 */ ?></small><br>
-                            <a class="card-link" href="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 140 */ ?>/files/<?php
-					echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($item->FileName)) /* line 140 */;
-					echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($item->ref('filetypes','FileType')->FileType)) /* line 140 */ ?>" download="<?php
-					echo LR\Filters::escapeHtmlAttr($item->Name) /* line 140 */;
-					echo LR\Filters::escapeHtmlAttr($item->ref('filetypes','FileType')->FileType) /* line 140 */ ?>">Stáhnout</a>
+                            <h5 class="card-title"><?php echo LR\Filters::escapeHtmlText($item->Name) /* line 136 */ ?></h5>
+                            <p class="card-link"><?php echo LR\Filters::escapeHtmlText($item->Desc) /* line 137 */ ?></p>
+                            <small class="card-text"><?php echo LR\Filters::escapeHtmlText($item->ref('filetypes','FileType')->FileType) /* line 138 */ ?></small><br>
+                            <a class="card-link" href="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 139 */ ?>/files/<?php
+					echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($item->FileName)) /* line 139 */;
+					echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($item->ref('filetypes','FileType')->FileType)) /* line 139 */ ?>" download="<?php
+					echo LR\Filters::escapeHtmlAttr($item->Name) /* line 139 */;
+					echo LR\Filters::escapeHtmlAttr($item->ref('filetypes','FileType')->FileType) /* line 139 */ ?>">Stáhnout</a>
                             <a href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("deleteFile!", ['fileId'=>$id])) ?>"<?php
 					if ($_tmp = array_filter(['card-link', ($user->isInRole('administrator'))? '':'disabled'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"' ?>>smazat</a>
                         </div>
@@ -292,7 +292,12 @@ class Templated71322ac05 extends Latte\Runtime\Template
                             <?php
 		if (isset($project->Url)) {
 			?><p>url projektu: <a href="<?php echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($project->Url)) /* line 80 */ ?>"><?php
-			echo LR\Filters::escapeHtmlText($project->Url) /* line 80 */ ?></a></p>
+			echo LR\Filters::escapeHtmlText($project->Url) /* line 80 */ ?></a> <?php
+			if ($btndis) {
+				?><a href="<?php echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link("deleteUrl!", [$project->idProjects])) ?>">smazat</a><?php
+			}
+?>
+</p>
 <?php
 		}
 		else {
@@ -339,13 +344,12 @@ class Templated71322ac05 extends Latte\Runtime\Template
 			}
 			else {
 ?>
-                                    <cite style="text-align: right;
-                                          margin: 0 6px;">Požadované soubory</cite>
-                                    <input class="upload" type="file" id="worktxt"><label class="blue btn" for="worktxt"><img src="<?php
+                                    <legend style="text-align: right;
+                                          margin: 0 6px;">Požadované soubory</legend>
+                                    <input class="upload" onclick="" type="file" id="worktxt"><label class="blue btn" for="worktxt"><img src="<?php
 				echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 100 */ ?>/upload.png" width="13px"> text prace: </label>
                                     <input class="upload" type="file" id="workpdf"><label class="blue btn" for="workpdf"><img src="<?php
 				echo LR\Filters::escapeHtmlAttr(LR\Filters::safeUrl($basePath)) /* line 101 */ ?>/upload.png" width="13px"> text prace v pdf: </label>
-
 <?php
 			}
 ?>
@@ -364,7 +368,7 @@ class Templated71322ac05 extends Latte\Runtime\Template
 	{
 		extract($_args);
 		$this->global->snippetDriver->enter("file", "static");
-		echo LR\Filters::escapeHtmlText($upBtn) /* line 115 */;
+		echo LR\Filters::escapeHtmlText($upBtn) /* line 114 */;
 		$this->global->snippetDriver->leave();
 		
 	}

@@ -77,7 +77,7 @@
                     </div>
                     {snippet filesUp}
                         <div class="projects-files">
-                            {ifset $project->Url}<p>url projektu: <a href="{$project->Url}">{$project->Url}</a></p>
+                            {ifset $project->Url}<p>url projektu: <a href="{$project->Url}">{$project->Url}</a> <a n:if="$btndis" n:href="deleteUrl! $project->idProjects">smazat</a></p>
                                 {else}
                                     {if $btndis}
                                     <form action='#' n:name=urlForm id="url-form" class='form url-form'>
@@ -95,11 +95,10 @@
                                     <p>text práce: <a href="#download">stáhnout</a></p>
                                     <p>text práce v pdf: <a href="#downloadpdf">stáhnout</a></p>
                                 {else}
-                                    <cite style="text-align: right;
-                                          margin: 0 6px;">Požadované soubory</cite>
-                                    <input class="upload" type="file" id="worktxt" /><label class="blue btn" for="worktxt"><img src="{$basePath}/upload.png" width="13px"/> text prace: </label>
+                                    <legend style="text-align: right;
+                                          margin: 0 6px;">Požadované soubory</legend>
+                                    <input class="upload" onclick="" type="file" id="worktxt" /><label class="blue btn" for="worktxt"><img src="{$basePath}/upload.png" width="13px"/> text prace: </label>
                                     <input class="upload" type="file" id="workpdf" /><label class="blue btn" for="workpdf"><img src="{$basePath}/upload.png" width="13px"/> text prace v pdf: </label>
-
                                 {/ifset}
 
                             {/if}
