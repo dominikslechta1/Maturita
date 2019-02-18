@@ -8,7 +8,7 @@ use App\Model\MyDateTime;
 use Nette\Utils\DateTime;
 use Nette\Application\UI\Form;
 use Nette\Utils\FileSystem;
-
+use Tracy\Debugger;
 
 class HomepagePresenter extends BasePresenter {
 
@@ -23,28 +23,53 @@ class HomepagePresenter extends BasePresenter {
     /**
      * show projects
      */
-    public function renderDefault() {
-        if ($this->getUser()->isInRole('administrator')) {
-            $projects = $this->database->table('projects');
-        } elseif ($this->getUser()->isInRole('student')) {
-            $projects = $this->database->table('projects')
-                    ->where('User', $this->getUser()->getId());
-        } elseif ($this->getUser()->isInRole('consultant')) {
-            $projects = $this->database->table('projects')
-                    ->where('Consultant = ? AND Year = ?', $this->getUser()->getId(), MyDateTime::getYear(DateTime::from('0')));
-        } elseif ($this->getUser()->isInRole('oponent')) {
-            $projects = $this->database->table('projects')
-                    ->where('Oponent = ? AND Year = ?', $this->getUser()->getId(), MyDateTime::getYear(DateTime::from('0')));
+    public function renderDefault($Year = 1) {
+
+        if ($Year != '1') {
+            $this->template->curyear = $Year;
+
+
+            if ($this->getUser()->isInRole('administrator')) {
+                $projects = $this->database->table('projects')->where('Year', $Year);
+            } elseif ($this->getUser()->isInRole('student')) {
+                $projects = $this->database->table('projects')
+                        ->where('User = ?, Year = ?', $this->getUser()->getId(), $Year);
+            } elseif ($this->getUser()->isInRole('consultant')) {
+                $projects = $this->database->table('projects')
+                        ->where('Consultant = ? AND Year = ?', $this->getUser()->getId(), $Year);
+            } elseif ($this->getUser()->isInRole('oponent')) {
+                $projects = $this->database->table('projects')
+                        ->where('Oponent = ? AND Year = ?', $this->getUser()->getId(), $Year);
+            } else {
+                $projects = $this->database->table('projects')
+                        ->where("Public", 1)
+                        ->where(" Year", $Year);
+            }
         } else {
-            $projects = $this->database->table('projects')
-                    ->where("Public", 1)
-                    ->where(" Year", MyDateTime::getYear(DateTime::from(0)));
+            if ($this->getUser()->isInRole('administrator')) {
+                $projects = $this->database->table('projects');
+            } elseif ($this->getUser()->isInRole('student')) {
+                $projects = $this->database->table('projects')
+                        ->where('User', $this->getUser()->getId());
+            } elseif ($this->getUser()->isInRole('consultant')) {
+                $projects = $this->database->table('projects')
+                        ->where('Consultant = ? AND Year = ?', $this->getUser()->getId(), MyDateTime::getYear(DateTime::from('0')));
+            } elseif ($this->getUser()->isInRole('oponent')) {
+                $projects = $this->database->table('projects')
+                        ->where('Oponent = ? AND Year = ?', $this->getUser()->getId(), MyDateTime::getYear(DateTime::from('0')));
+            } else {
+                $projects = $this->database->table('projects')
+                        ->where("Public", 1)
+                        ->where(" Year", MyDateTime::getYear(DateTime::from(0)));
+            }
         }
         $projects = $projects->order('Year DESC')->fetchAll();
         if (sizeof($projects, 0) < 1) {
             $projects = null;
         }
         $this->template->projects = $projects;
+        $Years = $this->database->table('projects')->order('Year DESC')->select('DISTINCT Year')->fetchAll();
+        $this->template->Years = $Years;
     }
 
     /**
@@ -73,13 +98,13 @@ class HomepagePresenter extends BasePresenter {
             }
         } else {
             if ($this->user->isLoggedIn()) {
-                try{
-                if ($this->user->getIdentity()->email == $project->ref('users', 'User')->Email ||
-                        $this->user->getIdentity()->email == $project->ref('users', 'Oponent')->Email ||
-                        $this->user->getIdentity()->email == $project->ref('users', 'Consultant')->Email) {
-                    $this->template->files = $files;
-                }
-                } catch (Exception $e){
+                try {
+                    if ($this->user->getIdentity()->email == $project->ref('users', 'User')->Email ||
+                            $this->user->getIdentity()->email == $project->ref('users', 'Oponent')->Email ||
+                            $this->user->getIdentity()->email == $project->ref('users', 'Consultant')->Email) {
+                        $this->template->files = $files;
+                    }
+                } catch (Exception $e) {
                     
                 }
             }
@@ -88,7 +113,7 @@ class HomepagePresenter extends BasePresenter {
 
         $this->project = $project;
         $this->projectId = $project->idProjects;
-        
+
         //upload settings
         if (!isset($this->template->permissed)) {
             $this->template->permissed = "none";
@@ -110,8 +135,22 @@ class HomepagePresenter extends BasePresenter {
                 $this->template->btndis = false;
             }
         }
+        $reqfile = $this->database->table('projects')->where('idProjects', $projectId)->fetch();
+        $reqfilepdf = $this->database->table('projects')->where('idProjects', $projectId)->fetch();
+        if($reqfile != null || $reqfilepdf != null){
+            $this->template->reqshow = true;
+        }else{
+             $this->template->reqshow = false;
+        }
+        $this->template->reqfile = $reqfile;
+        $this->template->reqfilepdf = $reqfilepdf;
     }
 
+    
+    public function handleSortNews($id) {
+        $this->redirect('this', array("Year" => ($id == 'all')?'1':$id));
+    }
+    
     public function handleDelete($id) {
         if ($this->user->isInRole('administrator')) {
             $this->database->table('files')->where('Project', $id)->delete();
@@ -286,8 +325,6 @@ class HomepagePresenter extends BasePresenter {
         }
     }
 
-    
-    
     //url upload function form
     protected function createComponentUrlForm() {
         $form = new Form;
@@ -298,34 +335,233 @@ class HomepagePresenter extends BasePresenter {
         $form->onSuccess[] = [$this, 'sendUrl'];
         return $form;
     }
-    
-    public function validateUrl(Form $form){
+
+    public function validateUrl(Form $form) {
         $values = $form->getValues();
-        if(strpos($values->url, 'http://') !== false || strpos($values->url, 'https://') !== false){
+        if (strpos($values->url, 'http://') !== false || strpos($values->url, 'https://') !== false) {
             
-        }else{
+        } else {
             $form['url']->addError('nespravna url');
-            $this->flashMessage('nespravna url ' , 'unsuccess');
+            $this->flashMessage('nespravna url ', 'unsuccess');
             $this->redrawControl('flash');
         }
     }
-    
-    public function sendUrl(Form $form){
+
+    public function sendUrl(Form $form) {
         $values = $form->getValues();
-        
-    $this->database->table('projects')
-            ->where('idProjects', $values->id)
-            ->update([
-        'Url' => $values->url
-    ]);
-    $this->redrawControl('filesUp');
-    $this->flashMessage('url ulozena','success');
+
+        $this->database->table('projects')
+                ->where('idProjects', $values->id)
+                ->update([
+                    'Url' => $values->url
+        ]);
+        $this->redrawControl('filesUp');
+        $this->flashMessage('url ulozena', 'success');
+    }
+
+   
+    //function delete url
+    public function handleDeleteUrl($id = -1) {
+        $projectid = $this->database->table('projects')->where('idProjects', $id)->fetchField('idProjects');
+        if ($projectid < 1) {
+            $this->flashMessage('spatne id ' . $id, 'unsuccess');
+            return;
+        }
+        $n = $this->database->table('projects')->where('idProjects', $projectid)->update([
+            'Url' => null
+        ]);
+        if ($n > 0) {
+            $this->flashMessage('url úspěšně smazána', 'success');
+        } else {
+            $this->flashMessage('url nebyla smazána ' . $this->projectId, 'unsuccess');
+            return;
+        }
+    }
+
+    
+        protected function createComponentReqFilesPdf() {
+        //extension get
+        $acexstring = ".pdf";
+        $form = new Form;
+//        $form->addUpload('file', null, false)
+//                ->setAttribute('accept', $acexstring)
+//                ->addCondition(Form::FILLED);
+        $form->addUpload('filepdf', null, false)
+                ->setAttribute('accept', $acexstring)
+                ->addCondition(Form::FILLED);
+        $form->addHidden('id', $this->projectId);
+        $form->addSubmit('save');
+        $form->onValidate[] = [$this, 'reqValidatePdf'];
+        $form->onSuccess[] = [$this, 'reqSuccessPdf'];
+        return $form;
+    }
+
+    public function reqValidatePdf(Form $form) {
+
+
+        $values = $form->getValues();
+//        if ($values->file->isOk()) {
+//            $file_ext = strtolower(
+//                    mb_substr(
+//                            $values->file->getSanitizedName(), strrpos(
+//                                    $values->file->getSanitizedName(), "."
+//                            )
+//                    )
+//            );
+//        }
+        if ($values->filepdf->isOk()) {
+            $file_ext = strtolower(
+                    mb_substr(
+                            $values->filepdf->getSanitizedName(), strrpos(
+                                    $values->filepdf->getSanitizedName(), "."
+                            )
+                    )
+            );
+        }
+        $this->projectId = $values->id;
+        $field = $this->acceptedExtension();
+//        if (isset($values->file) && !in_array($file_ext, $field)) {
+////array('.pdf', '.rar', '.txt', '.zip')
+//            $form['file']->addError('Soubor obsahuje neplatné přípony ' . $file_ext);
+//            $this->flashMessage('Soubor obsahuje neplatné přípony ', 'unsuccess');
+//        }
+        if (isset($values->filepdf) && !in_array($file_ext, $field)) {
+//array('.pdf', '.rar', '.txt', '.zip')
+            $form['file']->addError('Soubor obsahuje neplatné přípony ' . $file_ext);
+            $this->flashMessage('Soubor obsahuje neplatné přípony ', 'unsuccess');
+        }
+        $this->redrawControl('reqfile');
+    }
+
+    public function reqSuccessPdf(Form $form) {
+        $values = $form->getValues();
+        if ($values->filepdf->isOk()) {
+            //extension
+            $file_ext = strtolower(
+                    mb_substr(
+                            $values->filepdf->getSanitizedName(), strrpos(
+                                    $values->filepdf->getSanitizedName(), "."
+                            )
+                    )
+            );
+            //new name with rnd name
+            $file_name = uniqid(rand(0, 20), TRUE);
+            // move to save dir
+            $values->filepdf->move('files/' . $file_name . $file_ext);
+            //projects insert
+            
+
+            //file insert 
+            $uploaded = $this->database->table('files')->insert([
+                'FileName' => $file_name,
+                'Project' => $this->projectId,
+                'FileType' => $this->database->table('filetypes')->select('idFileTypes')->where('FileType', $file_ext)->fetchField(),
+                'Desc' => "",
+                'Name' => ""
+            ]);
+            $this->database->table('projects')
+                    ->where('idProjects', $this->projectId)
+                    ->update([
+                        'FileDir' => 'files',
+                        'RqFilePdf' => $uploaded->idFiles
+            ]);
+            if ($uploaded != null) {
+                $this->flashMessage('uspesne ulozeno ', 'success');
+                $this->redirect('this');
+            } else {
+
+                //after full success
+                $this->flashMessage('neuspesne ulozeno ', 'unsuccess');
+                $this->redirect('this');
+            }
+        }
+    }
+    protected function createComponentReqFiles() {
+        //extension get
+        $acex = $this->acceptedExtension();
+        $acexstring = implode(",", $acex);
+        $form = new Form;
+        $form->addUpload('file', null, false)
+                ->setAttribute('accept', $acexstring)
+                ->addCondition(Form::FILLED);
+
+        $form->addHidden('id', $this->projectId);
+        $form->addSubmit('save');
+        $form->onValidate[] = [$this, 'reqValidate'];
+        $form->onSuccess[] = [$this, 'reqSuccess'];
+        return $form;
+    }
+
+    public function reqValidate(Form $form) {
+
+
+        $values = $form->getValues();
+        if ($values->file->isOk()) {
+            $file_ext = strtolower(
+                    mb_substr(
+                            $values->file->getSanitizedName(), strrpos(
+                                    $values->file->getSanitizedName(), "."
+                            )
+                    )
+            );
+        }
+        $this->projectId = $values->id;
+        $field = $this->acceptedExtension();
+        if (isset($values->file) && !in_array($file_ext, $field)) {
+//array('.pdf', '.rar', '.txt', '.zip')
+            $form['file']->addError('Soubor obsahuje neplatné přípony ' . $file_ext);
+            $this->flashMessage('Soubor obsahuje neplatné přípony ', 'unsuccess');
+        }
+        $this->redrawControl('reqfile');
+    }
+
+    public function reqSuccess(Form $form) {
+        $values = $form->getValues();
+        if ($values->file->isOk()) {
+            //extension
+            $file_ext = strtolower(
+                    mb_substr(
+                            $values->file->getSanitizedName(), strrpos(
+                                    $values->file->getSanitizedName(), "."
+                            )
+                    )
+            );
+            //new name with rnd name
+            $file_name = uniqid(rand(0, 20), TRUE);
+            // move to save dir
+            $values->file->move('files/' . $file_name . $file_ext);
+            
+            
+            
+            //file insert 
+            $uploaded = $this->database->table('files')->insert([
+                'FileName' => $file_name,
+                'Project' => $this->projectId,
+                'FileType' => $this->database->table('filetypes')->select('idFileTypes')->where('FileType', $file_ext)->fetchField(),
+                'Desc' => "",
+                'Name' => ""
+            ]);
+            $this->database->table('projects')
+                    ->where('idProjects', $this->projectId)
+                    ->update([
+                        'FileDir' => 'files',
+                        'RqFile' => $uploaded->idFiles
+            ]);
+            if ($uploaded != null) {
+                $this->flashMessage('uspesne ulozeno ', 'success');
+                $this->redirect('this');
+            } else {
+
+                //after full success
+                $this->flashMessage('neuspesne ulozeno ', 'unsuccess');
+                $this->redirect('this');
+            }
+        }
     }
     
     
     
-    
-    //function extension get to get accepted file extension for upload
+     //function extension get to get accepted file extension for upload
     public function acceptedExtension() {
         $n = $this->database->table('filetypes')->fetchAll();
         $field = array();
@@ -333,26 +569,6 @@ class HomepagePresenter extends BasePresenter {
             array_push($field, $item->FileType);
         }
         return $field;
-    }
-    
-    
-    
-    //function delete url
-    public function handleDeleteUrl ($id = -1){
-        $projectid = $this->database->table('projects')->where('idProjects',$id)->fetchField('idProjects');
-        if($projectid < 1){
-            $this->flashMessage('spatne id '. $id , 'unsuccess');
-            return;
-        }
-        $n = $this->database->table('projects')->where('idProjects', $projectid)->update([
-            'Url' => null
-        ]);
-        if($n > 0){
-            $this->flashMessage('url úspěšně smazána', 'success');
-        }else{
-            $this->flashMessage('url nebyla smazána '. $this->projectId , 'unsuccess');
-            return;
-        }
     }
 
 }

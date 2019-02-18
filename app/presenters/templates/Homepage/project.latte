@@ -5,147 +5,159 @@
         <!--flashmessage-->
         {foreach $flashes as $flash}
             <div class="flash {$flash->type}"><li>{$flash->message}</li></div>
-        {/foreach}
-    {/snippet}
-        <div>
-            {ifset $test}
-                {$test}
-            {/ifset}
-        </div>
+                {/foreach}
+            {/snippet}
+    <div>
+        {ifset $test}
+            {$test}
+        {/ifset}
+    </div>
 
-        <!--projekt-->
-        <div class="project-one">
+    <!--projekt-->
+    <div class="project-one">
 
-            <!--Locked-->
-            {snippet Locked}
-                <part class="project-locked">
-                    {if $user->isInRole('administrator')}
-                        <a n:href="locked! $project->idProjects,$project->Locked" class="ajax" >
-                            <img 
-                                {if $project->Locked == 1} 
-                                    src="{$basePath}/lock.png" alt="locked" title="Projekt je zamknutý"
-                                {else}
-                                    src="{$basePath}/unlock.png" alt="unlocked" title="Projekt je odemknutý"
-                                {/if} 
-                                width="50px" />
-                        </a>
-                    {else}
+        <!--Locked-->
+        {snippet Locked}
+            <part class="project-locked">
+                {if $user->isInRole('administrator')}
+                    <a n:href="locked! $project->idProjects,$project->Locked" class="ajax" >
                         <img 
                             {if $project->Locked == 1} 
-                                src="{$basePath}/lock.png" alt="locked" title="Projekt se nemůže nadále editovat"
+                                src="{$basePath}/lock.png" alt="locked" title="Projekt je zamknutý"
                             {else}
-                                src="{$basePath}/unlock.png" alt="unlocked" title="Projekt se může editovat"
+                                src="{$basePath}/unlock.png" alt="unlocked" title="Projekt je odemknutý"
                             {/if} 
                             width="50px" />
-                    {/if}
-                </part>
-            {/snippet}
-            <!--Public-->
-            {snippet Public}
-                <part class="project-locked">
-                    {if $user->isInRole('administrator')}
-                        <a n:href="publiced! 'id'=>$project->idProjects,'public'=>$project->Public" class="ajax"> 
-                            <img 
-                                {if $project->Public == 0} 
-                                    src="{$basePath}/closed-eye.png" alt="closed eye" title="Projekt je skrytý"
-                                {else}
-                                    src="{$basePath}/opened-eye.png" alt="opened eye" title="Projekt je viditelný"
-                                {/if}
-                                width="50px" />
-                        </a>
-                    {else}
+                    </a>
+                {else}
+                    <img 
+                        {if $project->Locked == 1} 
+                            src="{$basePath}/lock.png" alt="locked" title="Projekt se nemůže nadále editovat"
+                        {else}
+                            src="{$basePath}/unlock.png" alt="unlocked" title="Projekt se může editovat"
+                        {/if} 
+                        width="50px" />
+                {/if}
+            </part>
+        {/snippet}
+        <!--Public-->
+        {snippet Public}
+            <part class="project-locked">
+                {if $user->isInRole('administrator')}
+                    <a n:href="publiced! 'id'=>$project->idProjects,'public'=>$project->Public" class="ajax"> 
                         <img 
                             {if $project->Public == 0} 
                                 src="{$basePath}/closed-eye.png" alt="closed eye" title="Projekt je skrytý"
                             {else}
                                 src="{$basePath}/opened-eye.png" alt="opened eye" title="Projekt je viditelný"
-                            {/if} 
-                            width="50px" />
-                    {/if}
-                </part>
-            {/snippet}
-            <div class="jumbotron" style="display: contents;">
-
-                <h2 class="display-4 project-title">{$project->Name}</h2>
-                <p class="lead">{$project->Desc}</p>
-                <div class="projects-bottom-section">
-                    <div class="projects-users">
-                        <p class="span-user">Vypracovává: {if $project->User != null}{$project->ref('users','User')->UserName}{else}neurčeno{/if}</p>
-                        <p class="span-oponent">Oponent: {if $project->Oponent != null}{$project->ref('users','Oponent')->UserName}{else}neurčeno{/if}</p>
-                        <p class="span-consultant">Konzultant: {if $project->Consultant != null}{$project->ref('users','Consultant')->UserName}{else}neurčeno{/if}</p>                                    
-                        <p>Rok: {$project->Year}</p>
-                    </div>
-                    {snippet filesUp}
-                        <div class="projects-files">
-                            {ifset $project->Url}<p>url projektu: <a href="{$project->Url}">{$project->Url}</a> <a n:if="$btndis" n:href="deleteUrl! $project->idProjects">smazat</a></p>
-                                {else}
-                                    {if $btndis}
-                                    <form action='#' n:name=urlForm id="url-form" class='form url-form'>
-                                        <input class="url-up form-control text" n:name='url' type="url" placeholder="Url projektu"/>
-                                        <em>příklad: 'https://www.mujweb.cz'</em>
-                                        <input class="btn blue url-btn" type="submit" n:name='upload' value="odeslat" />
-                                    </form>
-                                {/if}
-                            {/ifset}
-                            {if $btndis}
-
-                                {ifset $reqfiles}
-                                    <cite style="text-align: right;
-                                          margin: 0 6px;">Ke stažení</cite>
-                                    <p>text práce: <a href="#download">stáhnout</a></p>
-                                    <p>text práce v pdf: <a href="#downloadpdf">stáhnout</a></p>
-                                {else}
-                                    <legend style="text-align: right;
-                                          margin: 0 6px;">Požadované soubory</legend>
-                                    <input class="upload" onclick="" type="file" id="worktxt" /><label class="blue btn" for="worktxt"><img src="{$basePath}/upload.png" width="13px"/> text prace: </label>
-                                    <input class="upload" type="file" id="workpdf" /><label class="blue btn" for="workpdf"><img src="{$basePath}/upload.png" width="13px"/> text prace v pdf: </label>
-                                {/ifset}
-
                             {/if}
-                        </div>
-                    {/snippet}
+                            width="50px" />
+                    </a>
+                {else}
+                    <img 
+                        {if $project->Public == 0} 
+                            src="{$basePath}/closed-eye.png" alt="closed eye" title="Projekt je skrytý"
+                        {else}
+                            src="{$basePath}/opened-eye.png" alt="opened eye" title="Projekt je viditelný"
+                        {/if} 
+                        width="50px" />
+                {/if}
+            </part>
+        {/snippet}
+        <div class="jumbotron" style="display: contents;">
+
+            <h2 class="display-4 project-title">{$project->Name}</h2>
+            <p class="lead">{$project->Desc}</p>
+            <div class="projects-bottom-section">
+                <div class="projects-users">
+                    <p class="span-user">Vypracovává: {if $project->User != null}{$project->ref('users','User')->UserName}{else}neurčeno{/if}</p>
+                    <p class="span-oponent">Oponent: {if $project->Oponent != null}{$project->ref('users','Oponent')->UserName}{else}neurčeno{/if}</p>
+                    <p class="span-consultant">Konzultant: {if $project->Consultant != null}{$project->ref('users','Consultant')->UserName}{else}neurčeno{/if}</p>                                    
+                    <p>Rok: {$project->Year}</p>
                 </div>
+                {snippet filesUp}
+                    <div class="projects-files">
+                        {ifset $project->Url}<p>url projektu: <a href="{$project->Url}">{$project->Url}</a> <a n:if="$btndis" n:href="deleteUrl! $project->idProjects">smazat</a></p>
+                        {else}
+                            {if $btndis}
+                                <form action='#' n:name=urlForm id="url-form" class='form url-form'>
+                                    <input class="url-up form-control text" n:name='url' type="url" placeholder="Url projektu"/>
+                                    <em>příklad: 'https://www.mujweb.cz'</em>
+                                    <input class="btn blue url-btn" type="submit" n:name='upload' value="odeslat" />
+                                </form>
+                            {/if}
+                        {/ifset}
+                        {if $btndis}
+                            {snippet reqfile}
 
-                <hr class="my-4">
-                <div class="project-buttons">
-                    <a n:class="'btn', 'btn-primary', 'btn-lg', 'blue', ($user->isInRole('administrator'))?'':'disabled'" onclick="return confirm('opravdu to chces smazat?')" n:href="delete! $project->idProjects">smazat</a>
-                    <a n:class="'btn', 'btn-primary', 'btn-lg', 'blue', (($project->Locked == 0 && !$user->isInRole('guest'))||$user->isInRole('administrator'))?'':'disabled'" n:href="Addproject:add $project->idProjects">upravit</a>
+                                <cite n:if="$reqshow" style="text-align: right;
+                                      margin: 0 6px;">Ke stažení</cite>
+                                {ifset $reqfile}
+                                    <p>text práce: <a href="#" download="">{$reqfile->RqFile}</a> <a href="#">smazat</a></p>
+                                {else}
 
-                    <a n:class="'btn', 'btn-primary', 'btn-lg', 'blue', 'ajax', 'upload-button', ($btndis)? '':'disabled'" n:snippet="file" n:href="update! 'state'=>$upBtnState, 'project' => $project->Locked" type="submit" form="upload-form">{$upBtn}</a>
-                </div>
+                                    <legend style="text-align: right;
+                                            margin: 0 6px;">Požadované soubory</legend>
+                                    <form action='#' n:name=reqFiles id="req-form" class='form d-grid'>
+                                        <input class="upload" n:name='file' type="file" id="worktxt" /><label class="blue btn" for="worktxt"><img src="{$basePath}/upload.png" width="13px"/> text prace: </label>
+                                        <button class="btn blue url-btn" n:name='save'  type="submit">save</button>
+                                    </form>
+                                {/ifset}
+                                {ifset $reqfilepdf}
+                                    <p>text práce v pdf: <a href="#" download="">{$reqfilepdf->RqFilePdf}</a>  <a href="#">smazat</a></p>
+                                {else}
+                                    <form action='#' n:name=reqFilesPdf id="req-form" class='form d-grid'>
+                                        <input class="upload" n:name='filepdf' type="file" id="workpdf" /><label class="blue btn" for="workpdf"><img src="{$basePath}/upload.png" width="13px"/> text prace v pdf: </label>
+                                        <button class="btn blue url-btn" n:name='save'  type="submit">save</button>
+                                    </form>
+                                {/ifset}
+                            {/snippet}
 
-            </div>
-
-        </div>
-        {var $useing = $permissed}
-        <div class="mediaup">
-            {snippet itemsContainer}
-                {var $useing = $permissed}
-            {/snippet}
-            <div style="display:{$useing};" class="ajax">
-
-                {include '../Upload/upload.latte'}
-            </div>
-        </div>
-
-        <div class="cards">
-            {ifset $files}
-                {foreach $files as $id => $item}
-                    <div class="card mb-3">
-                        <div class="card-body hoverable ">
-                            <h5 class="card-title">{$item->Name}</h5>
-                            <p class="card-link">{$item->Desc}</p>
-                            <small class="card-text">{$item->ref('filetypes','FileType')->FileType}</small><br>
-                            <a class="card-link" href="{$basePath}/files/{$item->FileName}{$item->ref('filetypes','FileType')->FileType}" download="{$item->Name}{$item->ref('filetypes','FileType')->FileType}">Stáhnout</a>
-                            <a n:class="'card-link', ($user->isInRole('administrator'))? '':'disabled'" n:href="deleteFile! 'fileId'=>$id">smazat</a>
-                        </div>
+                        {/if}
                     </div>
-                {/foreach}
-            {/ifset}
+                {/snippet}
+            </div>
+
+            <hr class="my-4">
+            <div class="project-buttons">
+                <a n:class="'btn', 'btn-primary', 'btn-lg', 'blue', ($user->isInRole('administrator'))?'':'disabled'" onclick="return confirm('opravdu to chces smazat?')" n:href="delete! $project->idProjects">smazat</a>
+                <a n:class="'btn', 'btn-primary', 'btn-lg', 'blue', (($project->Locked == 0 && !$user->isInRole('guest'))||$user->isInRole('administrator'))?'':'disabled'" n:href="Addproject:add $project->idProjects">upravit</a>
+
+                <a n:class="'btn', 'btn-primary', 'btn-lg', 'blue', 'ajax', 'upload-button', ($btndis)? '':'disabled'" n:snippet="file" n:href="update! 'state'=>$upBtnState, 'project' => $project->Locked" type="submit" form="upload-form">{$upBtn}</a>
+            </div>
+
         </div>
 
+    </div>
+    {var $useing = $permissed}
+    <div class="mediaup">
+        {snippet itemsContainer}
+            {var $useing = $permissed}
+        {/snippet}
+        <div style="display:{$useing};" class="ajax">
 
+            {include '../Upload/upload.latte'}
+        </div>
+    </div>
 
-
-
+    <div class="cards">
+        {ifset $files}
+            {foreach $files as $id => $item}
+                <div class="card mb-3">
+                    <div class="card-body hoverable ">
+                        <h5 class="card-title">{$item->Name}</h5>
+                        <p class="card-link">{$item->Desc}</p>
+                        <small class="card-text">{$item->ref('filetypes','FileType')->FileType}</small><br>
+                        <a class="card-link" href="{$basePath}/files/{$item->FileName}{$item->ref('filetypes','FileType')->FileType}" download="{$item->Name}{$item->ref('filetypes','FileType')->FileType}">Stáhnout</a>
+                        <a n:class="'card-link', ($user->isInRole('administrator'))? '':'disabled'" n:href="deleteFile! 'fileId'=>$id">smazat</a>
+                    </div>
+                </div>
+            {/foreach}
         {/ifset}
+    </div>
+
+
+
+
+
+{/ifset}

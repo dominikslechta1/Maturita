@@ -5,7 +5,20 @@
     {foreach $flashes as $flash}
         <div class="flash {$flash->type}"><li>{$flash->message}</li></div>
             {/foreach}
-
+{ifset $Years}
+        <div class="dropdown show">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Zobrazit Rok</a>
+            <span n:ifset="$curyear"> nyní zobrazen rok: {$curyear}</span>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item ajax" n:href="sortNews! 'id' => 'all'">všechny</a>
+                {foreach $Years as $row}
+                    <a class="dropdown-item ajax" n:href="sortNews! 'id' => $row->Year">
+                        {$row->Year}
+                    </a>
+                {/foreach}
+            </div>
+        </div>
+    {/ifset}
 <div class="projects-div">
     {if $projects !== null}
         {foreach $projects as $id => $item}
