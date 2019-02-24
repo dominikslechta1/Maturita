@@ -159,14 +159,28 @@ class Template43cc225190 extends Latte\Runtime\Template
                     $('#charNum').text(len + "/255");
                 }
             }
-            console.log(screen.height);
-            console.log('<');
-            console.log($('body').height() + 100);
+            
             if (screen.height < $('body').height() + 100) {
                 $('footer.page-footer').css("position", "unset");
             } else {
                 $('footer.page-footer').css("position", "fixed");
             }
+
+
+            //slider
+            $('#ranger').on('mousedown', function () {
+                $(document).mousemove(function () {
+                    var val = $('#ranger').val() / 5;
+                    $('#ranger').css('background-image',
+                            '-webkit-gradient(linear, left top, right top, '
+                            + 'color-stop(' + val + ', #ffdb0f), '
+                            + 'color-stop(' + val + ', #d3d3d3)'
+                            + ')'
+                            );
+                    $('#text').html($('#ranger').val());
+                });
+
+            });
         </script>
 
     </body>

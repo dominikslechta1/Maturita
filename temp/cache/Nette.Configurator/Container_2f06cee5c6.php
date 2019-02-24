@@ -728,7 +728,17 @@ class Container_2f06cee5c6 extends Nette\DI\Container
 	 */
 	public function createServiceMail__mailer()
 	{
-		$service = new Nette\Mail\SendmailMailer;
+		$service = new Nette\Mail\SmtpMailer([
+			'smtp' => true,
+			'host' => 'smtp.gmail.com',
+			'port' => 465,
+			'username' => 'jezancz.22@gmail.com',
+			'password' => 'Jezanda248',
+			'secure' => 'ssl',
+			'timeout' => null,
+			'clientHost' => null,
+			'persistent' => false,
+		]);
 		return $service;
 	}
 

@@ -78,7 +78,16 @@ class HomepagePresenter extends BasePresenter {
      */
     public function renderProject($projectId) {
         $project = $this->database->table('projects')->where('idProjects', $projectId)->fetch();
-        $files = $this->database->table('files')->where('Project', $projectId)->fetchAll();
+        if ($project->RqFile == null && $project->RqFilePdf != null) {
+            $files = $this->database->table('files')->where('Project', $project->idProjects)->where('idFiles != ?', $project->RqFilePdf)->fetchAll();
+        } elseif ($project->RqFile != null && $project->RqFilePdf == null) {
+            $files = $this->database->table('files')->where('Project', $project->idProjects)->where('idFiles != ?', $project->RqFile)->fetchAll();
+        } elseif ($project->RqFile == null && $project->RqFilePdf == null) {
+            $files = $this->database->table('files')->where('Project', $project->idProjects)->fetchAll();
+        } else {
+            $files = $this->database->table('files')->where('Project', $project->idProjects)->where('idFiles != ?', $project->RqFile)->where('idFiles != ?', $project->RqFilePdf)->fetchAll();
+        }
+
 
         if ($files == null) {
             $files = null;
@@ -135,22 +144,31 @@ class HomepagePresenter extends BasePresenter {
                 $this->template->btndis = false;
             }
         }
-        $reqfile = $this->database->table('projects')->where('idProjects', $projectId)->fetch();
-        $reqfilepdf = $this->database->table('projects')->where('idProjects', $projectId)->fetch();
-        if($reqfile != null || $reqfilepdf != null){
+
+
+
+        //req files
+        $reqfile = $this->database->table('projects')->where('idProjects', $projectId)->fetchField('RqFile');
+        $reqfilepdf = $this->database->table('projects')->where('idProjects', $projectId)->fetchField('RqFilePdf');
+
+        if ($reqfile != null) {
             $this->template->reqshow = true;
-        }else{
-             $this->template->reqshow = false;
+            $this->template->reqfile = $this->database->table('files')->where('idFiles', $reqfile)->fetch();
+        } else {
+            $this->template->reqshow = false;
         }
-        $this->template->reqfile = $reqfile;
-        $this->template->reqfilepdf = $reqfilepdf;
+        if ($reqfilepdf != null) {
+            $this->template->reqshowpdf = true;
+            $this->template->reqfilepdf = $this->database->table('files')->where('idFiles', $reqfilepdf)->fetch();
+        } else {
+            $this->template->reqshowpdf = false;
+        }
     }
 
-    
     public function handleSortNews($id) {
-        $this->redirect('this', array("Year" => ($id == 'all')?'1':$id));
+        $this->redirect('this', array("Year" => ($id == 'all') ? '1' : $id));
     }
-    
+
     public function handleDelete($id) {
         if ($this->user->isInRole('administrator')) {
             $this->database->table('files')->where('Project', $id)->delete();
@@ -200,7 +218,12 @@ class HomepagePresenter extends BasePresenter {
     }
 
 //deletes file from database and server folder
-    public function handleDeleteFile($fileId) {
+    public function handleDeleteFile($fileId = -1) {
+        $fileId = $this->database->table('files')->where('idFiles', $fileId)->fetchField('idFiles');
+        if ($fileId == -1 || $fileId == null) {
+            $this->flashMessage('momentálně není tato akce k dispozici', 'unsuccess');
+            return;
+        }
         $user = $this->user->roles[0];
         if ($user == 'administrator') {
 
@@ -240,9 +263,9 @@ class HomepagePresenter extends BasePresenter {
         $form = new Form;
         $form->addUpload('file', null, false)
                 ->setAttribute('accept', $acexstring)
-                ->addCondition(Form::FILLED)
-                //->addRule(Form::MIME_TYPE, 'Povolené formáty jsou ZIP, RAR, PDF a TXT', 'text/plain')
-                ->setRequired('');
+                ->setRequired()
+                ->addCondition(Form::FILLED);
+        //->addRule(Form::MIME_TYPE, 'Povolené formáty jsou ZIP, RAR, PDF a TXT', 'text/plain')
         $form->addText('name', null, null, 80)->setRequired('Soubor musí mít název');
         $form->addTextArea('desc', null, null, 3);
         $form->addHidden('id', $this->projectId);
@@ -313,7 +336,7 @@ class HomepagePresenter extends BasePresenter {
                 'Desc' => $values->desc,
                 'Name' => $values->name
             ]);
-            if ($uploaded == '') {
+            if ($uploaded != '') {
                 $this->flashMessage('uspesne ulozeno ', 'success');
                 $this->redirect('this');
             } else {
@@ -359,7 +382,6 @@ class HomepagePresenter extends BasePresenter {
         $this->flashMessage('url ulozena', 'success');
     }
 
-   
     //function delete url
     public function handleDeleteUrl($id = -1) {
         $projectid = $this->database->table('projects')->where('idProjects', $id)->fetchField('idProjects');
@@ -378,8 +400,7 @@ class HomepagePresenter extends BasePresenter {
         }
     }
 
-    
-        protected function createComponentReqFilesPdf() {
+    protected function createComponentReqFilesPdf() {
         //extension get
         $acexstring = ".pdf";
         $form = new Form;
@@ -449,8 +470,6 @@ class HomepagePresenter extends BasePresenter {
             // move to save dir
             $values->filepdf->move('files/' . $file_name . $file_ext);
             //projects insert
-            
-
             //file insert 
             $uploaded = $this->database->table('files')->insert([
                 'FileName' => $file_name,
@@ -476,6 +495,7 @@ class HomepagePresenter extends BasePresenter {
             }
         }
     }
+
     protected function createComponentReqFiles() {
         //extension get
         $acex = $this->acceptedExtension();
@@ -530,9 +550,9 @@ class HomepagePresenter extends BasePresenter {
             $file_name = uniqid(rand(0, 20), TRUE);
             // move to save dir
             $values->file->move('files/' . $file_name . $file_ext);
-            
-            
-            
+
+
+
             //file insert 
             $uploaded = $this->database->table('files')->insert([
                 'FileName' => $file_name,
@@ -558,10 +578,48 @@ class HomepagePresenter extends BasePresenter {
             }
         }
     }
-    
-    
-    
-     //function extension get to get accepted file extension for upload
+
+    //delete required file
+    public function handleReqFileDelete($id = -1, $pdf = false) {
+        $id = $this->database->table('files')->where('idFiles', $id)->fetchField('idFiles');
+        if ($id == -1 || $id == null) {
+            $this->flashMessage('tuto možnost není momentálně možné vykonant', 'unsuccess');
+            return;
+        } else {
+            $file = $this->database->table('files')->where('idFiles', $id)->fetch();
+
+            $fileFullName = $file->FileName . $file->ref('filetypes', 'FileType')->FileType;
+            try {
+
+                FileSystem::delete(__DIR__ . '\\..\\..\\www\\files\\' . $fileFullName);
+            } catch (Exception $ex) {
+                
+            }
+            $delete = $this->database->table('files')->where('idFiles', $id)->delete();
+            $update;
+            if ($pdf == false) {
+                $update = $this->database->table('projects')->where('RqFile', $id)->update([
+                    'RqFile' => "0"
+                ]);
+            } elseif ($pdf == true) {
+                $update = $this->database->table('projects')->where('RqFilePdf', $id)->update([
+                    'RqFilePdf' => "0"
+                ]);
+            }
+            if ($delete > 0 && $update > 0) {
+                $this->flashMessage('záznam byl smazán z databáze', 'success');
+                $this->redirect('this');
+            } else {
+                $this->flashMessage('záznam nebyl smazán někde nastala chyba', 'unsuccess');
+                $this->redirect('this');
+            }
+        }
+    }
+    protected function createComponentScore(){
+        $form = new Form;
+    }
+
+    //function extension get to get accepted file extension for upload
     public function acceptedExtension() {
         $n = $this->database->table('filetypes')->fetchAll();
         $field = array();

@@ -74,7 +74,14 @@
                     <p class="span-oponent">Oponent: {if $project->Oponent != null}{$project->ref('users','Oponent')->UserName}{else}neurčeno{/if}</p>
                     <p class="span-consultant">Konzultant: {if $project->Consultant != null}{$project->ref('users','Consultant')->UserName}{else}neurčeno{/if}</p>                                    
                     <p>Rok: {$project->Year}</p>
+                        <form class="score" action="#">
+                            <label>Hodnocení: <input class="slider" type="range" value="{$project->Score}" step="0.5" min="0" max="5" id="ranger"/></label>
+                            <p id="text">{$project->Score}</p>
+                        </form>
                 </div>
+
+
+
                 {snippet filesUp}
                     <div class="projects-files">
                         {ifset $project->Url}<p>url projektu: <a href="{$project->Url}">{$project->Url}</a> <a n:if="$btndis" n:href="deleteUrl! $project->idProjects">smazat</a></p>
@@ -90,10 +97,10 @@
                         {if $btndis}
                             {snippet reqfile}
 
-                                <cite n:if="$reqshow" style="text-align: right;
-                                      margin: 0 6px;">Ke stažení</cite>
-                                {ifset $reqfile}
-                                    <p>text práce: <a href="#" download="">{$reqfile->RqFile}</a> <a href="#">smazat</a></p>
+                                {if $reqshow}
+                                    <cite style="text-align: right;
+                                          margin: 0 6px;">Ke stažení</cite>
+                                    <p>text práce: <a href="{$basePath}/files/{$reqfile->FileName}{$reqfile->ref('filetypes','FileType')->FileType}" download="text_prace{$reqfile->ref('filetypes','FileType')->FileType}">stáhnout</a> <a n:href="reqFileDelete! 'id' => $reqfile->idFiles">smazat</a></p>
                                 {else}
 
                                     <legend style="text-align: right;
@@ -102,20 +109,22 @@
                                         <input class="upload" n:name='file' type="file" id="worktxt" /><label class="blue btn" for="worktxt"><img src="{$basePath}/upload.png" width="13px"/> text prace: </label>
                                         <button class="btn blue url-btn" n:name='save'  type="submit">save</button>
                                     </form>
-                                {/ifset}
-                                {ifset $reqfilepdf}
-                                    <p>text práce v pdf: <a href="#" download="">{$reqfilepdf->RqFilePdf}</a>  <a href="#">smazat</a></p>
+                                {/if}
+                                {if $reqshowpdf}
+                                    <p>text práce v pdf: <a href="{$basePath}/files/{$reqfilepdf->FileName}{$reqfilepdf->ref('filetypes','FileType')->FileType}" download="text_prace_pdf{$reqfilepdf->ref('filetypes','FileType')->FileType}">stáhnout</a> <a href="#">smazat</a></p>
                                 {else}
                                     <form action='#' n:name=reqFilesPdf id="req-form" class='form d-grid'>
                                         <input class="upload" n:name='filepdf' type="file" id="workpdf" /><label class="blue btn" for="workpdf"><img src="{$basePath}/upload.png" width="13px"/> text prace v pdf: </label>
                                         <button class="btn blue url-btn" n:name='save'  type="submit">save</button>
                                     </form>
-                                {/ifset}
+                                {/if}
                             {/snippet}
 
                         {/if}
                     </div>
                 {/snippet}
+
+
             </div>
 
             <hr class="my-4">
@@ -155,7 +164,6 @@
             {/foreach}
         {/ifset}
     </div>
-
 
 
 
